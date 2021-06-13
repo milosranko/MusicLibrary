@@ -98,6 +98,7 @@ namespace MusicLibrary.Forms
             this.toolTipBtnClose = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipBtnMinimize = new System.Windows.Forms.ToolTip(this.components);
             this.ctxFileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripShowFileInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripEditMetaTags = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripConvertSelectedFiles = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -108,7 +109,6 @@ namespace MusicLibrary.Forms
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.toolStripShowFileInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
@@ -883,8 +883,15 @@ namespace MusicLibrary.Forms
             this.toolStripRemoveFromIndex});
             this.ctxFileOptions.Name = "ctxFileOptions";
             this.ctxFileOptions.ShowImageMargin = false;
-            this.ctxFileOptions.Size = new System.Drawing.Size(205, 190);
+            this.ctxFileOptions.Size = new System.Drawing.Size(205, 218);
             this.ctxFileOptions.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxFileOptions_ItemClicked);
+            // 
+            // toolStripShowFileInfo
+            // 
+            this.toolStripShowFileInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.toolStripShowFileInfo.Name = "toolStripShowFileInfo";
+            this.toolStripShowFileInfo.Size = new System.Drawing.Size(204, 24);
+            this.toolStripShowFileInfo.Text = "Show file info";
             // 
             // toolStripEditMetaTags
             // 
@@ -936,12 +943,6 @@ namespace MusicLibrary.Forms
             this.toolStripRemoveFromIndex.Name = "toolStripRemoveFromIndex";
             this.toolStripRemoveFromIndex.Size = new System.Drawing.Size(204, 24);
             this.toolStripRemoveFromIndex.Text = "Remove from index";
-            // 
-            // toolStripShowFileInfo
-            // 
-            this.toolStripShowFileInfo.Name = "toolStripShowFileInfo";
-            this.toolStripShowFileInfo.Size = new System.Drawing.Size(204, 24);
-            this.toolStripShowFileInfo.Text = "Show file info";
             // 
             // MainForm
             // 
