@@ -303,6 +303,7 @@ namespace MusicLibrary.Forms
             this.btnCancel.TabIndex = 16;
             this.btnCancel.Text = "Clear";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSave
             // 

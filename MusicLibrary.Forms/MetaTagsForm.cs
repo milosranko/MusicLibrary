@@ -148,12 +148,16 @@ namespace MusicLibrary.Forms
                     .DataBoundItem);
 
                 SetFormFieldsValue(
-                    row.Artist, 
-                    row.Album, 
+                    row.Artist,
+                    row.Album,
                     row.Year.HasValue ? row.Year.ToString() : string.Empty,
-                    row.Genre, 
-                    row.TrackName, 
+                    row.Genre,
+                    row.TrackName,
                     row.TrackNumber.HasValue ? row.TrackNumber.ToString() : string.Empty);
+            }
+            else
+            {
+                ClearFormFields();
             }
 
             btnSave.Enabled = true;
