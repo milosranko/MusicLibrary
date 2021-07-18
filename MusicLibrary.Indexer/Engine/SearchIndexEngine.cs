@@ -180,7 +180,7 @@ namespace MusicLibrary.Indexer.Engine
                 if (!res.Contains((artist, release)))
                     res.Add((artist, release));
 
-                if (res.Count == 40)
+                if (res.Count == 50)
                     break;
             }
             
