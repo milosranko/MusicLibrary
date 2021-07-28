@@ -26,9 +26,7 @@ namespace MusicLibrary.Indexer.Engine
         private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
         private readonly Directory _directory;
         private readonly Analyzer _analyzer;
-
-        private IndexWriter IndexWriter => 
-            new IndexWriter(_directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
+        private IndexWriter IndexWriter => new(_directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
 
         public SearchIndexEngine()
         {
