@@ -40,10 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ffmpeg\ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="ffmpeg\ffprobe.exe">
+    <Folder Include="ffmpeg\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ffmpeg\ffmpeg.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
