@@ -1,6 +1,7 @@
 ﻿using MusicLibrary.Business;
 using MusicLibrary.Business.Enums;
 using MusicLibrary.Business.Models;
+using MusicLibrary.Common;
 using MusicLibrary.Common.Helpers;
 using MusicLibrary.Indexer.Models;
 using System;
@@ -26,6 +27,7 @@ namespace MusicLibrary.Forms
         private TimeSpan _duration;
         private bool _scanningStarted;
         private bool _hasFilesToIndex;
+        private IProgress<ProgressArgs> _progress;
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -34,6 +36,7 @@ namespace MusicLibrary.Forms
 
         public MainForm()
         {
+            _progress = new Progress<ProgressArgs>(Progress);
             InitializeComponent();
         }
 
@@ -182,11 +185,6 @@ namespace MusicLibrary.Forms
             statusStrip1.Items[1].Text = "scanning for music...";
         }
 
-        private void ScanningProgress(string folder)
-        {
-            WriteTextSafe($"scanning for music... {folder}");
-        }
-
         private void ScanningStopped()
         {
             statusStrip1.Items[1].Text = "scanning stopped.";
@@ -214,7 +212,7 @@ namespace MusicLibrary.Forms
             {
                 var stopwatch = Stopwatch.StartNew();
 
-                _fileList = await Task.Run(() => FileScanner.ScanForMusicFiles(folderBrowserDialog1.SelectedPath, ScanningProgress, ct), ct);
+                _fileList = await Task.Run(() => FileScanner.ScanForMusicFiles(folderBrowserDialog1.SelectedPath, _progress, ct), ct);
 
                 stopwatch.Stop();
                 _duration = stopwatch.Elapsed;
@@ -286,9 +284,12 @@ namespace MusicLibrary.Forms
             statusStrip1.Items[1].Text = "indexing files...";
         }
 
-        private void IndexingProgress(int files)
+        private void Progress(ProgressArgs args)
         {
-            WriteTextSafe($"indexing files... {files} of {_fileList.Count()}");
+            if (string.IsNullOrEmpty(args.Folder))
+                WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
+            else
+                WriteTextSafe($"scanning for music... {args.Folder}");
         }
 
         private void IndexingStopped()
@@ -312,7 +313,7 @@ namespace MusicLibrary.Forms
                 var fi = new FileIndexer(ct);
                 var stopwatch = Stopwatch.StartNew();
 
-                await Task.Run(() => fi.StartIndexing(_fileList, IndexingProgress, onlyNewFiles), ct);
+                await Task.Run(() => fi.StartIndexing(_fileList, _progress, onlyNewFiles), ct);
 
                 stopwatch.Stop();
                 _duration = stopwatch.Elapsed;

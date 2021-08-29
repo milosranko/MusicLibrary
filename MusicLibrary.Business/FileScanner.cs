@@ -12,7 +12,7 @@ namespace MusicLibrary.Business
     {
         public static Task<IEnumerable<string>> ScanForMusicFiles(
             string root, 
-            Action<string> statusProgress, 
+            IProgress<ProgressArgs> progress, 
             CancellationToken ct)
         {
             if (string.IsNullOrEmpty(root)) return Task.FromResult(Enumerable.Empty<string>());
@@ -28,12 +28,14 @@ namespace MusicLibrary.Business
             };
 
             output.AddRange(Directory.EnumerateFiles(root, "*", SearchOption.TopDirectoryOnly));
+            var progressArgs = new ProgressArgs();
 
             foreach (var folder in Directory.EnumerateDirectories(root, "*", options))
             {
                 if (ct.IsCancellationRequested) break;
 
-                statusProgress?.Invoke(folder);
+                progressArgs.Folder = folder;
+                progress.Report(progressArgs);
                 output.AddRange(Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly));
             }
 

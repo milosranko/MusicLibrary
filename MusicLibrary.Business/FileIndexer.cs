@@ -1,6 +1,7 @@
 ﻿using ATL;
 using MusicLibrary.Business.Extensions;
 using MusicLibrary.Business.Helpers;
+using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
 using MusicLibrary.Indexer.Models;
 using System;
@@ -25,7 +26,7 @@ namespace MusicLibrary.Business
             _engine = new SearchIndexEngine();
         }
 
-        public void StartIndexing(IEnumerable<string> fileList, Action<int> statusProgress, bool onlyNewFiles = false)
+        public void StartIndexing(IEnumerable<string> fileList, IProgress<ProgressArgs> progress, bool onlyNewFiles = false)
         {
             if (!fileList.Any()) return;
 
@@ -35,12 +36,14 @@ namespace MusicLibrary.Business
             }
 
             var contents = new ConcurrentBag<Content>();
+            var progressArgs = new ProgressArgs();
 
             Parallel.ForEach(fileList, new ParallelOptions { CancellationToken = _ct }, file =>
             {
                 try
                 {
-                    statusProgress?.Invoke(contents.Count);
+                    progressArgs.Files = contents.Count;
+                    progress.Report(progressArgs);
                     var track = new Track(file);
                     var metaTags = track.GetMetaTags();
 
