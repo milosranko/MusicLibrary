@@ -26,7 +26,10 @@ namespace MusicLibrary.Business
             _engine = new SearchIndexEngine();
         }
 
-        public void StartIndexing(IEnumerable<string> fileList, IProgress<ProgressArgs> progress, bool onlyNewFiles = false)
+        public void StartIndexing(
+            IEnumerable<string> fileList, 
+            IProgress<ProgressArgs> progress, 
+            bool onlyNewFiles = false)
         {
             if (!fileList.Any()) return;
 

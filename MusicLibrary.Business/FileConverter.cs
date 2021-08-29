@@ -17,7 +17,11 @@ namespace MusicLibrary.Business
         private Action<int> _statusProgress;
         private CancellationToken _ct;
 
-        public FileConverter(Queue<string> files, string outputPath, Action<int> statusProgress, CancellationToken ct)
+        public FileConverter(
+            Queue<string> files, 
+            string outputPath, 
+            Action<int> statusProgress, 
+            CancellationToken ct)
         {
             _filesQueue = files;
             _outputPath = outputPath;
