@@ -158,7 +158,7 @@ namespace MusicLibrary.Indexer.Engine
                 TotalFilesByExtension = GetMostFrequentTerms(searcher, FieldNames.Extension),
                 ReleaseYears = GetMostFrequentTermsNumeric(searcher, FieldNames.Year),
                 GenreCount = GetMostFrequentTerms(searcher, FieldNames.Genre),
-                LatestAdditions = GetLatestAddedItems(searcher, FieldNames.ModifiedDate, 400)
+                LatestAdditions = GetLatestAddedItems(searcher, FieldNames.ModifiedDate, 500)
             };
         }
 
@@ -168,18 +168,22 @@ namespace MusicLibrary.Indexer.Engine
             var query = new MatchAllDocsQuery();
             var sort = new Sort(new SortField(field, SortFieldType.INT64, true));
             var topDocs = searcher.Search(query, count, sort);
-            string artist, release;
+            string artist, release, folder, prevFolder = null;
 
             for (int i = 0; i < topDocs.ScoreDocs.Length; i++)
             {
+                folder = System.IO.Path.GetDirectoryName(searcher.Doc(topDocs.ScoreDocs[i].Doc).Get(FieldNames.Id));
                 artist = searcher.Doc(topDocs.ScoreDocs[i].Doc).Get(FieldNames.Artist);
                 release = searcher.Doc(topDocs.ScoreDocs[i].Doc).Get(FieldNames.Album);
 
-                if (!res.Contains((artist, release)))
+                if (!res.Contains((artist, release)) && prevFolder != folder)
                     res.Add((artist, release));
 
                 if (res.Count == 50)
                     break;
+
+                if (prevFolder != folder)
+                    prevFolder = folder;
             }
             
             return res;
