@@ -1,5 +1,5 @@
 # MusicLibrary
-Windows desktop ASPNET 5 application for managing large music libraries.
+Windows desktop .NET 6 application for managing large music libraries.
 Uses:
 - Lucene as documents storage and indexer
 - ffmpeg for file format conversion
