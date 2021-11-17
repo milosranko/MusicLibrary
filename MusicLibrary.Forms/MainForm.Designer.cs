@@ -109,6 +109,8 @@ namespace MusicLibrary.Forms
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.gbIndexSharing = new System.Windows.Forms.GroupBox();
+            this.btnIndexShare = new System.Windows.Forms.Button();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
@@ -120,6 +122,7 @@ namespace MusicLibrary.Forms
             this.pnlSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).BeginInit();
             this.ctxFileOptions.SuspendLayout();
+            this.gbIndexSharing.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -195,6 +198,7 @@ namespace MusicLibrary.Forms
             // pnlIndex
             // 
             this.pnlIndex.BackColor = System.Drawing.Color.LightBlue;
+            this.pnlIndex.Controls.Add(this.gbIndexSharing);
             this.pnlIndex.Controls.Add(this.lblIndex);
             this.pnlIndex.Controls.Add(this.gbIndexScanner);
             this.pnlIndex.Controls.Add(this.gbIndexMaintenance);
@@ -940,14 +944,36 @@ namespace MusicLibrary.Forms
             this.toolStripRemoveFromIndex.Size = new System.Drawing.Size(204, 24);
             this.toolStripRemoveFromIndex.Text = "Remove from index";
             // 
+            // gbIndexSharing
+            // 
+            this.gbIndexSharing.Controls.Add(this.btnIndexShare);
+            this.gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.gbIndexSharing.Location = new System.Drawing.Point(194, 521);
+            this.gbIndexSharing.Name = "gbIndexSharing";
+            this.gbIndexSharing.Size = new System.Drawing.Size(559, 151);
+            this.gbIndexSharing.TabIndex = 17;
+            this.gbIndexSharing.TabStop = false;
+            this.gbIndexSharing.Text = "Index sharing";
+            // 
+            // btnIndexShare
+            // 
+            this.btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIndexShare.Location = new System.Drawing.Point(21, 35);
+            this.btnIndexShare.Name = "btnIndexShare";
+            this.btnIndexShare.Size = new System.Drawing.Size(107, 100);
+            this.btnIndexShare.TabIndex = 0;
+            this.btnIndexShare.Text = "Share index";
+            this.btnIndexShare.UseVisualStyleBackColor = true;
+            this.btnIndexShare.Click += new System.EventHandler(this.btnIndexShare_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1280, 800);
-            this.Controls.Add(this.pnlDashboard);
             this.Controls.Add(this.pnlIndex);
+            this.Controls.Add(this.pnlDashboard);
             this.Controls.Add(this.pnlSearch);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.statusStrip1);
@@ -975,6 +1001,7 @@ namespace MusicLibrary.Forms
             this.pnlSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).EndInit();
             this.ctxFileOptions.ResumeLayout(false);
+            this.gbIndexSharing.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1061,5 +1088,7 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem toolStripPlayFile;
         private System.Windows.Forms.ToolStripMenuItem toolStripShowFileInfo;
+        private System.Windows.Forms.GroupBox gbIndexSharing;
+        private System.Windows.Forms.Button btnIndexShare;
     }
 }
