@@ -737,14 +737,31 @@ namespace MusicLibrary.Forms
             }
         }
 
-        private void btnIndexShare_Click(object sender, EventArgs e)
+        private async void btnIndexShare_Click(object sender, EventArgs e)
         {
             //TODO check if index location contains any files
-            //If yes, start new thread, zip all files using unique file name and specific file extension .mli (MusicLibraryIndex)
+            //If yes, start new thread, zip all files using unique file name and specific file extension .mla (MusicLibraryArchive)
             //after zip file is created enable label field and copy button with unique index name
             //upload file to specific cloud location
             //implement progress bar
             //update status bar
+            btnIndexShare.Enabled = false;
+            statusStrip1.Items[1].Text = "sharing index...";
+
+            _cts ??= new CancellationTokenSource();
+            var fi = new FileIndexer(_cts.Token);
+            var res = await Task.Run(async () => await fi.ShareIndex());
+
+            if (res.Success)
+            {
+                statusStrip1.Items[1].Text = $"index sharing finished. File name: {res.FileName}";
+            }
+            else
+            {
+                statusStrip1.Items[1].Text = "no index files to be shared.";
+            }
+
+            btnIndexShare.Enabled = true;
         }
     }
 

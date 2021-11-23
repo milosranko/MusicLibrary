@@ -17,7 +17,7 @@ namespace MusicLibrary.Business
             _engine = new SearchIndexEngine();
         }
 
-        public bool IndexExists => _engine.IndexExistsOrEmpty();
+        public bool IndexExists => !_engine.IndexNotExistsOrEmpty();
 
         public Task<SearchResult> Search(string query, string[] terms, SearchFieldsEnum searchField)
         {
@@ -34,7 +34,7 @@ namespace MusicLibrary.Business
 
         public Task<IndexCounts> GetIndexCounts()
         {
-            if (!_engine.IndexExistsOrEmpty()) Task.FromResult(IndexCounts.Empty);
+            if (!_engine.IndexNotExistsOrEmpty()) Task.FromResult(IndexCounts.Empty);
 
             return Task.FromResult(_engine.GetIndexStatistics());
         }

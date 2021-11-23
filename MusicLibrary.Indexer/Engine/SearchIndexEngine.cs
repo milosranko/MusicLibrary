@@ -265,11 +265,11 @@ namespace MusicLibrary.Indexer.Engine
             writer.Commit();
         }
 
-        public bool IndexExistsOrEmpty()
+        public bool IndexNotExistsOrEmpty()
         {
             if (!DirectoryReader.IndexExists(_directory)) return false;
 
-            return DirectoryReader.Open(_directory).NumDocs > 0;
+            return DirectoryReader.Open(_directory).NumDocs == 0;
         }
     }
 }

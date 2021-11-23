@@ -1,5 +1,5 @@
 ﻿using Lucene.Net.Store;
-using MusicLibrary.Indexer.Models.Constants;
+using MusicLibrary.Common;
 using Directory = Lucene.Net.Store.Directory;
 
 namespace MusicLibrary.Indexer.Providers
@@ -8,10 +8,10 @@ namespace MusicLibrary.Indexer.Providers
     {
         public static Directory CreateDocumentIndex()
         {
-            if (!System.IO.Directory.Exists(SearchSettings.LocalAppData))
-                System.IO.Directory.CreateDirectory(SearchSettings.LocalAppData);
+            if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
+                System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
             
-            return FSDirectory.Open(SearchSettings.LocalAppData);
+            return FSDirectory.Open(Constants.LocalAppDataIndex);
         }
     }
 }
