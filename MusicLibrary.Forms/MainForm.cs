@@ -739,8 +739,6 @@ namespace MusicLibrary.Forms
 
         private async void btnIndexShare_Click(object sender, EventArgs e)
         {
-            //TODO check if index location contains any files
-            //If yes, start new thread, zip all files using unique file name and specific file extension .mla (MusicLibraryArchive)
             //after zip file is created enable label field and copy button with unique index name
             //upload file to specific cloud location
             //implement progress bar

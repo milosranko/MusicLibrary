@@ -105,16 +105,20 @@ namespace MusicLibrary.Business
 
         public async Task<(bool Success, string FileName)> ShareIndex()
         {
-            
             if (_engine.IndexNotExistsOrEmpty()) return (false, string.Empty);
 
             if (!Directory.Exists(Constants.LocalAppDataShares))
                 Directory.CreateDirectory(Constants.LocalAppDataShares);
 
-            var fileName = $"{Guid.NewGuid()}.mla".ToLower();
+            var fileName = $"{Environment.MachineName}_{Environment.UserName}.mla".ToLower();
             var path = $"{Constants.LocalAppDataShares}\\{fileName}";
 
-            await Task.Run(() => ZipFile.CreateFromDirectory(Constants.LocalAppDataIndex, path, CompressionLevel.SmallestSize, false));
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            await Task.Run(() => ZipFile.CreateFromDirectory(Constants.LocalAppDataIndex, path, CompressionLevel.SmallestSize, false, Encoding.ASCII));
 
             return (true, fileName);
         }
