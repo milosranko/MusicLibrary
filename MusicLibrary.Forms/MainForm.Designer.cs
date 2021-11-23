@@ -40,6 +40,9 @@ namespace MusicLibrary.Forms
             this.lblFormTitle = new System.Windows.Forms.Label();
             this.btnCloseForm = new System.Windows.Forms.Button();
             this.pnlIndex = new System.Windows.Forms.Panel();
+            this.gbIndexSharing = new System.Windows.Forms.GroupBox();
+            this.btnLoadIndex = new System.Windows.Forms.Button();
+            this.btnIndexShare = new System.Windows.Forms.Button();
             this.lblIndex = new System.Windows.Forms.Label();
             this.gbIndexScanner = new System.Windows.Forms.GroupBox();
             this.btnIndexNewFiles = new System.Windows.Forms.Button();
@@ -109,11 +112,12 @@ namespace MusicLibrary.Forms
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.gbIndexSharing = new System.Windows.Forms.GroupBox();
-            this.btnIndexShare = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
+            this.gbIndexSharing.SuspendLayout();
             this.gbIndexScanner.SuspendLayout();
             this.gbIndexMaintenance.SuspendLayout();
             this.pnlLeft.SuspendLayout();
@@ -122,7 +126,6 @@ namespace MusicLibrary.Forms
             this.pnlSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).BeginInit();
             this.ctxFileOptions.SuspendLayout();
-            this.gbIndexSharing.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -206,6 +209,42 @@ namespace MusicLibrary.Forms
             this.pnlIndex.Name = "pnlIndex";
             this.pnlIndex.Size = new System.Drawing.Size(1019, 725);
             this.pnlIndex.TabIndex = 4;
+            // 
+            // gbIndexSharing
+            // 
+            this.gbIndexSharing.Controls.Add(this.btnLoadIndex);
+            this.gbIndexSharing.Controls.Add(this.btnIndexShare);
+            this.gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.gbIndexSharing.Location = new System.Drawing.Point(194, 521);
+            this.gbIndexSharing.Name = "gbIndexSharing";
+            this.gbIndexSharing.Size = new System.Drawing.Size(559, 151);
+            this.gbIndexSharing.TabIndex = 17;
+            this.gbIndexSharing.TabStop = false;
+            this.gbIndexSharing.Text = "Index sharing";
+            // 
+            // btnLoadIndex
+            // 
+            this.btnLoadIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLoadIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoadIndex.Location = new System.Drawing.Point(152, 35);
+            this.btnLoadIndex.Name = "btnLoadIndex";
+            this.btnLoadIndex.Size = new System.Drawing.Size(100, 100);
+            this.btnLoadIndex.TabIndex = 1;
+            this.btnLoadIndex.Text = "Load index";
+            this.btnLoadIndex.UseVisualStyleBackColor = true;
+            this.btnLoadIndex.Click += new System.EventHandler(this.btnLoadIndex_Click);
+            // 
+            // btnIndexShare
+            // 
+            this.btnIndexShare.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIndexShare.Location = new System.Drawing.Point(21, 35);
+            this.btnIndexShare.Name = "btnIndexShare";
+            this.btnIndexShare.Size = new System.Drawing.Size(100, 100);
+            this.btnIndexShare.TabIndex = 0;
+            this.btnIndexShare.Text = "Share index";
+            this.btnIndexShare.UseVisualStyleBackColor = true;
+            this.btnIndexShare.Click += new System.EventHandler(this.btnIndexShare_Click);
             // 
             // lblIndex
             // 
@@ -944,27 +983,14 @@ namespace MusicLibrary.Forms
             this.toolStripRemoveFromIndex.Size = new System.Drawing.Size(204, 24);
             this.toolStripRemoveFromIndex.Text = "Remove from index";
             // 
-            // gbIndexSharing
+            // openFileDialog1
             // 
-            this.gbIndexSharing.Controls.Add(this.btnIndexShare);
-            this.gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbIndexSharing.Location = new System.Drawing.Point(194, 521);
-            this.gbIndexSharing.Name = "gbIndexSharing";
-            this.gbIndexSharing.Size = new System.Drawing.Size(559, 151);
-            this.gbIndexSharing.TabIndex = 17;
-            this.gbIndexSharing.TabStop = false;
-            this.gbIndexSharing.Text = "Index sharing";
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // btnIndexShare
+            // openFileDialog2
             // 
-            this.btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIndexShare.Location = new System.Drawing.Point(21, 35);
-            this.btnIndexShare.Name = "btnIndexShare";
-            this.btnIndexShare.Size = new System.Drawing.Size(107, 100);
-            this.btnIndexShare.TabIndex = 0;
-            this.btnIndexShare.Text = "Share index";
-            this.btnIndexShare.UseVisualStyleBackColor = true;
-            this.btnIndexShare.Click += new System.EventHandler(this.btnIndexShare_Click);
+            this.openFileDialog2.DefaultExt = "mla";
+            this.openFileDialog2.FileName = "openFileDialog2";
             // 
             // MainForm
             // 
@@ -989,6 +1015,7 @@ namespace MusicLibrary.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.pnlIndex.ResumeLayout(false);
             this.pnlIndex.PerformLayout();
+            this.gbIndexSharing.ResumeLayout(false);
             this.gbIndexScanner.ResumeLayout(false);
             this.gbIndexScanner.PerformLayout();
             this.gbIndexMaintenance.ResumeLayout(false);
@@ -1001,7 +1028,6 @@ namespace MusicLibrary.Forms
             this.pnlSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).EndInit();
             this.ctxFileOptions.ResumeLayout(false);
-            this.gbIndexSharing.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1090,5 +1116,8 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ToolStripMenuItem toolStripShowFileInfo;
         private System.Windows.Forms.GroupBox gbIndexSharing;
         private System.Windows.Forms.Button btnIndexShare;
+        private System.Windows.Forms.Button btnLoadIndex;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -760,6 +761,41 @@ namespace MusicLibrary.Forms
             }
 
             btnIndexShare.Enabled = true;
+        }
+
+        private void btnLoadIndex_Click(object sender, EventArgs e)
+        {
+            openFileDialog2.InitialDirectory = Constants.LocalAppDataShares;
+            openFileDialog2.Filter = "MusicLibrary archive (*.mla)|*.mla";
+
+            var res = openFileDialog2.ShowDialog();
+
+            if (res == DialogResult.OK)
+            {
+                var targetFolder = System.IO.Path.Combine(
+                    Constants.LocalAppDataShares, 
+                    System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+
+                if (Directory.Exists(targetFolder))
+                {
+                    foreach (var item in Directory.GetFiles(targetFolder))
+                    {
+                        File.Delete(item);
+                    }
+                }
+                else
+                {
+                    Directory.CreateDirectory(targetFolder);
+                }
+                
+                using var archive = ZipFile.OpenRead(openFileDialog2.FileName);
+
+                foreach (var entry in archive.Entries)
+                {
+                    var destinationPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(targetFolder, entry.FullName));
+                    entry.ExtractToFile(destinationPath, true);
+                }
+            }
         }
     }
 
