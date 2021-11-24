@@ -34,7 +34,7 @@ namespace MusicLibrary.Business
 
         public Task<IndexCounts> GetIndexCounts()
         {
-            if (!_engine.IndexNotExistsOrEmpty()) Task.FromResult(IndexCounts.Empty);
+            if (!_engine.IndexNotExistsOrEmpty()) return Task.FromResult(IndexCounts.Empty);
 
             return Task.FromResult(_engine.GetIndexStatistics());
         }

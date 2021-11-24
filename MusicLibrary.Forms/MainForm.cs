@@ -29,6 +29,7 @@ namespace MusicLibrary.Forms
         private bool _scanningStarted;
         private bool _hasFilesToIndex;
         private IProgress<ProgressArgs> _progress;
+        private IList<string> _availableIndexes;
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -104,6 +105,7 @@ namespace MusicLibrary.Forms
         private void btnIndex_Click(object sender, EventArgs e)
         {
             ShowPanel(PanelEnum.Index);
+            //TODO check available indexes and populate _availableIndexes list
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -574,6 +576,9 @@ namespace MusicLibrary.Forms
         private async void MainForm_Load(object sender, EventArgs e)
         {
             await InitializeDashboard();
+
+            //TODO initialize available indexes, check Index and Shares folders
+            cmbAvailableIndexes.DataSource = _availableIndexes;
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
@@ -779,9 +784,7 @@ namespace MusicLibrary.Forms
                 if (Directory.Exists(targetFolder))
                 {
                     foreach (var item in Directory.GetFiles(targetFolder))
-                    {
                         File.Delete(item);
-                    }
                 }
                 else
                 {
@@ -795,7 +798,13 @@ namespace MusicLibrary.Forms
                     var destinationPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(targetFolder, entry.FullName));
                     entry.ExtractToFile(destinationPath, true);
                 }
+
+                _availableIndexes.Add(System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                //TODO Set default index folder to a new one or show index selector (drop-down list)
+                //it will check Index folder and sub folders under Shares folder if they are not empty
             }
+
+            openFileDialog2.Reset();
         }
     }
 
