@@ -41,6 +41,7 @@ namespace MusicLibrary.Forms
             this.btnCloseForm = new System.Windows.Forms.Button();
             this.pnlIndex = new System.Windows.Forms.Panel();
             this.gbIndexSharing = new System.Windows.Forms.GroupBox();
+            this.cmbAvailableIndexes = new System.Windows.Forms.ComboBox();
             this.btnLoadIndex = new System.Windows.Forms.Button();
             this.btnIndexShare = new System.Windows.Forms.Button();
             this.lblIndex = new System.Windows.Forms.Label();
@@ -114,7 +115,7 @@ namespace MusicLibrary.Forms
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.cmbAvailableIndexes = new System.Windows.Forms.ComboBox();
+            this.lblDefaultIndex = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
@@ -138,7 +139,7 @@ namespace MusicLibrary.Forms
             this.pnlTop.Controls.Add(this.btnCloseForm);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlTop.Margin = new System.Windows.Forms.Padding(4);
             this.pnlTop.Name = "pnlTop";
             this.pnlTop.Size = new System.Drawing.Size(1600, 56);
             this.pnlTop.TabIndex = 0;
@@ -164,7 +165,7 @@ namespace MusicLibrary.Forms
             this.btnMinimize.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnMinimize.ForeColor = System.Drawing.Color.White;
             this.btnMinimize.Location = new System.Drawing.Point(1490, 4);
-            this.btnMinimize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMinimize.Margin = new System.Windows.Forms.Padding(4);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(46, 45);
             this.btnMinimize.TabIndex = 2;
@@ -194,7 +195,7 @@ namespace MusicLibrary.Forms
             this.btnCloseForm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCloseForm.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.btnCloseForm.Location = new System.Drawing.Point(1544, 5);
-            this.btnCloseForm.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCloseForm.Margin = new System.Windows.Forms.Padding(4);
             this.btnCloseForm.Name = "btnCloseForm";
             this.btnCloseForm.Size = new System.Drawing.Size(46, 45);
             this.btnCloseForm.TabIndex = 0;
@@ -211,32 +212,41 @@ namespace MusicLibrary.Forms
             this.pnlIndex.Controls.Add(this.gbIndexScanner);
             this.pnlIndex.Controls.Add(this.gbIndexMaintenance);
             this.pnlIndex.Location = new System.Drawing.Point(326, 56);
-            this.pnlIndex.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlIndex.Margin = new System.Windows.Forms.Padding(4);
             this.pnlIndex.Name = "pnlIndex";
             this.pnlIndex.Size = new System.Drawing.Size(1274, 906);
             this.pnlIndex.TabIndex = 4;
             // 
             // gbIndexSharing
             // 
+            this.gbIndexSharing.Controls.Add(this.lblDefaultIndex);
             this.gbIndexSharing.Controls.Add(this.cmbAvailableIndexes);
             this.gbIndexSharing.Controls.Add(this.btnLoadIndex);
             this.gbIndexSharing.Controls.Add(this.btnIndexShare);
             this.gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.gbIndexSharing.Location = new System.Drawing.Point(242, 651);
-            this.gbIndexSharing.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbIndexSharing.Margin = new System.Windows.Forms.Padding(4);
             this.gbIndexSharing.Name = "gbIndexSharing";
-            this.gbIndexSharing.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbIndexSharing.Padding = new System.Windows.Forms.Padding(4);
             this.gbIndexSharing.Size = new System.Drawing.Size(699, 189);
             this.gbIndexSharing.TabIndex = 17;
             this.gbIndexSharing.TabStop = false;
             this.gbIndexSharing.Text = "Index sharing";
+            // 
+            // cmbAvailableIndexes
+            // 
+            this.cmbAvailableIndexes.FormattingEnabled = true;
+            this.cmbAvailableIndexes.Location = new System.Drawing.Point(345, 72);
+            this.cmbAvailableIndexes.Name = "cmbAvailableIndexes";
+            this.cmbAvailableIndexes.Size = new System.Drawing.Size(347, 33);
+            this.cmbAvailableIndexes.TabIndex = 2;
             // 
             // btnLoadIndex
             // 
             this.btnLoadIndex.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnLoadIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoadIndex.Location = new System.Drawing.Point(190, 44);
-            this.btnLoadIndex.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLoadIndex.Margin = new System.Windows.Forms.Padding(4);
             this.btnLoadIndex.Name = "btnLoadIndex";
             this.btnLoadIndex.Size = new System.Drawing.Size(125, 125);
             this.btnLoadIndex.TabIndex = 1;
@@ -249,7 +259,7 @@ namespace MusicLibrary.Forms
             this.btnIndexShare.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnIndexShare.Location = new System.Drawing.Point(26, 44);
-            this.btnIndexShare.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnIndexShare.Margin = new System.Windows.Forms.Padding(4);
             this.btnIndexShare.Name = "btnIndexShare";
             this.btnIndexShare.Size = new System.Drawing.Size(125, 125);
             this.btnIndexShare.TabIndex = 0;
@@ -418,7 +428,7 @@ namespace MusicLibrary.Forms
             this.pnlLeft.Controls.Add(this.btnMainMenuSearch);
             this.pnlLeft.Controls.Add(this.btnMainMenuIndex);
             this.pnlLeft.Location = new System.Drawing.Point(0, 56);
-            this.pnlLeft.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlLeft.Margin = new System.Windows.Forms.Padding(4);
             this.pnlLeft.Name = "pnlLeft";
             this.pnlLeft.Size = new System.Drawing.Size(331, 916);
             this.pnlLeft.TabIndex = 1;
@@ -430,7 +440,7 @@ namespace MusicLibrary.Forms
             this.btnMainMenuDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainMenuDashboard.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnMainMenuDashboard.Location = new System.Drawing.Point(28, 150);
-            this.btnMainMenuDashboard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMainMenuDashboard.Margin = new System.Windows.Forms.Padding(4);
             this.btnMainMenuDashboard.Name = "btnMainMenuDashboard";
             this.btnMainMenuDashboard.Size = new System.Drawing.Size(272, 96);
             this.btnMainMenuDashboard.TabIndex = 2;
@@ -445,7 +455,7 @@ namespace MusicLibrary.Forms
             this.btnMainMenuSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainMenuSearch.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnMainMenuSearch.Location = new System.Drawing.Point(28, 415);
-            this.btnMainMenuSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMainMenuSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnMainMenuSearch.Name = "btnMainMenuSearch";
             this.btnMainMenuSearch.Size = new System.Drawing.Size(272, 96);
             this.btnMainMenuSearch.TabIndex = 1;
@@ -460,7 +470,7 @@ namespace MusicLibrary.Forms
             this.btnMainMenuIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainMenuIndex.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnMainMenuIndex.Location = new System.Drawing.Point(28, 284);
-            this.btnMainMenuIndex.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnMainMenuIndex.Margin = new System.Windows.Forms.Padding(4);
             this.btnMainMenuIndex.Name = "btnMainMenuIndex";
             this.btnMainMenuIndex.Size = new System.Drawing.Size(272, 96);
             this.btnMainMenuIndex.TabIndex = 0;
@@ -483,7 +493,7 @@ namespace MusicLibrary.Forms
             this.pnlDashboard.Controls.Add(this.lblDashboard);
             this.pnlDashboard.Controls.Add(this.lvLatestAdditions);
             this.pnlDashboard.Location = new System.Drawing.Point(326, 56);
-            this.pnlDashboard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlDashboard.Margin = new System.Windows.Forms.Padding(4);
             this.pnlDashboard.Name = "pnlDashboard";
             this.pnlDashboard.Size = new System.Drawing.Size(1274, 912);
             this.pnlDashboard.TabIndex = 3;
@@ -729,7 +739,7 @@ namespace MusicLibrary.Forms
             this.pnlSearch.Controls.Add(this.lblSearchQuery);
             this.pnlSearch.Controls.Add(this.lblSearch);
             this.pnlSearch.Location = new System.Drawing.Point(326, 56);
-            this.pnlSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnlSearch.Margin = new System.Windows.Forms.Padding(4);
             this.pnlSearch.Name = "pnlSearch";
             this.pnlSearch.Size = new System.Drawing.Size(1274, 906);
             this.pnlSearch.TabIndex = 6;
@@ -1021,13 +1031,14 @@ namespace MusicLibrary.Forms
             this.openFileDialog2.DefaultExt = "mla";
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
-            // cmbAvailableIndexes
+            // lblDefaultIndex
             // 
-            this.cmbAvailableIndexes.FormattingEnabled = true;
-            this.cmbAvailableIndexes.Location = new System.Drawing.Point(366, 44);
-            this.cmbAvailableIndexes.Name = "cmbAvailableIndexes";
-            this.cmbAvailableIndexes.Size = new System.Drawing.Size(182, 33);
-            this.cmbAvailableIndexes.TabIndex = 2;
+            this.lblDefaultIndex.AutoSize = true;
+            this.lblDefaultIndex.Location = new System.Drawing.Point(345, 44);
+            this.lblDefaultIndex.Name = "lblDefaultIndex";
+            this.lblDefaultIndex.Size = new System.Drawing.Size(186, 25);
+            this.lblDefaultIndex.TabIndex = 3;
+            this.lblDefaultIndex.Text = "Select default index:";
             // 
             // MainForm
             // 
@@ -1043,7 +1054,7 @@ namespace MusicLibrary.Forms
             this.Controls.Add(this.pnlLeft);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MusicLibrary";
@@ -1054,6 +1065,7 @@ namespace MusicLibrary.Forms
             this.pnlIndex.ResumeLayout(false);
             this.pnlIndex.PerformLayout();
             this.gbIndexSharing.ResumeLayout(false);
+            this.gbIndexSharing.PerformLayout();
             this.gbIndexScanner.ResumeLayout(false);
             this.gbIndexScanner.PerformLayout();
             this.gbIndexMaintenance.ResumeLayout(false);
@@ -1158,5 +1170,6 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.ComboBox cmbAvailableIndexes;
+        private System.Windows.Forms.Label lblDefaultIndex;
     }
 }

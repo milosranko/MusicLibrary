@@ -44,7 +44,9 @@ namespace MusicLibrary.Forms
 
         private async Task InitializeDashboard()
         {
-            var indexSearcher = new IndexSearcher();
+            var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
+                ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
+                : new IndexSearcher();
 
             if (indexSearcher.IndexExists)
             {
@@ -105,7 +107,6 @@ namespace MusicLibrary.Forms
         private void btnIndex_Click(object sender, EventArgs e)
         {
             ShowPanel(PanelEnum.Index);
-            //TODO check available indexes and populate _availableIndexes list
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -364,7 +365,9 @@ namespace MusicLibrary.Forms
 
         private async Task Search(SearchFieldsEnum searchField, string query, string[] terms)
         {
-            var indexSearcher = new IndexSearcher();
+            var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
+                ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
+                : new IndexSearcher();
 
             if (!indexSearcher.IndexExists) return;
 
@@ -577,7 +580,14 @@ namespace MusicLibrary.Forms
         {
             await InitializeDashboard();
 
-            //TODO initialize available indexes, check Index and Shares folders
+            var searcher = new IndexSearcher();
+            _availableIndexes = searcher.SharedIndexes.ToList();
+
+            if (searcher.IndexExists)
+                _availableIndexes.Insert(0, "Local");
+            else
+                _availableIndexes.Insert(0, string.Empty);
+
             cmbAvailableIndexes.DataSource = _availableIndexes;
         }
 
