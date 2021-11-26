@@ -78,6 +78,14 @@ namespace MusicLibrary.Forms
 
                 lblTotalTracksValue.Text = res.TotalFiles.ToString();
             }
+            else
+            {
+                lblTotalTracksValue.Text = String.Empty;
+                lvLatestAdditions.Items.Clear();
+                lvReleaseYears.Items.Clear();
+                lvGenres.Items.Clear();
+                lvExtensionsTotal.Items.Clear();
+            }
 
             ShowPanel(PanelEnum.Dashboard);
         }

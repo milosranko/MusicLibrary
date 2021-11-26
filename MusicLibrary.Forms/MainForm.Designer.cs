@@ -31,9 +31,9 @@ namespace MusicLibrary.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.btnMinimize = new System.Windows.Forms.Button();
@@ -41,6 +41,7 @@ namespace MusicLibrary.Forms
             this.btnCloseForm = new System.Windows.Forms.Button();
             this.pnlIndex = new System.Windows.Forms.Panel();
             this.gbIndexSharing = new System.Windows.Forms.GroupBox();
+            this.lblDefaultIndex = new System.Windows.Forms.Label();
             this.cmbAvailableIndexes = new System.Windows.Forms.ComboBox();
             this.btnLoadIndex = new System.Windows.Forms.Button();
             this.btnIndexShare = new System.Windows.Forms.Button();
@@ -115,7 +116,6 @@ namespace MusicLibrary.Forms
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.lblDefaultIndex = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
@@ -233,8 +233,20 @@ namespace MusicLibrary.Forms
             this.gbIndexSharing.TabStop = false;
             this.gbIndexSharing.Text = "Index sharing";
             // 
+            // lblDefaultIndex
+            // 
+            this.lblDefaultIndex.AutoSize = true;
+            this.lblDefaultIndex.Location = new System.Drawing.Point(345, 44);
+            this.lblDefaultIndex.Name = "lblDefaultIndex";
+            this.lblDefaultIndex.Size = new System.Drawing.Size(186, 25);
+            this.lblDefaultIndex.TabIndex = 3;
+            this.lblDefaultIndex.Text = "Select default index:";
+            // 
             // cmbAvailableIndexes
             // 
+            this.cmbAvailableIndexes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbAvailableIndexes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAvailableIndexes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbAvailableIndexes.FormattingEnabled = true;
             this.cmbAvailableIndexes.Location = new System.Drawing.Point(345, 72);
             this.cmbAvailableIndexes.Name = "cmbAvailableIndexes";
@@ -765,14 +777,14 @@ namespace MusicLibrary.Forms
             this.dgSearchResult.AllowUserToResizeRows = false;
             this.dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
             this.dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -842,8 +854,8 @@ namespace MusicLibrary.Forms
             // Year
             // 
             this.Year.DataPropertyName = "Year";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Year.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Year.DefaultCellStyle = dataGridViewCellStyle5;
             this.Year.FillWeight = 101.5228F;
             this.Year.HeaderText = "Year";
             this.Year.MinimumWidth = 6;
@@ -854,8 +866,8 @@ namespace MusicLibrary.Forms
             // TrackNumber
             // 
             this.TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle6;
             this.TrackNumber.HeaderText = "Track no";
             this.TrackNumber.MinimumWidth = 6;
             this.TrackNumber.Name = "TrackNumber";
@@ -1030,15 +1042,6 @@ namespace MusicLibrary.Forms
             // 
             this.openFileDialog2.DefaultExt = "mla";
             this.openFileDialog2.FileName = "openFileDialog2";
-            // 
-            // lblDefaultIndex
-            // 
-            this.lblDefaultIndex.AutoSize = true;
-            this.lblDefaultIndex.Location = new System.Drawing.Point(345, 44);
-            this.lblDefaultIndex.Name = "lblDefaultIndex";
-            this.lblDefaultIndex.Size = new System.Drawing.Size(186, 25);
-            this.lblDefaultIndex.TabIndex = 3;
-            this.lblDefaultIndex.Text = "Select default index:";
             // 
             // MainForm
             // 
