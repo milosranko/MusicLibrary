@@ -29,6 +29,9 @@ namespace MusicLibrary.Business
 
         private IEnumerable<string> GetSharedIndexes()
         {
+            if (!Directory.Exists(Constants.LocalAppDataShares)) 
+                return Enumerable.Empty<string>();
+
             return Directory.EnumerateDirectories(Constants.LocalAppDataShares)
                 .Select(x => x.Split(Path.DirectorySeparatorChar).Last());
         }
@@ -51,7 +54,8 @@ namespace MusicLibrary.Business
 
         public Task<IndexCounts> GetIndexCounts()
         {
-            if (_engine.IndexNotExistsOrEmpty()) return Task.FromResult(IndexCounts.Empty);
+            if (_engine.IndexNotExistsOrEmpty()) 
+                return Task.FromResult(IndexCounts.Empty);
 
             return Task.FromResult(_engine.GetIndexStatistics());
         }
@@ -63,8 +67,11 @@ namespace MusicLibrary.Business
 
         private Task<SearchResult> Search(string query, string[] terms, string[] fields, QueryTypesEnum queryType)
         {
-            if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0)) return Task.FromResult(SearchResult.Empty());
-            if (fields == null || fields.Length == 0) return Task.FromResult(SearchResult.Empty());
+            if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0)) 
+                return Task.FromResult(SearchResult.Empty());
+            
+            if (fields == null || fields.Length == 0) 
+                return Task.FromResult(SearchResult.Empty());
 
             var searchRequest = new SearchRequest
             {
