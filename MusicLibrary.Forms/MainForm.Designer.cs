@@ -31,15 +31,20 @@ namespace MusicLibrary.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.btnMinimize = new System.Windows.Forms.Button();
             this.lblFormTitle = new System.Windows.Forms.Label();
             this.btnCloseForm = new System.Windows.Forms.Button();
             this.pnlIndex = new System.Windows.Forms.Panel();
+            this.gbIndexSharing = new System.Windows.Forms.GroupBox();
+            this.lblDefaultIndex = new System.Windows.Forms.Label();
+            this.cmbAvailableIndexes = new System.Windows.Forms.ComboBox();
+            this.btnLoadIndex = new System.Windows.Forms.Button();
+            this.btnIndexShare = new System.Windows.Forms.Button();
             this.lblIndex = new System.Windows.Forms.Label();
             this.gbIndexScanner = new System.Windows.Forms.GroupBox();
             this.btnIndexNewFiles = new System.Windows.Forms.Button();
@@ -109,9 +114,12 @@ namespace MusicLibrary.Forms
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
+            this.gbIndexSharing.SuspendLayout();
             this.gbIndexScanner.SuspendLayout();
             this.gbIndexMaintenance.SuspendLayout();
             this.pnlLeft.SuspendLayout();
@@ -131,18 +139,19 @@ namespace MusicLibrary.Forms
             this.pnlTop.Controls.Add(this.btnCloseForm);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Margin = new System.Windows.Forms.Padding(4);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1280, 45);
+            this.pnlTop.Size = new System.Drawing.Size(1600, 56);
             this.pnlTop.TabIndex = 0;
             this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
             // 
             // pbLogo
             // 
             this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
-            this.pbLogo.Location = new System.Drawing.Point(0, 3);
-            this.pbLogo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.pbLogo.Location = new System.Drawing.Point(0, 4);
+            this.pbLogo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pbLogo.Name = "pbLogo";
-            this.pbLogo.Size = new System.Drawing.Size(46, 41);
+            this.pbLogo.Size = new System.Drawing.Size(58, 51);
             this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbLogo.TabIndex = 3;
             this.pbLogo.TabStop = false;
@@ -155,9 +164,10 @@ namespace MusicLibrary.Forms
             this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMinimize.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnMinimize.ForeColor = System.Drawing.Color.White;
-            this.btnMinimize.Location = new System.Drawing.Point(1192, 3);
+            this.btnMinimize.Location = new System.Drawing.Point(1490, 4);
+            this.btnMinimize.Margin = new System.Windows.Forms.Padding(4);
             this.btnMinimize.Name = "btnMinimize";
-            this.btnMinimize.Size = new System.Drawing.Size(37, 36);
+            this.btnMinimize.Size = new System.Drawing.Size(46, 45);
             this.btnMinimize.TabIndex = 2;
             this.btnMinimize.Text = "─";
             this.toolTipBtnMinimize.SetToolTip(this.btnMinimize, "Minimize");
@@ -169,9 +179,10 @@ namespace MusicLibrary.Forms
             this.lblFormTitle.AutoSize = true;
             this.lblFormTitle.Font = new System.Drawing.Font("Century Gothic", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblFormTitle.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblFormTitle.Location = new System.Drawing.Point(49, 5);
+            this.lblFormTitle.Location = new System.Drawing.Point(61, 6);
+            this.lblFormTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblFormTitle.Name = "lblFormTitle";
-            this.lblFormTitle.Size = new System.Drawing.Size(177, 32);
+            this.lblFormTitle.Size = new System.Drawing.Size(210, 38);
             this.lblFormTitle.TabIndex = 1;
             this.lblFormTitle.Text = "MusicLibrary";
             // 
@@ -183,9 +194,10 @@ namespace MusicLibrary.Forms
             this.btnCloseForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseForm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnCloseForm.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnCloseForm.Location = new System.Drawing.Point(1235, 4);
+            this.btnCloseForm.Location = new System.Drawing.Point(1544, 5);
+            this.btnCloseForm.Margin = new System.Windows.Forms.Padding(4);
             this.btnCloseForm.Name = "btnCloseForm";
-            this.btnCloseForm.Size = new System.Drawing.Size(37, 36);
+            this.btnCloseForm.Size = new System.Drawing.Size(46, 45);
             this.btnCloseForm.TabIndex = 0;
             this.btnCloseForm.Text = "X";
             this.toolTipBtnClose.SetToolTip(this.btnCloseForm, "Close");
@@ -195,21 +207,86 @@ namespace MusicLibrary.Forms
             // pnlIndex
             // 
             this.pnlIndex.BackColor = System.Drawing.Color.LightBlue;
+            this.pnlIndex.Controls.Add(this.gbIndexSharing);
             this.pnlIndex.Controls.Add(this.lblIndex);
             this.pnlIndex.Controls.Add(this.gbIndexScanner);
             this.pnlIndex.Controls.Add(this.gbIndexMaintenance);
-            this.pnlIndex.Location = new System.Drawing.Point(261, 45);
+            this.pnlIndex.Location = new System.Drawing.Point(326, 56);
+            this.pnlIndex.Margin = new System.Windows.Forms.Padding(4);
             this.pnlIndex.Name = "pnlIndex";
-            this.pnlIndex.Size = new System.Drawing.Size(1019, 725);
+            this.pnlIndex.Size = new System.Drawing.Size(1274, 906);
             this.pnlIndex.TabIndex = 4;
+            // 
+            // gbIndexSharing
+            // 
+            this.gbIndexSharing.Controls.Add(this.lblDefaultIndex);
+            this.gbIndexSharing.Controls.Add(this.cmbAvailableIndexes);
+            this.gbIndexSharing.Controls.Add(this.btnLoadIndex);
+            this.gbIndexSharing.Controls.Add(this.btnIndexShare);
+            this.gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.gbIndexSharing.Location = new System.Drawing.Point(242, 651);
+            this.gbIndexSharing.Margin = new System.Windows.Forms.Padding(4);
+            this.gbIndexSharing.Name = "gbIndexSharing";
+            this.gbIndexSharing.Padding = new System.Windows.Forms.Padding(4);
+            this.gbIndexSharing.Size = new System.Drawing.Size(699, 189);
+            this.gbIndexSharing.TabIndex = 17;
+            this.gbIndexSharing.TabStop = false;
+            this.gbIndexSharing.Text = "Index sharing";
+            // 
+            // lblDefaultIndex
+            // 
+            this.lblDefaultIndex.AutoSize = true;
+            this.lblDefaultIndex.Location = new System.Drawing.Point(345, 44);
+            this.lblDefaultIndex.Name = "lblDefaultIndex";
+            this.lblDefaultIndex.Size = new System.Drawing.Size(186, 25);
+            this.lblDefaultIndex.TabIndex = 3;
+            this.lblDefaultIndex.Text = "Select default index:";
+            // 
+            // cmbAvailableIndexes
+            // 
+            this.cmbAvailableIndexes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cmbAvailableIndexes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAvailableIndexes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbAvailableIndexes.FormattingEnabled = true;
+            this.cmbAvailableIndexes.Location = new System.Drawing.Point(345, 72);
+            this.cmbAvailableIndexes.Name = "cmbAvailableIndexes";
+            this.cmbAvailableIndexes.Size = new System.Drawing.Size(347, 33);
+            this.cmbAvailableIndexes.TabIndex = 2;
+            // 
+            // btnLoadIndex
+            // 
+            this.btnLoadIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLoadIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoadIndex.Location = new System.Drawing.Point(190, 44);
+            this.btnLoadIndex.Margin = new System.Windows.Forms.Padding(4);
+            this.btnLoadIndex.Name = "btnLoadIndex";
+            this.btnLoadIndex.Size = new System.Drawing.Size(125, 125);
+            this.btnLoadIndex.TabIndex = 1;
+            this.btnLoadIndex.Text = "Load index";
+            this.btnLoadIndex.UseVisualStyleBackColor = true;
+            this.btnLoadIndex.Click += new System.EventHandler(this.btnLoadIndex_Click);
+            // 
+            // btnIndexShare
+            // 
+            this.btnIndexShare.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIndexShare.Location = new System.Drawing.Point(26, 44);
+            this.btnIndexShare.Margin = new System.Windows.Forms.Padding(4);
+            this.btnIndexShare.Name = "btnIndexShare";
+            this.btnIndexShare.Size = new System.Drawing.Size(125, 125);
+            this.btnIndexShare.TabIndex = 0;
+            this.btnIndexShare.Text = "Share index";
+            this.btnIndexShare.UseVisualStyleBackColor = true;
+            this.btnIndexShare.Click += new System.EventHandler(this.btnIndexShare_Click);
             // 
             // lblIndex
             // 
             this.lblIndex.AutoSize = true;
             this.lblIndex.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblIndex.Location = new System.Drawing.Point(10, 17);
+            this.lblIndex.Location = new System.Drawing.Point(12, 21);
+            this.lblIndex.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(244, 89);
+            this.lblIndex.Size = new System.Drawing.Size(291, 106);
             this.lblIndex.TabIndex = 16;
             this.lblIndex.Text = "Index";
             // 
@@ -223,11 +300,11 @@ namespace MusicLibrary.Forms
             this.gbIndexScanner.Controls.Add(this.btnScan);
             this.gbIndexScanner.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gbIndexScanner.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbIndexScanner.Location = new System.Drawing.Point(25, 153);
-            this.gbIndexScanner.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbIndexScanner.Location = new System.Drawing.Point(31, 191);
+            this.gbIndexScanner.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbIndexScanner.Name = "gbIndexScanner";
-            this.gbIndexScanner.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbIndexScanner.Size = new System.Drawing.Size(454, 308);
+            this.gbIndexScanner.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbIndexScanner.Size = new System.Drawing.Size(568, 385);
             this.gbIndexScanner.TabIndex = 15;
             this.gbIndexScanner.TabStop = false;
             this.gbIndexScanner.Text = "Index scanner";
@@ -237,10 +314,10 @@ namespace MusicLibrary.Forms
             this.btnIndexNewFiles.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIndexNewFiles.Enabled = false;
             this.btnIndexNewFiles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnIndexNewFiles.Location = new System.Drawing.Point(169, 124);
-            this.btnIndexNewFiles.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnIndexNewFiles.Location = new System.Drawing.Point(211, 155);
+            this.btnIndexNewFiles.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnIndexNewFiles.Name = "btnIndexNewFiles";
-            this.btnIndexNewFiles.Size = new System.Drawing.Size(104, 105);
+            this.btnIndexNewFiles.Size = new System.Drawing.Size(130, 131);
             this.btnIndexNewFiles.TabIndex = 14;
             this.btnIndexNewFiles.Text = "Index new files only";
             this.btnIndexNewFiles.UseVisualStyleBackColor = true;
@@ -251,10 +328,10 @@ namespace MusicLibrary.Forms
             this.btnIndex.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIndex.Enabled = false;
             this.btnIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnIndex.Location = new System.Drawing.Point(321, 124);
-            this.btnIndex.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnIndex.Location = new System.Drawing.Point(401, 155);
+            this.btnIndex.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnIndex.Name = "btnIndex";
-            this.btnIndex.Size = new System.Drawing.Size(104, 105);
+            this.btnIndex.Size = new System.Drawing.Size(130, 131);
             this.btnIndex.TabIndex = 10;
             this.btnIndex.Text = "Index all files";
             this.btnIndex.UseVisualStyleBackColor = true;
@@ -265,9 +342,10 @@ namespace MusicLibrary.Forms
             this.lblIndexFolder.AutoSize = true;
             this.lblIndexFolder.BackColor = System.Drawing.Color.LightBlue;
             this.lblIndexFolder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblIndexFolder.Location = new System.Drawing.Point(30, 35);
+            this.lblIndexFolder.Location = new System.Drawing.Point(38, 44);
+            this.lblIndexFolder.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblIndexFolder.Name = "lblIndexFolder";
-            this.lblIndexFolder.Size = new System.Drawing.Size(176, 20);
+            this.lblIndexFolder.Size = new System.Drawing.Size(211, 25);
             this.lblIndexFolder.TabIndex = 13;
             this.lblIndexFolder.Text = "Select root folder to scan";
             // 
@@ -276,10 +354,10 @@ namespace MusicLibrary.Forms
             this.btnIndexFolder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnIndexFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnIndexFolder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnIndexFolder.Location = new System.Drawing.Point(30, 64);
-            this.btnIndexFolder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnIndexFolder.Location = new System.Drawing.Point(38, 80);
+            this.btnIndexFolder.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnIndexFolder.Name = "btnIndexFolder";
-            this.btnIndexFolder.Size = new System.Drawing.Size(101, 31);
+            this.btnIndexFolder.Size = new System.Drawing.Size(126, 39);
             this.btnIndexFolder.TabIndex = 12;
             this.btnIndexFolder.Text = "Select folder";
             this.btnIndexFolder.UseVisualStyleBackColor = true;
@@ -290,10 +368,10 @@ namespace MusicLibrary.Forms
             this.btnScan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnScan.Enabled = false;
             this.btnScan.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnScan.Location = new System.Drawing.Point(30, 124);
-            this.btnScan.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnScan.Location = new System.Drawing.Point(38, 155);
+            this.btnScan.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(101, 105);
+            this.btnScan.Size = new System.Drawing.Size(126, 131);
             this.btnScan.TabIndex = 11;
             this.btnScan.Text = "Scan";
             this.btnScan.UseVisualStyleBackColor = true;
@@ -306,11 +384,11 @@ namespace MusicLibrary.Forms
             this.gbIndexMaintenance.Controls.Add(this.btnClearIndex);
             this.gbIndexMaintenance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gbIndexMaintenance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbIndexMaintenance.Location = new System.Drawing.Point(571, 153);
-            this.gbIndexMaintenance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gbIndexMaintenance.Location = new System.Drawing.Point(714, 191);
+            this.gbIndexMaintenance.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.gbIndexMaintenance.Name = "gbIndexMaintenance";
-            this.gbIndexMaintenance.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbIndexMaintenance.Size = new System.Drawing.Size(362, 308);
+            this.gbIndexMaintenance.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbIndexMaintenance.Size = new System.Drawing.Size(452, 385);
             this.gbIndexMaintenance.TabIndex = 14;
             this.gbIndexMaintenance.TabStop = false;
             this.gbIndexMaintenance.Text = "Index maintenance";
@@ -319,10 +397,10 @@ namespace MusicLibrary.Forms
             // 
             this.btnStopOptimize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStopOptimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStopOptimize.Location = new System.Drawing.Point(32, 124);
-            this.btnStopOptimize.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnStopOptimize.Location = new System.Drawing.Point(40, 155);
+            this.btnStopOptimize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStopOptimize.Name = "btnStopOptimize";
-            this.btnStopOptimize.Size = new System.Drawing.Size(101, 105);
+            this.btnStopOptimize.Size = new System.Drawing.Size(126, 131);
             this.btnStopOptimize.TabIndex = 16;
             this.btnStopOptimize.Text = "Stop";
             this.btnStopOptimize.UseVisualStyleBackColor = true;
@@ -333,10 +411,10 @@ namespace MusicLibrary.Forms
             // 
             this.btnOptimize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOptimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOptimize.Location = new System.Drawing.Point(32, 124);
-            this.btnOptimize.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnOptimize.Location = new System.Drawing.Point(40, 155);
+            this.btnOptimize.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnOptimize.Name = "btnOptimize";
-            this.btnOptimize.Size = new System.Drawing.Size(101, 105);
+            this.btnOptimize.Size = new System.Drawing.Size(126, 131);
             this.btnOptimize.TabIndex = 14;
             this.btnOptimize.Text = "Optimize";
             this.btnOptimize.UseVisualStyleBackColor = true;
@@ -346,10 +424,10 @@ namespace MusicLibrary.Forms
             // 
             this.btnClearIndex.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClearIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnClearIndex.Location = new System.Drawing.Point(226, 124);
-            this.btnClearIndex.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnClearIndex.Location = new System.Drawing.Point(282, 155);
+            this.btnClearIndex.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClearIndex.Name = "btnClearIndex";
-            this.btnClearIndex.Size = new System.Drawing.Size(101, 105);
+            this.btnClearIndex.Size = new System.Drawing.Size(126, 131);
             this.btnClearIndex.TabIndex = 15;
             this.btnClearIndex.Text = "Clear index";
             this.btnClearIndex.UseVisualStyleBackColor = true;
@@ -361,9 +439,10 @@ namespace MusicLibrary.Forms
             this.pnlLeft.Controls.Add(this.btnMainMenuDashboard);
             this.pnlLeft.Controls.Add(this.btnMainMenuSearch);
             this.pnlLeft.Controls.Add(this.btnMainMenuIndex);
-            this.pnlLeft.Location = new System.Drawing.Point(0, 45);
+            this.pnlLeft.Location = new System.Drawing.Point(0, 56);
+            this.pnlLeft.Margin = new System.Windows.Forms.Padding(4);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(265, 733);
+            this.pnlLeft.Size = new System.Drawing.Size(331, 916);
             this.pnlLeft.TabIndex = 1;
             // 
             // btnMainMenuDashboard
@@ -372,9 +451,10 @@ namespace MusicLibrary.Forms
             this.btnMainMenuDashboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMainMenuDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainMenuDashboard.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMainMenuDashboard.Location = new System.Drawing.Point(22, 120);
+            this.btnMainMenuDashboard.Location = new System.Drawing.Point(28, 150);
+            this.btnMainMenuDashboard.Margin = new System.Windows.Forms.Padding(4);
             this.btnMainMenuDashboard.Name = "btnMainMenuDashboard";
-            this.btnMainMenuDashboard.Size = new System.Drawing.Size(218, 77);
+            this.btnMainMenuDashboard.Size = new System.Drawing.Size(272, 96);
             this.btnMainMenuDashboard.TabIndex = 2;
             this.btnMainMenuDashboard.Text = "Dashboard";
             this.btnMainMenuDashboard.UseVisualStyleBackColor = false;
@@ -386,9 +466,10 @@ namespace MusicLibrary.Forms
             this.btnMainMenuSearch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMainMenuSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainMenuSearch.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMainMenuSearch.Location = new System.Drawing.Point(22, 332);
+            this.btnMainMenuSearch.Location = new System.Drawing.Point(28, 415);
+            this.btnMainMenuSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnMainMenuSearch.Name = "btnMainMenuSearch";
-            this.btnMainMenuSearch.Size = new System.Drawing.Size(218, 77);
+            this.btnMainMenuSearch.Size = new System.Drawing.Size(272, 96);
             this.btnMainMenuSearch.TabIndex = 1;
             this.btnMainMenuSearch.Text = "Search";
             this.btnMainMenuSearch.UseVisualStyleBackColor = false;
@@ -400,9 +481,10 @@ namespace MusicLibrary.Forms
             this.btnMainMenuIndex.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnMainMenuIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMainMenuIndex.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMainMenuIndex.Location = new System.Drawing.Point(22, 227);
+            this.btnMainMenuIndex.Location = new System.Drawing.Point(28, 284);
+            this.btnMainMenuIndex.Margin = new System.Windows.Forms.Padding(4);
             this.btnMainMenuIndex.Name = "btnMainMenuIndex";
-            this.btnMainMenuIndex.Size = new System.Drawing.Size(218, 77);
+            this.btnMainMenuIndex.Size = new System.Drawing.Size(272, 96);
             this.btnMainMenuIndex.TabIndex = 0;
             this.btnMainMenuIndex.Text = "Index";
             this.btnMainMenuIndex.UseVisualStyleBackColor = false;
@@ -422,18 +504,20 @@ namespace MusicLibrary.Forms
             this.pnlDashboard.Controls.Add(this.lblTotalTracks);
             this.pnlDashboard.Controls.Add(this.lblDashboard);
             this.pnlDashboard.Controls.Add(this.lvLatestAdditions);
-            this.pnlDashboard.Location = new System.Drawing.Point(261, 45);
+            this.pnlDashboard.Location = new System.Drawing.Point(326, 56);
+            this.pnlDashboard.Margin = new System.Windows.Forms.Padding(4);
             this.pnlDashboard.Name = "pnlDashboard";
-            this.pnlDashboard.Size = new System.Drawing.Size(1019, 730);
+            this.pnlDashboard.Size = new System.Drawing.Size(1274, 912);
             this.pnlDashboard.TabIndex = 3;
             // 
             // lblLatestAdditions
             // 
             this.lblLatestAdditions.AutoSize = true;
             this.lblLatestAdditions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblLatestAdditions.Location = new System.Drawing.Point(701, 183);
+            this.lblLatestAdditions.Location = new System.Drawing.Point(876, 229);
+            this.lblLatestAdditions.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblLatestAdditions.Name = "lblLatestAdditions";
-            this.lblLatestAdditions.Size = new System.Drawing.Size(121, 20);
+            this.lblLatestAdditions.Size = new System.Drawing.Size(147, 25);
             this.lblLatestAdditions.TabIndex = 11;
             this.lblLatestAdditions.Text = "Latest additions";
             // 
@@ -441,9 +525,10 @@ namespace MusicLibrary.Forms
             // 
             this.lblTotalByReleaseYear.AutoSize = true;
             this.lblTotalByReleaseYear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalByReleaseYear.Location = new System.Drawing.Point(420, 184);
+            this.lblTotalByReleaseYear.Location = new System.Drawing.Point(525, 230);
+            this.lblTotalByReleaseYear.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalByReleaseYear.Name = "lblTotalByReleaseYear";
-            this.lblTotalByReleaseYear.Size = new System.Drawing.Size(152, 20);
+            this.lblTotalByReleaseYear.Size = new System.Drawing.Size(187, 25);
             this.lblTotalByReleaseYear.TabIndex = 9;
             this.lblTotalByReleaseYear.Text = "Total by release year";
             // 
@@ -451,9 +536,10 @@ namespace MusicLibrary.Forms
             // 
             this.lblTotalByGenre.AutoSize = true;
             this.lblTotalByGenre.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalByGenre.Location = new System.Drawing.Point(182, 184);
+            this.lblTotalByGenre.Location = new System.Drawing.Point(228, 230);
+            this.lblTotalByGenre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalByGenre.Name = "lblTotalByGenre";
-            this.lblTotalByGenre.Size = new System.Drawing.Size(109, 20);
+            this.lblTotalByGenre.Size = new System.Drawing.Size(134, 25);
             this.lblTotalByGenre.TabIndex = 8;
             this.lblTotalByGenre.Text = "Total by genre";
             // 
@@ -461,9 +547,10 @@ namespace MusicLibrary.Forms
             // 
             this.lblTotalByExtension.AutoSize = true;
             this.lblTotalByExtension.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalByExtension.Location = new System.Drawing.Point(32, 184);
+            this.lblTotalByExtension.Location = new System.Drawing.Point(40, 230);
+            this.lblTotalByExtension.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalByExtension.Name = "lblTotalByExtension";
-            this.lblTotalByExtension.Size = new System.Drawing.Size(118, 20);
+            this.lblTotalByExtension.Size = new System.Drawing.Size(143, 25);
             this.lblTotalByExtension.TabIndex = 7;
             this.lblTotalByExtension.Text = "Total by format";
             // 
@@ -475,11 +562,11 @@ namespace MusicLibrary.Forms
             this.columnHeader3,
             this.columnHeader4});
             this.lvReleaseYears.FullRowSelect = true;
-            this.lvReleaseYears.Location = new System.Drawing.Point(420, 212);
-            this.lvReleaseYears.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lvReleaseYears.Location = new System.Drawing.Point(525, 265);
+            this.lvReleaseYears.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvReleaseYears.MultiSelect = false;
             this.lvReleaseYears.Name = "lvReleaseYears";
-            this.lvReleaseYears.Size = new System.Drawing.Size(145, 497);
+            this.lvReleaseYears.Size = new System.Drawing.Size(181, 621);
             this.lvReleaseYears.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvReleaseYears.TabIndex = 6;
             this.lvReleaseYears.UseCompatibleStateImageBehavior = false;
@@ -505,11 +592,11 @@ namespace MusicLibrary.Forms
             this.columnHeader1,
             this.columnHeader2});
             this.lvExtensionsTotal.FullRowSelect = true;
-            this.lvExtensionsTotal.Location = new System.Drawing.Point(32, 212);
-            this.lvExtensionsTotal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lvExtensionsTotal.Location = new System.Drawing.Point(40, 265);
+            this.lvExtensionsTotal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvExtensionsTotal.MultiSelect = false;
             this.lvExtensionsTotal.Name = "lvExtensionsTotal";
-            this.lvExtensionsTotal.Size = new System.Drawing.Size(144, 497);
+            this.lvExtensionsTotal.Size = new System.Drawing.Size(180, 621);
             this.lvExtensionsTotal.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvExtensionsTotal.TabIndex = 4;
             this.lvExtensionsTotal.UseCompatibleStateImageBehavior = false;
@@ -537,11 +624,11 @@ namespace MusicLibrary.Forms
             this.columnExtension,
             this.columnExtensionCount});
             this.lvGenres.FullRowSelect = true;
-            this.lvGenres.Location = new System.Drawing.Point(182, 212);
-            this.lvGenres.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lvGenres.Location = new System.Drawing.Point(228, 265);
+            this.lvGenres.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvGenres.MultiSelect = false;
             this.lvGenres.Name = "lvGenres";
-            this.lvGenres.Size = new System.Drawing.Size(232, 497);
+            this.lvGenres.Size = new System.Drawing.Size(290, 621);
             this.lvGenres.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvGenres.TabIndex = 5;
             this.lvGenres.UseCompatibleStateImageBehavior = false;
@@ -565,9 +652,10 @@ namespace MusicLibrary.Forms
             // lblTotalTracksValue
             // 
             this.lblTotalTracksValue.AutoSize = true;
-            this.lblTotalTracksValue.Location = new System.Drawing.Point(118, 147);
+            this.lblTotalTracksValue.Location = new System.Drawing.Point(148, 184);
+            this.lblTotalTracksValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalTracksValue.Name = "lblTotalTracksValue";
-            this.lblTotalTracksValue.Size = new System.Drawing.Size(17, 20);
+            this.lblTotalTracksValue.Size = new System.Drawing.Size(22, 25);
             this.lblTotalTracksValue.TabIndex = 3;
             this.lblTotalTracksValue.Text = "0";
             // 
@@ -575,9 +663,10 @@ namespace MusicLibrary.Forms
             // 
             this.lblTotalTracks.AutoSize = true;
             this.lblTotalTracks.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalTracks.Location = new System.Drawing.Point(32, 147);
+            this.lblTotalTracks.Location = new System.Drawing.Point(40, 184);
+            this.lblTotalTracks.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTotalTracks.Name = "lblTotalTracks";
-            this.lblTotalTracks.Size = new System.Drawing.Size(94, 20);
+            this.lblTotalTracks.Size = new System.Drawing.Size(115, 25);
             this.lblTotalTracks.TabIndex = 2;
             this.lblTotalTracks.Text = "Total tracks:";
             // 
@@ -585,9 +674,10 @@ namespace MusicLibrary.Forms
             // 
             this.lblDashboard.AutoSize = true;
             this.lblDashboard.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblDashboard.Location = new System.Drawing.Point(10, 5);
+            this.lblDashboard.Location = new System.Drawing.Point(12, 6);
+            this.lblDashboard.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDashboard.Name = "lblDashboard";
-            this.lblDashboard.Size = new System.Drawing.Size(441, 89);
+            this.lblDashboard.Size = new System.Drawing.Size(525, 106);
             this.lblDashboard.TabIndex = 1;
             this.lblDashboard.Text = "Dashboard";
             // 
@@ -599,11 +689,11 @@ namespace MusicLibrary.Forms
             this.columnHeader5,
             this.columnHeader6});
             this.lvLatestAdditions.FullRowSelect = true;
-            this.lvLatestAdditions.Location = new System.Drawing.Point(571, 212);
-            this.lvLatestAdditions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lvLatestAdditions.Location = new System.Drawing.Point(714, 265);
+            this.lvLatestAdditions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lvLatestAdditions.MultiSelect = false;
             this.lvLatestAdditions.Name = "lvLatestAdditions";
-            this.lvLatestAdditions.Size = new System.Drawing.Size(435, 497);
+            this.lvLatestAdditions.Size = new System.Drawing.Size(544, 621);
             this.lvLatestAdditions.TabIndex = 10;
             this.lvLatestAdditions.UseCompatibleStateImageBehavior = false;
             this.lvLatestAdditions.View = System.Windows.Forms.View.Details;
@@ -628,9 +718,10 @@ namespace MusicLibrary.Forms
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 774);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 968);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1280, 26);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(1600, 32);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
@@ -640,14 +731,14 @@ namespace MusicLibrary.Forms
             this.toolStripStatusLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(57, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(70, 25);
             this.toolStripStatusLabel1.Text = "Status:";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(25, 20);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(32, 25);
             this.toolStripStatusLabel2.Text = "ok";
             // 
             // pnlSearch
@@ -659,19 +750,20 @@ namespace MusicLibrary.Forms
             this.pnlSearch.Controls.Add(this.txtSearchField);
             this.pnlSearch.Controls.Add(this.lblSearchQuery);
             this.pnlSearch.Controls.Add(this.lblSearch);
-            this.pnlSearch.Location = new System.Drawing.Point(261, 45);
+            this.pnlSearch.Location = new System.Drawing.Point(326, 56);
+            this.pnlSearch.Margin = new System.Windows.Forms.Padding(4);
             this.pnlSearch.Name = "pnlSearch";
-            this.pnlSearch.Size = new System.Drawing.Size(1019, 725);
+            this.pnlSearch.Size = new System.Drawing.Size(1274, 906);
             this.pnlSearch.TabIndex = 6;
             // 
             // btnClearSearch
             // 
             this.btnClearSearch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClearSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearSearch.Location = new System.Drawing.Point(365, 137);
-            this.btnClearSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnClearSearch.Location = new System.Drawing.Point(456, 171);
+            this.btnClearSearch.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnClearSearch.Name = "btnClearSearch";
-            this.btnClearSearch.Size = new System.Drawing.Size(86, 31);
+            this.btnClearSearch.Size = new System.Drawing.Size(108, 39);
             this.btnClearSearch.TabIndex = 15;
             this.btnClearSearch.Text = "Clear";
             this.btnClearSearch.UseVisualStyleBackColor = true;
@@ -685,14 +777,14 @@ namespace MusicLibrary.Forms
             this.dgSearchResult.AllowUserToResizeRows = false;
             this.dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
             this.dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -706,14 +798,14 @@ namespace MusicLibrary.Forms
             this.FileName,
             this.Genre});
             this.dgSearchResult.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dgSearchResult.Location = new System.Drawing.Point(32, 179);
-            this.dgSearchResult.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dgSearchResult.Location = new System.Drawing.Point(40, 224);
+            this.dgSearchResult.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgSearchResult.Name = "dgSearchResult";
             this.dgSearchResult.ReadOnly = true;
             this.dgSearchResult.RowHeadersWidth = 51;
             this.dgSearchResult.RowTemplate.Height = 25;
             this.dgSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgSearchResult.Size = new System.Drawing.Size(974, 531);
+            this.dgSearchResult.Size = new System.Drawing.Size(1218, 664);
             this.dgSearchResult.TabIndex = 14;
             this.dgSearchResult.Visible = false;
             this.dgSearchResult.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSearchResult_CellDoubleClick);
@@ -762,8 +854,8 @@ namespace MusicLibrary.Forms
             // Year
             // 
             this.Year.DataPropertyName = "Year";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Year.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Year.DefaultCellStyle = dataGridViewCellStyle5;
             this.Year.FillWeight = 101.5228F;
             this.Year.HeaderText = "Year";
             this.Year.MinimumWidth = 6;
@@ -774,8 +866,8 @@ namespace MusicLibrary.Forms
             // TrackNumber
             // 
             this.TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle6;
             this.TrackNumber.HeaderText = "Track no";
             this.TrackNumber.MinimumWidth = 6;
             this.TrackNumber.Name = "TrackNumber";
@@ -826,10 +918,10 @@ namespace MusicLibrary.Forms
             // 
             this.btnSearchIndex.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSearchIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSearchIndex.Location = new System.Drawing.Point(257, 137);
-            this.btnSearchIndex.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnSearchIndex.Location = new System.Drawing.Point(321, 171);
+            this.btnSearchIndex.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSearchIndex.Name = "btnSearchIndex";
-            this.btnSearchIndex.Size = new System.Drawing.Size(86, 31);
+            this.btnSearchIndex.Size = new System.Drawing.Size(108, 39);
             this.btnSearchIndex.TabIndex = 13;
             this.btnSearchIndex.Text = "Search";
             this.btnSearchIndex.UseVisualStyleBackColor = true;
@@ -837,19 +929,20 @@ namespace MusicLibrary.Forms
             // 
             // txtSearchField
             // 
-            this.txtSearchField.Location = new System.Drawing.Point(32, 137);
-            this.txtSearchField.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtSearchField.Location = new System.Drawing.Point(40, 171);
+            this.txtSearchField.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtSearchField.Name = "txtSearchField";
-            this.txtSearchField.Size = new System.Drawing.Size(217, 27);
+            this.txtSearchField.Size = new System.Drawing.Size(270, 31);
             this.txtSearchField.TabIndex = 12;
             this.txtSearchField.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchField_KeyPress);
             // 
             // lblSearchQuery
             // 
             this.lblSearchQuery.AutoSize = true;
-            this.lblSearchQuery.Location = new System.Drawing.Point(32, 111);
+            this.lblSearchQuery.Location = new System.Drawing.Point(40, 139);
+            this.lblSearchQuery.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSearchQuery.Name = "lblSearchQuery";
-            this.lblSearchQuery.Size = new System.Drawing.Size(155, 20);
+            this.lblSearchQuery.Size = new System.Drawing.Size(188, 25);
             this.lblSearchQuery.TabIndex = 11;
             this.lblSearchQuery.Text = "Enter search keywords";
             // 
@@ -857,9 +950,10 @@ namespace MusicLibrary.Forms
             // 
             this.lblSearch.AutoSize = true;
             this.lblSearch.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblSearch.Location = new System.Drawing.Point(10, 5);
+            this.lblSearch.Location = new System.Drawing.Point(12, 6);
+            this.lblSearch.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(292, 89);
+            this.lblSearch.Size = new System.Drawing.Size(350, 106);
             this.lblSearch.TabIndex = 1;
             this.lblSearch.Text = "Search";
             // 
@@ -879,81 +973,91 @@ namespace MusicLibrary.Forms
             this.toolStripRemoveFromIndex});
             this.ctxFileOptions.Name = "ctxFileOptions";
             this.ctxFileOptions.ShowImageMargin = false;
-            this.ctxFileOptions.Size = new System.Drawing.Size(205, 190);
+            this.ctxFileOptions.Size = new System.Drawing.Size(237, 246);
             this.ctxFileOptions.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxFileOptions_ItemClicked);
             // 
             // toolStripShowFileInfo
             // 
             this.toolStripShowFileInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.toolStripShowFileInfo.Name = "toolStripShowFileInfo";
-            this.toolStripShowFileInfo.Size = new System.Drawing.Size(204, 24);
+            this.toolStripShowFileInfo.Size = new System.Drawing.Size(236, 32);
             this.toolStripShowFileInfo.Text = "Show file info";
             // 
             // toolStripEditMetaTags
             // 
             this.toolStripEditMetaTags.Name = "toolStripEditMetaTags";
-            this.toolStripEditMetaTags.Size = new System.Drawing.Size(204, 24);
+            this.toolStripEditMetaTags.Size = new System.Drawing.Size(236, 32);
             this.toolStripEditMetaTags.Text = "Edit meta tags";
             // 
             // toolStripConvertSelectedFiles
             // 
             this.toolStripConvertSelectedFiles.Name = "toolStripConvertSelectedFiles";
-            this.toolStripConvertSelectedFiles.Size = new System.Drawing.Size(204, 24);
+            this.toolStripConvertSelectedFiles.Size = new System.Drawing.Size(236, 32);
             this.toolStripConvertSelectedFiles.Text = "Convert selected file(s)";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(233, 6);
             // 
             // toolStripOpenFileLocation
             // 
             this.toolStripOpenFileLocation.Name = "toolStripOpenFileLocation";
-            this.toolStripOpenFileLocation.Size = new System.Drawing.Size(204, 24);
+            this.toolStripOpenFileLocation.Size = new System.Drawing.Size(236, 32);
             this.toolStripOpenFileLocation.Text = "Open file location";
             // 
             // toolStripPlayFile
             // 
             this.toolStripPlayFile.Name = "toolStripPlayFile";
-            this.toolStripPlayFile.Size = new System.Drawing.Size(204, 24);
+            this.toolStripPlayFile.Size = new System.Drawing.Size(236, 32);
             this.toolStripPlayFile.Text = "Play file";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(233, 6);
             // 
             // toolStripSearchRuTracker
             // 
             this.toolStripSearchRuTracker.Name = "toolStripSearchRuTracker";
-            this.toolStripSearchRuTracker.Size = new System.Drawing.Size(204, 24);
+            this.toolStripSearchRuTracker.Size = new System.Drawing.Size(236, 32);
             this.toolStripSearchRuTracker.Text = "Search ruTracker";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(233, 6);
             // 
             // toolStripRemoveFromIndex
             // 
             this.toolStripRemoveFromIndex.Name = "toolStripRemoveFromIndex";
-            this.toolStripRemoveFromIndex.Size = new System.Drawing.Size(204, 24);
+            this.toolStripRemoveFromIndex.Size = new System.Drawing.Size(236, 32);
             this.toolStripRemoveFromIndex.Text = "Remove from index";
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.DefaultExt = "mla";
+            this.openFileDialog2.FileName = "openFileDialog2";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1280, 800);
-            this.Controls.Add(this.pnlDashboard);
+            this.ClientSize = new System.Drawing.Size(1600, 1000);
             this.Controls.Add(this.pnlIndex);
+            this.Controls.Add(this.pnlDashboard);
             this.Controls.Add(this.pnlSearch);
             this.Controls.Add(this.pnlTop);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pnlLeft);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MusicLibrary";
@@ -963,6 +1067,8 @@ namespace MusicLibrary.Forms
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
             this.pnlIndex.ResumeLayout(false);
             this.pnlIndex.PerformLayout();
+            this.gbIndexSharing.ResumeLayout(false);
+            this.gbIndexSharing.PerformLayout();
             this.gbIndexScanner.ResumeLayout(false);
             this.gbIndexScanner.PerformLayout();
             this.gbIndexMaintenance.ResumeLayout(false);
@@ -1061,5 +1167,12 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem toolStripPlayFile;
         private System.Windows.Forms.ToolStripMenuItem toolStripShowFileInfo;
+        private System.Windows.Forms.GroupBox gbIndexSharing;
+        private System.Windows.Forms.Button btnIndexShare;
+        private System.Windows.Forms.Button btnLoadIndex;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.ComboBox cmbAvailableIndexes;
+        private System.Windows.Forms.Label lblDefaultIndex;
     }
 }

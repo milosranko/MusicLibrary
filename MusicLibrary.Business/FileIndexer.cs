@@ -8,6 +8,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -100,6 +101,26 @@ namespace MusicLibrary.Business
             _engine.DeleteById(filesToRemoveFromIndex.ToArray());
 
             return Task.CompletedTask;
+        }
+
+        public async Task<(bool Success, string FileName)> ShareIndex()
+        {
+            if (_engine.IndexNotExistsOrEmpty()) return (false, string.Empty);
+
+            if (!Directory.Exists(Constants.LocalAppDataShares))
+                Directory.CreateDirectory(Constants.LocalAppDataShares);
+
+            var fileName = $"{Environment.MachineName}_{Environment.UserName}.mla".ToLower();
+            var path = $"{Constants.LocalAppDataShares}\\{fileName}";
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            await Task.Run(() => ZipFile.CreateFromDirectory(Constants.LocalAppDataIndex, path, CompressionLevel.SmallestSize, false, Encoding.ASCII));
+
+            return (true, fileName);
         }
 
         private string GetContentText(string file, string[] tags)

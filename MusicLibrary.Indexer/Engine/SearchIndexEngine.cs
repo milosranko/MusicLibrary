@@ -34,6 +34,12 @@ namespace MusicLibrary.Indexer.Engine
             _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
         }
 
+        public SearchIndexEngine(string indexName)
+        {
+            _directory = DirectoryProvider.GetDocumentIndex(indexName);
+            _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
+        }
+
         public void AddOrUpdateDocuments(ConcurrentBag<Content> contents, CancellationToken ct)
         {
             if (contents.IsEmpty) return;
@@ -265,11 +271,11 @@ namespace MusicLibrary.Indexer.Engine
             writer.Commit();
         }
 
-        public bool IndexExistsOrEmpty()
+        public bool IndexNotExistsOrEmpty()
         {
-            if (!DirectoryReader.IndexExists(_directory)) return false;
+            if (!DirectoryReader.IndexExists(_directory)) return true;
 
-            return DirectoryReader.Open(_directory).NumDocs > 0;
+            return DirectoryReader.Open(_directory).NumDocs == 0;
         }
     }
 }

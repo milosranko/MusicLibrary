@@ -1,9 +1,13 @@
 ﻿using MusicLibrary.Business.Enums;
 using MusicLibrary.Business.Helpers;
+using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Constants;
 using MusicLibrary.Indexer.Models.Enums;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicLibrary.Business
@@ -15,9 +19,25 @@ namespace MusicLibrary.Business
         public IndexSearcher()
         {
             _engine = new SearchIndexEngine();
+            SharedIndexes = GetSharedIndexes();
         }
 
-        public bool IndexExists => _engine.IndexExistsOrEmpty();
+        public IndexSearcher(string indexName)
+        {
+            _engine = new SearchIndexEngine(indexName);
+        }
+
+        private IEnumerable<string> GetSharedIndexes()
+        {
+            if (!Directory.Exists(Constants.LocalAppDataShares)) 
+                return Enumerable.Empty<string>();
+
+            return Directory.EnumerateDirectories(Constants.LocalAppDataShares)
+                .Select(x => x.Split(Path.DirectorySeparatorChar).Last());
+        }
+
+        public bool IndexExists => !_engine.IndexNotExistsOrEmpty();
+        public IEnumerable<string> SharedIndexes;
 
         public Task<SearchResult> Search(string query, string[] terms, SearchFieldsEnum searchField)
         {
@@ -34,7 +54,8 @@ namespace MusicLibrary.Business
 
         public Task<IndexCounts> GetIndexCounts()
         {
-            if (!_engine.IndexExistsOrEmpty()) Task.FromResult(IndexCounts.Empty);
+            if (_engine.IndexNotExistsOrEmpty()) 
+                return Task.FromResult(IndexCounts.Empty);
 
             return Task.FromResult(_engine.GetIndexStatistics());
         }
@@ -46,8 +67,11 @@ namespace MusicLibrary.Business
 
         private Task<SearchResult> Search(string query, string[] terms, string[] fields, QueryTypesEnum queryType)
         {
-            if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0)) return Task.FromResult(SearchResult.Empty());
-            if (fields == null || fields.Length == 0) return Task.FromResult(SearchResult.Empty());
+            if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0)) 
+                return Task.FromResult(SearchResult.Empty());
+            
+            if (fields == null || fields.Length == 0) 
+                return Task.FromResult(SearchResult.Empty());
 
             var searchRequest = new SearchRequest
             {

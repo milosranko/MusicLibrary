@@ -17,4 +17,8 @@
     <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00015" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MusicLibrary.Common\MusicLibrary.Common.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -25,12 +25,18 @@ namespace MusicLibrary.Forms
         {
             var path = $"{Environment.CurrentDirectory}\\ffmpeg\\ffmpeg.zip";
 
-            using var archive = ZipFile.OpenRead(path);
-            foreach (var entry in archive.Entries)
-            {
-                var destinationPath = Path.GetFullPath(Path.Combine($"{Environment.CurrentDirectory}\\ffmpeg", entry.FullName));
-                entry.ExtractToFile(destinationPath, true);
+            if (!File.Exists(path)) return;
+
+            using (var archive = ZipFile.OpenRead(path))
+            { 
+                foreach (var entry in archive.Entries)
+                {
+                    var destinationPath = Path.GetFullPath(Path.Combine($"{Environment.CurrentDirectory}\\ffmpeg", entry.FullName));
+                    entry.ExtractToFile(destinationPath, true);
+                }
             }
+
+            File.Delete(path);
         }
     }
 }

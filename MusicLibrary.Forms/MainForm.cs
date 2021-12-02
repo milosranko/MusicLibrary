@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -28,6 +29,7 @@ namespace MusicLibrary.Forms
         private bool _scanningStarted;
         private bool _hasFilesToIndex;
         private IProgress<ProgressArgs> _progress;
+        private IList<string> _availableIndexes;
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -42,7 +44,9 @@ namespace MusicLibrary.Forms
 
         private async Task InitializeDashboard()
         {
-            var indexSearcher = new IndexSearcher();
+            var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
+                ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
+                : new IndexSearcher();
 
             if (indexSearcher.IndexExists)
             {
@@ -73,6 +77,14 @@ namespace MusicLibrary.Forms
                     .ToArray());
 
                 lblTotalTracksValue.Text = res.TotalFiles.ToString();
+            }
+            else
+            {
+                lblTotalTracksValue.Text = String.Empty;
+                lvLatestAdditions.Items.Clear();
+                lvReleaseYears.Items.Clear();
+                lvGenres.Items.Clear();
+                lvExtensionsTotal.Items.Clear();
             }
 
             ShowPanel(PanelEnum.Dashboard);
@@ -361,7 +373,9 @@ namespace MusicLibrary.Forms
 
         private async Task Search(SearchFieldsEnum searchField, string query, string[] terms)
         {
-            var indexSearcher = new IndexSearcher();
+            var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
+                ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
+                : new IndexSearcher();
 
             if (!indexSearcher.IndexExists) return;
 
@@ -573,6 +587,16 @@ namespace MusicLibrary.Forms
         private async void MainForm_Load(object sender, EventArgs e)
         {
             await InitializeDashboard();
+
+            var searcher = new IndexSearcher();
+            _availableIndexes = searcher.SharedIndexes.ToList();
+
+            if (searcher.IndexExists)
+                _availableIndexes.Insert(0, "Local");
+            else
+                _availableIndexes.Insert(0, string.Empty);
+
+            cmbAvailableIndexes.DataSource = _availableIndexes;
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
@@ -735,6 +759,70 @@ namespace MusicLibrary.Forms
                 _scanningStarted = false;
                 IndexingFinished();
             }
+        }
+
+        private async void btnIndexShare_Click(object sender, EventArgs e)
+        {
+            //after zip file is created enable label field and copy button with unique index name
+            //upload file to specific cloud location
+            //implement progress bar
+            //update status bar
+            btnIndexShare.Enabled = false;
+            statusStrip1.Items[1].Text = "sharing index...";
+
+            _cts ??= new CancellationTokenSource();
+            var fi = new FileIndexer(_cts.Token);
+            var res = await Task.Run(async () => await fi.ShareIndex());
+
+            if (res.Success)
+            {
+                statusStrip1.Items[1].Text = $"index sharing finished. File name: {res.FileName}";
+            }
+            else
+            {
+                statusStrip1.Items[1].Text = "no index files to be shared.";
+            }
+
+            btnIndexShare.Enabled = true;
+        }
+
+        private void btnLoadIndex_Click(object sender, EventArgs e)
+        {
+            openFileDialog2.InitialDirectory = Constants.LocalAppDataShares;
+            openFileDialog2.Filter = "MusicLibrary archive (*.mla)|*.mla";
+
+            var res = openFileDialog2.ShowDialog();
+
+            if (res == DialogResult.OK)
+            {
+                var targetFolder = System.IO.Path.Combine(
+                    Constants.LocalAppDataShares, 
+                    System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+
+                if (Directory.Exists(targetFolder))
+                {
+                    foreach (var item in Directory.GetFiles(targetFolder))
+                        File.Delete(item);
+                }
+                else
+                {
+                    Directory.CreateDirectory(targetFolder);
+                }
+                
+                using var archive = ZipFile.OpenRead(openFileDialog2.FileName);
+
+                foreach (var entry in archive.Entries)
+                {
+                    var destinationPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(targetFolder, entry.FullName));
+                    entry.ExtractToFile(destinationPath, true);
+                }
+
+                _availableIndexes.Add(System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+                //TODO Set default index folder to a new one or show index selector (drop-down list)
+                //it will check Index folder and sub folders under Shares folder if they are not empty
+            }
+
+            openFileDialog2.Reset();
         }
     }
 
