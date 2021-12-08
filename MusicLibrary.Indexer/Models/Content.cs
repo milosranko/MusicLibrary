@@ -13,6 +13,6 @@ namespace MusicLibrary.Indexer.Models
         public int Year { get; set; }
         public string Genre { get; set; }
         public string Text { get; set; } //Combined file info and meta data + extension, space delimited, split path by segment, remove special characters from file name ?!_-.% and replace with space, artist, album, song, genre, year
-        public string[] Tags { get; set; } //Meta tags: Artist/Album/Year/Genre/Title/TrackNo
+        public string[] Tags { get; set; } //Meta tags: Artist/Album/Year/Genre/Title/TrackNo/IsHiRes
     }
 }

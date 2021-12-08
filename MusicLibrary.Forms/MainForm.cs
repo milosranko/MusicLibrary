@@ -363,6 +363,11 @@ namespace MusicLibrary.Forms
             sb.AppendLine($"Title: {metaTags[4]}");
             sb.AppendLine($"Track no: {metaTags[5]}");
 
+            if (metaTags.Length > 6)
+                sb.AppendLine($"HiRes: {metaTags[6]}");
+            else
+                sb.AppendLine($"HiRes: False");
+
             MessageBox.Show(sb.ToString(), "Track info", MessageBoxButtons.OK);
         }
 
@@ -479,6 +484,23 @@ namespace MusicLibrary.Forms
                         var psi = new ProcessStartInfo
                         {
                             FileName = $"http://rutracker.org/forum/tracker.php?nm={query}",
+                            UseShellExecute = true
+                        };
+
+                        Process.Start(psi);
+                    }
+                }
+
+                //Search AllMusic
+                if (e.ClickedItem.Name.Equals(toolStripSearchAllMusic.Name))
+                {
+                    if (dgSearchResult.SelectedRows.Count > 0)
+                    {
+                        var item = (SearchResultModel)dgSearchResult.SelectedRows[0].DataBoundItem;
+                        var query = Uri.EscapeDataString($"{item.Artist} {item.Album}");
+                        var psi = new ProcessStartInfo
+                        {
+                            FileName = $"https://www.allmusic.com/search/all/{query}",
                             UseShellExecute = true
                         };
 

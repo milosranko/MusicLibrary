@@ -9,9 +9,9 @@ namespace MusicLibrary.Business.Extensions
     {
         public static string[] GetMetaTags(this Track track)
         {
-            if (track == null) return new string[6];
+            if (track == null) return new string[7];
 
-            var tags = new string[6];
+            var tags = new string[7];
 
             tags[0] = track.Artist;
             tags[1] = track.Album;
@@ -19,13 +19,14 @@ namespace MusicLibrary.Business.Extensions
             tags[3] = track.Genre;
             tags[4] = track.Title;
             tags[5] = track.TrackNumber.ToString();
+            tags[6] = $"{track.SampleRate >= 44100 && track.Bitrate >= 1200}";
 
             return tags;
         }
 
         public static bool SetMetaTags(this Track track, string[] tags)
         {
-            if (track == null || tags.Length != 6) return false;
+            if (track == null || tags.Length < 6) return false;
 
             if (!tags[0].Equals(Constants.MultipleValues)) 
                 track.Artist = tags[0];
