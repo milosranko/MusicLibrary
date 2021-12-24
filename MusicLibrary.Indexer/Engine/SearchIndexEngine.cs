@@ -4,7 +4,6 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
-using Lucene.Net.Store;
 using Lucene.Net.Util;
 using MusicLibrary.Indexer.ModelBuilders;
 using MusicLibrary.Indexer.Models;
@@ -21,32 +20,33 @@ using System.Threading.Tasks;
 
 namespace MusicLibrary.Indexer.Engine
 {
-    public class SearchIndexEngine
+    public class SearchIndexEngine : IDisposable
     {
         private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
-        private readonly Directory _directory;
         private readonly Analyzer _analyzer;
-        private IndexWriter IndexWriter => new(_directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
+        private readonly string _indexName;
 
         public SearchIndexEngine()
         {
-            _directory = DirectoryProvider.CreateDocumentIndex();
+            //_directory = DirectoryProvider.GetOrCreateDocumentIndex(string.Empty);
             _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
+            _indexName = string.Empty;
         }
 
         public SearchIndexEngine(string indexName)
         {
-            _directory = DirectoryProvider.GetDocumentIndex(indexName);
+            //_directory = DirectoryProvider.GetOrCreateDocumentIndex(indexName);
             _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
+            _indexName = indexName;
         }
 
         public void AddOrUpdateDocuments(ConcurrentBag<Content> contents, CancellationToken ct)
         {
             if (contents.IsEmpty) return;
 
-            using var writer = IndexWriter;
-            var reader = DirectoryReader.Open(_directory);
-            var searcher = new IndexSearcher(reader);
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var writer = new IndexWriter(directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
+            using var reader = DirectoryReader.Open(directory);
 
             Parallel.ForEach(contents, new ParallelOptions { CancellationToken = ct }, content =>
             {
@@ -67,7 +67,8 @@ namespace MusicLibrary.Indexer.Engine
             if (!documents.Any()) return Enumerable.Empty<string>();
 
             var result = new Collection<string>();
-            var reader = DirectoryReader.Open(_directory);
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var reader = DirectoryReader.Open(directory);
             Term indexTerm;
 
             foreach (var doc in documents)
@@ -85,8 +86,9 @@ namespace MusicLibrary.Indexer.Engine
 
         public SearchResult Search(SearchRequest request)
         {
-            using var indexReader = DirectoryReader.Open(_directory);
-            var searcher = new IndexSearcher(indexReader);
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var reader = DirectoryReader.Open(directory);
+            var searcher = new IndexSearcher(reader);
             var searchResult = new SearchResult
             {
                 SearchText = request.Text,
@@ -139,9 +141,10 @@ namespace MusicLibrary.Indexer.Engine
 
         public IEnumerable<string> GetAllIndexedIds()
         {
-            using var indexReader = DirectoryReader.Open(_directory);
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var reader = DirectoryReader.Open(directory);
             var res = new Collection<string>();
-            var fields = MultiFields.GetFields(indexReader);
+            var fields = MultiFields.GetFields(reader);
             var terms = fields.GetTerms(FieldNames.Id);
             var termsEnum = terms.GetEnumerator(null);
 
@@ -155,12 +158,13 @@ namespace MusicLibrary.Indexer.Engine
 
         public IndexCounts GetIndexStatistics()
         {
-            using var indexReader = DirectoryReader.Open(_directory);
-            var searcher = new IndexSearcher(indexReader);
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var reader = DirectoryReader.Open(directory);
+            var searcher = new IndexSearcher(reader);
 
             return new IndexCounts
             {
-                TotalFiles = indexReader.NumDocs,
+                TotalFiles = reader.NumDocs,
                 TotalFilesByExtension = GetMostFrequentTerms(searcher, FieldNames.Extension),
                 ReleaseYears = GetMostFrequentTermsNumeric(searcher, FieldNames.Year),
                 GenreCount = GetMostFrequentTerms(searcher, FieldNames.Genre),
@@ -251,13 +255,15 @@ namespace MusicLibrary.Indexer.Engine
 
         public void Commit()
         {
-            using var writer = IndexWriter;
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var writer = new IndexWriter(directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
             writer.Commit();
         }
 
         public void DeleteAll()
         {
-            using var writer = IndexWriter;
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var writer = new IndexWriter(directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
             writer.DeleteAll();
             writer.Commit();
         }
@@ -266,16 +272,24 @@ namespace MusicLibrary.Indexer.Engine
         {
             if (ids == null || ids.Length == 0) return;
 
-            using var writer = IndexWriter;
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var writer = new IndexWriter(directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
             writer.DeleteDocuments(ids.Select(x => new Term(FieldNames.Id, x)).ToArray());
             writer.Commit();
         }
 
         public bool IndexNotExistsOrEmpty()
         {
-            if (!DirectoryReader.IndexExists(_directory)) return true;
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            if (!DirectoryReader.IndexExists(directory)) return true;
 
-            return DirectoryReader.Open(_directory).NumDocs == 0;
+            using var reader = DirectoryReader.Open(directory);
+            return reader.NumDocs == 0;
+        }
+
+        public void Dispose()
+        {
+            _analyzer.Dispose();
         }
     }
 }

@@ -14,17 +14,26 @@ namespace MusicLibrary.Business
 {
     public class IndexSearcher
     {
-        private readonly SearchIndexEngine _engine;
-
+        //private readonly SearchIndexEngine _engine;
+        private readonly string _indexName = string.Empty;
+        public IEnumerable<string> SharedIndexes;
+        
         public IndexSearcher()
         {
-            _engine = new SearchIndexEngine();
+            //_engine = new SearchIndexEngine();
             SharedIndexes = GetSharedIndexes();
         }
 
         public IndexSearcher(string indexName)
         {
-            _engine = new SearchIndexEngine(indexName);
+            _indexName = indexName;
+            //_engine = new SearchIndexEngine(indexName);
+        }
+
+        public bool IndexExists()
+        {
+            using var engine = new SearchIndexEngine(_indexName);
+            return !engine.IndexNotExistsOrEmpty();
         }
 
         private IEnumerable<string> GetSharedIndexes()
@@ -35,9 +44,6 @@ namespace MusicLibrary.Business
             return Directory.EnumerateDirectories(Constants.LocalAppDataShares)
                 .Select(x => x.Split(Path.DirectorySeparatorChar).Last());
         }
-
-        public bool IndexExists => !_engine.IndexNotExistsOrEmpty();
-        public IEnumerable<string> SharedIndexes;
 
         public Task<SearchResult> Search(string query, string[] terms, SearchFieldsEnum searchField)
         {
@@ -54,15 +60,18 @@ namespace MusicLibrary.Business
 
         public Task<IndexCounts> GetIndexCounts()
         {
-            if (_engine.IndexNotExistsOrEmpty()) 
+            using var engine = new SearchIndexEngine(_indexName);
+            
+            if (engine.IndexNotExistsOrEmpty()) 
                 return Task.FromResult(IndexCounts.Empty);
 
-            return Task.FromResult(_engine.GetIndexStatistics());
+            return Task.FromResult(engine.GetIndexStatistics());
         }
 
         public void CommitPendingChanges()
         {
-            _engine.Commit();
+            using var engine = new SearchIndexEngine(_indexName);
+            engine.Commit();
         }
 
         private Task<SearchResult> Search(string query, string[] terms, string[] fields, QueryTypesEnum queryType)
@@ -82,7 +91,8 @@ namespace MusicLibrary.Business
                 Pagination = new Pagination(50000, 0)
             };
 
-            return Task.FromResult(_engine.Search(searchRequest));
+            using var engine = new SearchIndexEngine(_indexName);
+            return Task.FromResult(engine.Search(searchRequest));
         }
     }
 }

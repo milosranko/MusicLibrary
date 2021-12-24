@@ -1,4 +1,6 @@
-﻿using Lucene.Net.Store;
+﻿using Lucene.Net.Analysis.Core;
+using Lucene.Net.Index;
+using Lucene.Net.Store;
 using MusicLibrary.Common;
 using System.IO;
 using Directory = Lucene.Net.Store.Directory;
@@ -7,22 +9,32 @@ namespace MusicLibrary.Indexer.Providers
 {
     internal static class DirectoryProvider
     {
-        public static Directory CreateDocumentIndex()
+        public static Directory GetOrCreateDocumentIndex(string indexName)
         {
-            if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
-                System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
-            
-            return FSDirectory.Open(Constants.LocalAppDataIndex);
-        }
+            FSDirectory directory = null;
 
-        public static Directory GetDocumentIndex(string indexName)
-        {
-            var path = Path.Combine(Constants.LocalAppDataShares, indexName);
+            if (string.IsNullOrEmpty(indexName))
+            {
+                if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
+                    System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
 
-            if (!System.IO.Directory.Exists(path))
-                return null;
+                directory = FSDirectory.Open(Constants.LocalAppDataIndex);
+            }
+            else
+            {
+                var path = Path.Combine(Constants.LocalAppDataShares, indexName);
 
-            return FSDirectory.Open(path);
+                if (!System.IO.Directory.Exists(path))
+                    System.IO.Directory.CreateDirectory(path);
+
+                directory = FSDirectory.Open(path);
+            }
+
+            using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
+            using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
+            writer.DeleteUnusedFiles();
+
+            return directory;
         }
     }
 }

@@ -19,12 +19,12 @@ namespace MusicLibrary.Business
     public class FileIndexer
     {
         private readonly CancellationToken _ct;
-        private readonly SearchIndexEngine _engine;
+        //private readonly SearchIndexEngine _engine;
 
         public FileIndexer(CancellationToken ct)
         {
             _ct = ct;
-            _engine = new SearchIndexEngine();
+            //_engine = new SearchIndexEngine();
         }
 
         public void StartIndexing(
@@ -34,9 +34,11 @@ namespace MusicLibrary.Business
         {
             if (!fileList.Any()) return;
 
+            using var engine = new SearchIndexEngine();
+
             if (onlyNewFiles)
             {
-                fileList = _engine.DocumentsExists(fileList);
+                fileList = engine.DocumentsExists(fileList);
             }
 
             var contents = new ConcurrentBag<Content>();
@@ -73,39 +75,43 @@ namespace MusicLibrary.Business
 
             if (!contents.IsEmpty)
             {
-                _engine.AddOrUpdateDocuments(contents, _ct);
+                engine.AddOrUpdateDocuments(contents, _ct);
                 contents.Clear();
             }
         }
 
         public void ClearIndex()
         {
-            _engine.DeleteAll();
+            using var engine = new SearchIndexEngine();
+            engine.DeleteAll();
         }
 
         public void RemoveFromIndex(string[] ids)
         {
-            _engine.DeleteById(ids);
+            using var engine = new SearchIndexEngine();
+            engine.DeleteById(ids);
         }
 
         public Task Optimize()
         {
+            using var engine = new SearchIndexEngine();
             var filesToRemoveFromIndex = new ConcurrentBag<string>();
-            var ids = _engine.GetAllIndexedIds();
+            var ids = engine.GetAllIndexedIds();
 
             Parallel.ForEach(ids, new ParallelOptions { CancellationToken = _ct }, file =>
             {
                 if (!File.Exists(file)) filesToRemoveFromIndex.Add(file);
             });
 
-            _engine.DeleteById(filesToRemoveFromIndex.ToArray());
+            engine.DeleteById(filesToRemoveFromIndex.ToArray());
 
             return Task.CompletedTask;
         }
 
         public async Task<(bool Success, string FileName)> ShareIndex()
         {
-            if (_engine.IndexNotExistsOrEmpty()) return (false, string.Empty);
+            using var engine = new SearchIndexEngine();
+            if (engine.IndexNotExistsOrEmpty()) return (false, string.Empty);
 
             if (!Directory.Exists(Constants.LocalAppDataShares))
                 Directory.CreateDirectory(Constants.LocalAppDataShares);

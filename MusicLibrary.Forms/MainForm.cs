@@ -48,7 +48,7 @@ namespace MusicLibrary.Forms
                 ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
                 : new IndexSearcher();
 
-            if (indexSearcher.IndexExists)
+            if (indexSearcher.IndexExists())
             {
                 var res = await indexSearcher.GetIndexCounts();
 
@@ -382,7 +382,7 @@ namespace MusicLibrary.Forms
                 ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
                 : new IndexSearcher();
 
-            if (!indexSearcher.IndexExists) return;
+            if (!indexSearcher.IndexExists()) return;
 
             SearchStarted();
 
@@ -613,7 +613,7 @@ namespace MusicLibrary.Forms
             var searcher = new IndexSearcher();
             _availableIndexes = searcher.SharedIndexes.ToList();
 
-            if (searcher.IndexExists)
+            if (searcher.IndexExists())
                 _availableIndexes.Insert(0, "Local");
             else
                 _availableIndexes.Insert(0, string.Empty);
