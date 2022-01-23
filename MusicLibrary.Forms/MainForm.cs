@@ -42,7 +42,7 @@ namespace MusicLibrary.Forms
             InitializeComponent();
         }
 
-        private async Task InitializeDashboard()
+        private async Task InitializeDashboardAsync()
         {
             var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
                 ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
@@ -108,7 +108,7 @@ namespace MusicLibrary.Forms
 
         private async void btnDashboard_Click(object sender, EventArgs e)
         {
-            await InitializeDashboard();
+            await InitializeDashboardAsync();
             ShowPanel(PanelEnum.Dashboard);
         }
 
@@ -130,21 +130,31 @@ namespace MusicLibrary.Forms
                     pnlIndex.SendToBack();
                     pnlDashboard.BringToFront();
                     pnlSearch.SendToBack();
+                    pnlLists.SendToBack();
                     break;
                 case PanelEnum.Index:
                     pnlIndex.BringToFront();
                     pnlDashboard.SendToBack();
                     pnlSearch.SendToBack();
+                    pnlLists.SendToBack();
                     break;
                 case PanelEnum.Search:
                     pnlIndex.SendToBack();
                     pnlDashboard.SendToBack();
                     pnlSearch.BringToFront();
+                    pnlLists.SendToBack();
                     this.ActiveControl = txtSearchField;
+                    break;
+                case PanelEnum.Lists:
+                    pnlIndex.SendToBack();
+                    pnlDashboard.SendToBack();
+                    pnlSearch.SendToBack();
+                    pnlLists.BringToFront();
                     break;
                 default:
                     pnlSearch.Visible = false;
                     pnlIndex.Visible = false;
+                    pnlLists.Visible = false;
                     pnlDashboard.Visible = true;
                     break;
             }
@@ -154,7 +164,8 @@ namespace MusicLibrary.Forms
         {
             Dashboard,
             Index,
-            Search
+            Search,
+            Lists
         }
 
         private void btnIndexFolder_Click(object sender, EventArgs e)
@@ -608,7 +619,7 @@ namespace MusicLibrary.Forms
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
-            await InitializeDashboard();
+            await InitializeDashboardAsync();
 
             var searcher = new IndexSearcher();
             _availableIndexes = searcher.SharedIndexes.ToList();
@@ -845,6 +856,11 @@ namespace MusicLibrary.Forms
             }
 
             openFileDialog2.Reset();
+        }
+
+        private void btnLists_Click(object sender, EventArgs e)
+        {
+            ShowPanel(PanelEnum.Lists);
         }
     }
 
