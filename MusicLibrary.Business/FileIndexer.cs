@@ -64,7 +64,7 @@ namespace MusicLibrary.Business
                         Artist = track.Artist,
                         Album = track.Album,
                         Genre = track.Genre,
-                        Year = track.Year
+                        Year = track.Year ?? 0
                     });
                 }
                 catch (Exception)

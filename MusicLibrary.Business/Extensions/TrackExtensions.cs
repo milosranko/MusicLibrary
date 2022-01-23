@@ -19,7 +19,7 @@ namespace MusicLibrary.Business.Extensions
             tags[3] = track.Genre;
             tags[4] = track.Title;
             tags[5] = track.TrackNumber.ToString();
-            tags[6] = $"{track.SampleRate >= 44100 && track.Bitrate >= 1200}";
+            tags[6] = $"{track.SampleRate >= 44100 && track.Bitrate >= 1100}";
 
             return tags;
         }
