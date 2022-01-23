@@ -111,12 +111,31 @@ namespace MusicLibrary.Forms
             this.toolStripPlayFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSearchRuTracker = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSearchAllMusic = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSearchAllMusic = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnLists = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.pnlLists = new System.Windows.Forms.Panel();
+            this.lblLists = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
@@ -129,6 +148,10 @@ namespace MusicLibrary.Forms
             this.pnlSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).BeginInit();
             this.ctxFileOptions.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.pnlLists.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -204,6 +227,10 @@ namespace MusicLibrary.Forms
             // pnlIndex
             // 
             this.pnlIndex.BackColor = System.Drawing.Color.LightBlue;
+            this.pnlIndex.Controls.Add(this.groupBox3);
+            this.pnlIndex.Controls.Add(this.groupBox2);
+            this.pnlIndex.Controls.Add(this.label2);
+            this.pnlIndex.Controls.Add(this.groupBox1);
             this.pnlIndex.Controls.Add(this.gbIndexSharing);
             this.pnlIndex.Controls.Add(this.lblIndex);
             this.pnlIndex.Controls.Add(this.gbIndexScanner);
@@ -244,7 +271,7 @@ namespace MusicLibrary.Forms
             this.cmbAvailableIndexes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbAvailableIndexes.FormattingEnabled = true;
             this.cmbAvailableIndexes.Location = new System.Drawing.Point(276, 58);
-            this.cmbAvailableIndexes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbAvailableIndexes.Margin = new System.Windows.Forms.Padding(2);
             this.cmbAvailableIndexes.Name = "cmbAvailableIndexes";
             this.cmbAvailableIndexes.Size = new System.Drawing.Size(278, 28);
             this.cmbAvailableIndexes.TabIndex = 2;
@@ -428,6 +455,7 @@ namespace MusicLibrary.Forms
             // pnlLeft
             // 
             this.pnlLeft.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pnlLeft.Controls.Add(this.btnLists);
             this.pnlLeft.Controls.Add(this.btnMainMenuDashboard);
             this.pnlLeft.Controls.Add(this.btnMainMenuSearch);
             this.pnlLeft.Controls.Add(this.btnMainMenuIndex);
@@ -950,7 +978,7 @@ namespace MusicLibrary.Forms
             this.toolStripRemoveFromIndex});
             this.ctxFileOptions.Name = "ctxFileOptions";
             this.ctxFileOptions.ShowImageMargin = false;
-            this.ctxFileOptions.Size = new System.Drawing.Size(205, 242);
+            this.ctxFileOptions.Size = new System.Drawing.Size(205, 214);
             this.ctxFileOptions.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxFileOptions_ItemClicked);
             // 
             // toolStripShowFileInfo
@@ -1000,6 +1028,12 @@ namespace MusicLibrary.Forms
             this.toolStripSearchRuTracker.Size = new System.Drawing.Size(204, 24);
             this.toolStripSearchRuTracker.Text = "Search ruTracker";
             // 
+            // toolStripSearchAllMusic
+            // 
+            this.toolStripSearchAllMusic.Name = "toolStripSearchAllMusic";
+            this.toolStripSearchAllMusic.Size = new System.Drawing.Size(204, 24);
+            this.toolStripSearchAllMusic.Text = "Search AllMusic";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -1020,11 +1054,240 @@ namespace MusicLibrary.Forms
             this.openFileDialog2.DefaultExt = "mla";
             this.openFileDialog2.FileName = "openFileDialog2";
             // 
-            // toolStripSearchAllMusic
+            // btnLists
             // 
-            this.toolStripSearchAllMusic.Name = "toolStripSearchAllMusic";
-            this.toolStripSearchAllMusic.Size = new System.Drawing.Size(204, 24);
-            this.toolStripSearchAllMusic.Text = "Search AllMusic";
+            this.btnLists.BackColor = System.Drawing.Color.LightGreen;
+            this.btnLists.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLists.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnLists.Location = new System.Drawing.Point(22, 435);
+            this.btnLists.Name = "btnLists";
+            this.btnLists.Size = new System.Drawing.Size(218, 81);
+            this.btnLists.TabIndex = 3;
+            this.btnLists.Text = "Lists";
+            this.btnLists.UseVisualStyleBackColor = false;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBox1.Location = new System.Drawing.Point(230, 287);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(559, 151);
+            this.groupBox1.TabIndex = 18;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Index sharing";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(276, 35);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(150, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Select default index:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(276, 58);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(278, 28);
+            this.comboBox1.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(152, 35);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 100);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "Load index";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Location = new System.Drawing.Point(21, 35);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(100, 100);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "Share index";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(387, 318);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(244, 89);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "Index";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.LightBlue;
+            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Controls.Add(this.button4);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.button5);
+            this.groupBox2.Controls.Add(this.button6);
+            this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBox2.Location = new System.Drawing.Point(282, 208);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox2.Size = new System.Drawing.Size(454, 308);
+            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Index scanner";
+            // 
+            // button3
+            // 
+            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button3.Enabled = false;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button3.Location = new System.Drawing.Point(169, 124);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(104, 105);
+            this.button3.TabIndex = 14;
+            this.button3.Text = "Index new files only";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button4.Enabled = false;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button4.Location = new System.Drawing.Point(321, 124);
+            this.button4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(104, 105);
+            this.button4.TabIndex = 10;
+            this.button4.Text = "Index all files";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.LightBlue;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(30, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(176, 20);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Select root folder to scan";
+            // 
+            // button5
+            // 
+            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button5.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button5.Location = new System.Drawing.Point(30, 64);
+            this.button5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(101, 31);
+            this.button5.TabIndex = 12;
+            this.button5.Text = "Select folder";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // button6
+            // 
+            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button6.Enabled = false;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button6.Location = new System.Drawing.Point(30, 124);
+            this.button6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(101, 105);
+            this.button6.TabIndex = 11;
+            this.button6.Text = "Scan";
+            this.button6.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button7);
+            this.groupBox3.Controls.Add(this.button8);
+            this.groupBox3.Controls.Add(this.button9);
+            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.groupBox3.Location = new System.Drawing.Point(328, 208);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Size = new System.Drawing.Size(362, 308);
+            this.groupBox3.TabIndex = 21;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Index maintenance";
+            // 
+            // button7
+            // 
+            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Location = new System.Drawing.Point(32, 124);
+            this.button7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(101, 105);
+            this.button7.TabIndex = 16;
+            this.button7.Text = "Stop";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Visible = false;
+            // 
+            // button8
+            // 
+            this.button8.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Location = new System.Drawing.Point(32, 124);
+            this.button8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(101, 105);
+            this.button8.TabIndex = 14;
+            this.button8.Text = "Optimize";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // button9
+            // 
+            this.button9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button9.Location = new System.Drawing.Point(226, 124);
+            this.button9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(101, 105);
+            this.button9.TabIndex = 15;
+            this.button9.Text = "Clear index";
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // pnlLists
+            // 
+            this.pnlLists.BackColor = System.Drawing.Color.LightBlue;
+            this.pnlLists.Controls.Add(this.lblLists);
+            this.pnlLists.Location = new System.Drawing.Point(260, 45);
+            this.pnlLists.Name = "pnlLists";
+            this.pnlLists.Size = new System.Drawing.Size(1019, 730);
+            this.pnlLists.TabIndex = 20;
+            // 
+            // lblLists
+            // 
+            this.lblLists.AutoSize = true;
+            this.lblLists.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblLists.Location = new System.Drawing.Point(26, 17);
+            this.lblLists.Name = "lblLists";
+            this.lblLists.Size = new System.Drawing.Size(177, 89);
+            this.lblLists.TabIndex = 17;
+            this.lblLists.Text = "Lists";
             // 
             // MainForm
             // 
@@ -1032,6 +1295,7 @@ namespace MusicLibrary.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(1280, 800);
+            this.Controls.Add(this.pnlLists);
             this.Controls.Add(this.pnlIndex);
             this.Controls.Add(this.pnlDashboard);
             this.Controls.Add(this.pnlSearch);
@@ -1063,6 +1327,13 @@ namespace MusicLibrary.Forms
             this.pnlSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).EndInit();
             this.ctxFileOptions.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.pnlLists.ResumeLayout(false);
+            this.pnlLists.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1157,5 +1428,24 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ComboBox cmbAvailableIndexes;
         private System.Windows.Forms.Label lblDefaultIndex;
         private System.Windows.Forms.ToolStripMenuItem toolStripSearchAllMusic;
+        private System.Windows.Forms.Button btnLists;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Panel pnlLists;
+        private System.Windows.Forms.Label lblLists;
     }
 }

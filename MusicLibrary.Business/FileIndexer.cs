@@ -19,12 +19,10 @@ namespace MusicLibrary.Business
     public class FileIndexer
     {
         private readonly CancellationToken _ct;
-        //private readonly SearchIndexEngine _engine;
 
         public FileIndexer(CancellationToken ct)
         {
             _ct = ct;
-            //_engine = new SearchIndexEngine();
         }
 
         public void StartIndexing(
