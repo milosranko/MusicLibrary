@@ -31,9 +31,9 @@ namespace MusicLibrary.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.pbLogo = new System.Windows.Forms.PictureBox();
             this.btnMinimize = new System.Windows.Forms.Button();
@@ -124,7 +124,7 @@ namespace MusicLibrary.Forms
             this.lblListName = new System.Windows.Forms.Label();
             this.lblSelectList = new System.Windows.Forms.Label();
             this.btnNewList = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtListName = new System.Windows.Forms.TextBox();
             this.cmbLists = new System.Windows.Forms.ComboBox();
             this.dgvList = new System.Windows.Forms.DataGridView();
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -811,14 +811,14 @@ namespace MusicLibrary.Forms
             this.dgSearchResult.AllowUserToResizeRows = false;
             this.dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
             this.dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -888,8 +888,8 @@ namespace MusicLibrary.Forms
             // Year
             // 
             this.Year.DataPropertyName = "Year";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Year.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Year.DefaultCellStyle = dataGridViewCellStyle5;
             this.Year.FillWeight = 101.5228F;
             this.Year.HeaderText = "Year";
             this.Year.MinimumWidth = 6;
@@ -900,8 +900,8 @@ namespace MusicLibrary.Forms
             // TrackNumber
             // 
             this.TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle6;
             this.TrackNumber.HeaderText = "Track no";
             this.TrackNumber.MinimumWidth = 6;
             this.TrackNumber.Name = "TrackNumber";
@@ -1102,7 +1102,7 @@ namespace MusicLibrary.Forms
             this.gbLists.Controls.Add(this.lblListName);
             this.gbLists.Controls.Add(this.lblSelectList);
             this.gbLists.Controls.Add(this.btnNewList);
-            this.gbLists.Controls.Add(this.textBox1);
+            this.gbLists.Controls.Add(this.txtListName);
             this.gbLists.Controls.Add(this.cmbLists);
             this.gbLists.Location = new System.Drawing.Point(395, 43);
             this.gbLists.Name = "gbLists";
@@ -1113,11 +1113,12 @@ namespace MusicLibrary.Forms
             // 
             // btnSaveList
             // 
+            this.btnSaveList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSaveList.Location = new System.Drawing.Point(732, 67);
             this.btnSaveList.Name = "btnSaveList";
             this.btnSaveList.Size = new System.Drawing.Size(112, 34);
             this.btnSaveList.TabIndex = 24;
-            this.btnSaveList.Text = "Save list";
+            this.btnSaveList.Text = "Save";
             this.btnSaveList.UseVisualStyleBackColor = true;
             // 
             // lblListName
@@ -1140,22 +1141,24 @@ namespace MusicLibrary.Forms
             // 
             // btnNewList
             // 
+            this.btnNewList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNewList.Location = new System.Drawing.Point(602, 67);
             this.btnNewList.Name = "btnNewList";
             this.btnNewList.Size = new System.Drawing.Size(112, 34);
             this.btnNewList.TabIndex = 22;
-            this.btnNewList.Text = "New list";
+            this.btnNewList.Text = "New";
             this.btnNewList.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // txtListName
             // 
-            this.textBox1.Location = new System.Drawing.Point(299, 71);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(248, 31);
-            this.textBox1.TabIndex = 21;
+            this.txtListName.Location = new System.Drawing.Point(299, 71);
+            this.txtListName.Name = "txtListName";
+            this.txtListName.Size = new System.Drawing.Size(248, 31);
+            this.txtListName.TabIndex = 21;
             // 
             // cmbLists
             // 
+            this.cmbLists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbLists.FormattingEnabled = true;
             this.cmbLists.Location = new System.Drawing.Point(6, 69);
             this.cmbLists.Name = "cmbLists";
@@ -1339,7 +1342,7 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ComboBox cmbLists;
         private System.Windows.Forms.GroupBox gbLists;
         private System.Windows.Forms.Button btnNewList;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtListName;
         private System.Windows.Forms.DataGridView dgvList;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.Label lblListName;
