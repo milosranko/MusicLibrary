@@ -119,16 +119,16 @@ namespace MusicLibrary.Forms
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.pnlLists = new System.Windows.Forms.Panel();
-            this.lblLists = new System.Windows.Forms.Label();
+            this.gbLists = new System.Windows.Forms.GroupBox();
+            this.btnSaveList = new System.Windows.Forms.Button();
+            this.lblListName = new System.Windows.Forms.Label();
+            this.lblSelectList = new System.Windows.Forms.Label();
+            this.btnNewList = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.cmbLists = new System.Windows.Forms.ComboBox();
             this.dgvList = new System.Windows.Forms.DataGridView();
             this.colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gbLists = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnNewList = new System.Windows.Forms.Button();
-            this.lblSelectList = new System.Windows.Forms.Label();
-            this.lblListName = new System.Windows.Forms.Label();
-            this.btnSaveList = new System.Windows.Forms.Button();
+            this.lblLists = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.pnlIndex.SuspendLayout();
@@ -142,8 +142,8 @@ namespace MusicLibrary.Forms
             ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).BeginInit();
             this.ctxFileOptions.SuspendLayout();
             this.pnlLists.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.gbLists.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvList)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -1096,21 +1096,68 @@ namespace MusicLibrary.Forms
             this.pnlLists.Size = new System.Drawing.Size(1274, 912);
             this.pnlLists.TabIndex = 20;
             // 
-            // lblLists
+            // gbLists
             // 
-            this.lblLists.AutoSize = true;
-            this.lblLists.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblLists.Location = new System.Drawing.Point(32, 21);
-            this.lblLists.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblLists.Name = "lblLists";
-            this.lblLists.Size = new System.Drawing.Size(214, 106);
-            this.lblLists.TabIndex = 17;
-            this.lblLists.Text = "Lists";
+            this.gbLists.Controls.Add(this.btnSaveList);
+            this.gbLists.Controls.Add(this.lblListName);
+            this.gbLists.Controls.Add(this.lblSelectList);
+            this.gbLists.Controls.Add(this.btnNewList);
+            this.gbLists.Controls.Add(this.textBox1);
+            this.gbLists.Controls.Add(this.cmbLists);
+            this.gbLists.Location = new System.Drawing.Point(395, 43);
+            this.gbLists.Name = "gbLists";
+            this.gbLists.Size = new System.Drawing.Size(864, 121);
+            this.gbLists.TabIndex = 20;
+            this.gbLists.TabStop = false;
+            this.gbLists.Text = "Actions";
+            // 
+            // btnSaveList
+            // 
+            this.btnSaveList.Location = new System.Drawing.Point(732, 67);
+            this.btnSaveList.Name = "btnSaveList";
+            this.btnSaveList.Size = new System.Drawing.Size(112, 34);
+            this.btnSaveList.TabIndex = 24;
+            this.btnSaveList.Text = "Save list";
+            this.btnSaveList.UseVisualStyleBackColor = true;
+            // 
+            // lblListName
+            // 
+            this.lblListName.AutoSize = true;
+            this.lblListName.Location = new System.Drawing.Point(299, 41);
+            this.lblListName.Name = "lblListName";
+            this.lblListName.Size = new System.Drawing.Size(87, 25);
+            this.lblListName.TabIndex = 21;
+            this.lblListName.Text = "List name";
+            // 
+            // lblSelectList
+            // 
+            this.lblSelectList.AutoSize = true;
+            this.lblSelectList.Location = new System.Drawing.Point(6, 41);
+            this.lblSelectList.Name = "lblSelectList";
+            this.lblSelectList.Size = new System.Drawing.Size(85, 25);
+            this.lblSelectList.TabIndex = 23;
+            this.lblSelectList.Text = "Select list";
+            // 
+            // btnNewList
+            // 
+            this.btnNewList.Location = new System.Drawing.Point(602, 67);
+            this.btnNewList.Name = "btnNewList";
+            this.btnNewList.Size = new System.Drawing.Size(112, 34);
+            this.btnNewList.TabIndex = 22;
+            this.btnNewList.Text = "New list";
+            this.btnNewList.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(299, 71);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(248, 31);
+            this.textBox1.TabIndex = 21;
             // 
             // cmbLists
             // 
             this.cmbLists.FormattingEnabled = true;
-            this.cmbLists.Location = new System.Drawing.Point(6, 94);
+            this.cmbLists.Location = new System.Drawing.Point(6, 69);
             this.cmbLists.Name = "cmbLists";
             this.cmbLists.Size = new System.Drawing.Size(268, 33);
             this.cmbLists.TabIndex = 18;
@@ -1137,63 +1184,16 @@ namespace MusicLibrary.Forms
             this.colPath.ReadOnly = true;
             this.colPath.Width = 150;
             // 
-            // gbLists
+            // lblLists
             // 
-            this.gbLists.Controls.Add(this.btnSaveList);
-            this.gbLists.Controls.Add(this.lblListName);
-            this.gbLists.Controls.Add(this.lblSelectList);
-            this.gbLists.Controls.Add(this.btnNewList);
-            this.gbLists.Controls.Add(this.textBox1);
-            this.gbLists.Controls.Add(this.cmbLists);
-            this.gbLists.Location = new System.Drawing.Point(395, 21);
-            this.gbLists.Name = "gbLists";
-            this.gbLists.Size = new System.Drawing.Size(864, 143);
-            this.gbLists.TabIndex = 20;
-            this.gbLists.TabStop = false;
-            this.gbLists.Text = "Actions";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(299, 96);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(248, 31);
-            this.textBox1.TabIndex = 21;
-            // 
-            // btnNewList
-            // 
-            this.btnNewList.Location = new System.Drawing.Point(602, 92);
-            this.btnNewList.Name = "btnNewList";
-            this.btnNewList.Size = new System.Drawing.Size(112, 34);
-            this.btnNewList.TabIndex = 22;
-            this.btnNewList.Text = "New list";
-            this.btnNewList.UseVisualStyleBackColor = true;
-            // 
-            // lblSelectList
-            // 
-            this.lblSelectList.AutoSize = true;
-            this.lblSelectList.Location = new System.Drawing.Point(6, 66);
-            this.lblSelectList.Name = "lblSelectList";
-            this.lblSelectList.Size = new System.Drawing.Size(85, 25);
-            this.lblSelectList.TabIndex = 23;
-            this.lblSelectList.Text = "Select list";
-            // 
-            // lblListName
-            // 
-            this.lblListName.AutoSize = true;
-            this.lblListName.Location = new System.Drawing.Point(299, 66);
-            this.lblListName.Name = "lblListName";
-            this.lblListName.Size = new System.Drawing.Size(87, 25);
-            this.lblListName.TabIndex = 21;
-            this.lblListName.Text = "List name";
-            // 
-            // btnSaveList
-            // 
-            this.btnSaveList.Location = new System.Drawing.Point(732, 92);
-            this.btnSaveList.Name = "btnSaveList";
-            this.btnSaveList.Size = new System.Drawing.Size(112, 34);
-            this.btnSaveList.TabIndex = 24;
-            this.btnSaveList.Text = "Save list";
-            this.btnSaveList.UseVisualStyleBackColor = true;
+            this.lblLists.AutoSize = true;
+            this.lblLists.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblLists.Location = new System.Drawing.Point(32, 21);
+            this.lblLists.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLists.Name = "lblLists";
+            this.lblLists.Size = new System.Drawing.Size(214, 106);
+            this.lblLists.TabIndex = 17;
+            this.lblLists.Text = "Lists";
             // 
             // MainForm
             // 
@@ -1236,9 +1236,9 @@ namespace MusicLibrary.Forms
             this.ctxFileOptions.ResumeLayout(false);
             this.pnlLists.ResumeLayout(false);
             this.pnlLists.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();
             this.gbLists.ResumeLayout(false);
             this.gbLists.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvList)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
