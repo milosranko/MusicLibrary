@@ -37,6 +37,7 @@ namespace MusicLibrary.Forms
         private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
         private IList<string> _lists = new List<string>();
+        private IDictionary<string, IList<string>> _listsDict = new Dictionary<string, IList<string>>();
 
         public MainForm()
         {
@@ -611,9 +612,6 @@ namespace MusicLibrary.Forms
                         }
                     }
                 }
-
-                //Add to list
-
             }
         }
 
@@ -906,6 +904,37 @@ namespace MusicLibrary.Forms
             toolStripCbLists.Items.AddRange(_lists.OrderBy(x => x).ToArray());
             toolStripCbLists.Focus();
             toolStripCbLists.DroppedDown = true;
+        }
+
+        private void toolStripCbLists_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (toolStripCbLists.SelectedIndex == -1)
+                return;
+ 
+            //TODO on index changed persist list
+            var listName = toolStripCbLists.SelectedItem.ToString();
+            var selectedItems = dgSearchResult.SelectedRows
+                .Cast<DataGridViewRow>()
+                .Select(x => ((SearchResultModel)x.DataBoundItem).Id)
+                .ToList();
+
+            if (_listsDict.ContainsKey(listName))
+            {
+                foreach (var item in selectedItems)
+                {
+                    if (_listsDict[listName].Contains(item))
+                        continue;
+
+                    _listsDict[listName].Add(item);
+                }
+            }
+            else
+            {
+                _listsDict.Add(listName, selectedItems);
+            }
+
+            ctxFileOptions.Close();
+            toolStripCbLists.SelectedIndex = -1;
         }
     }
 

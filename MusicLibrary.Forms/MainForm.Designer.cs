@@ -1233,6 +1233,7 @@ namespace MusicLibrary.Forms
             // 
             this.toolStripCbLists.Name = "toolStripCbLists";
             this.toolStripCbLists.Size = new System.Drawing.Size(121, 28);
+            this.toolStripCbLists.SelectedIndexChanged += new System.EventHandler(this.toolStripCbLists_SelectedIndexChanged);
             // 
             // MainForm
             // 
