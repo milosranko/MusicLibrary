@@ -54,6 +54,7 @@ namespace MusicLibrary.Business
                 SearchFieldsEnum.Year => Search(query, terms, new string[1] { FieldNames.Year }, QueryTypesEnum.Numeric),
                 SearchFieldsEnum.Extension => Search(query, terms, new string[1] { FieldNames.Extension }, QueryTypesEnum.Term),
                 SearchFieldsEnum.Release => Search(query, terms, new string[2] { FieldNames.Artist, FieldNames.Album }, QueryTypesEnum.MultiTerm),
+                SearchFieldsEnum.Artist => Search(query, terms, new string[1] { FieldNames.Artist }, QueryTypesEnum.Term),
                 _ => Search(query.RemoveSpecialCharacters().ToLower(), terms, new string[1] { FieldNames.Text }, QueryTypesEnum.Text),
             };
         }

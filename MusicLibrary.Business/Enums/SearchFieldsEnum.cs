@@ -6,6 +6,7 @@
         Genre,
         Year,
         Extension,
-        Release
+        Release,
+        Artist
     }
 }

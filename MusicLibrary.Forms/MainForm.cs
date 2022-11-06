@@ -36,6 +36,8 @@ namespace MusicLibrary.Forms
         [DllImport("user32.dll", EntryPoint = "SendMessage")]
         private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
+        private IList<string> _lists = new List<string>();
+
         public MainForm()
         {
             _progress = new Progress<ProgressArgs>(Progress);
@@ -382,6 +384,11 @@ namespace MusicLibrary.Forms
             MessageBox.Show(sb.ToString(), "Track info", MessageBoxButtons.OK);
         }
 
+        private async void ShowMoreFromArtist(SearchResultModel model)
+        {
+            await Search(SearchFieldsEnum.Artist, model.Artist, null);
+        }
+
         private async void btnSearchIndex_Click(object sender, EventArgs e)
         {
             await Search(SearchFieldsEnum.Text, txtSearchField.Text, null);
@@ -450,6 +457,13 @@ namespace MusicLibrary.Forms
                 {
                     var rowItem = (SearchResultModel)dgSearchResult.CurrentRow.DataBoundItem;
                     ShowFileInfo(rowItem);
+                }
+
+                //Show more from this artist
+                if (e.ClickedItem.Name.Equals(toolStripShowMoreFromArtist.Name))
+                {
+                    var rowItem = (SearchResultModel)dgSearchResult.CurrentRow.DataBoundItem;
+                    ShowMoreFromArtist(rowItem);
                 }
 
                 //Edit meta tags
@@ -597,6 +611,9 @@ namespace MusicLibrary.Forms
                         }
                     }
                 }
+
+                //Add to list
+
             }
         }
 
@@ -630,6 +647,16 @@ namespace MusicLibrary.Forms
                 _availableIndexes.Insert(0, string.Empty);
 
             cmbAvailableIndexes.DataSource = _availableIndexes;
+            //TODO Get existing lists
+            LoadExistingLists();
+            toolStripCbLists.Items.AddRange(_lists.OrderBy(x => x).ToArray());
+            toolStripAddToList.DropDown = ctxLists;
+        }
+
+        private void LoadExistingLists()
+        {
+            //TODO Load lists from saved app data file
+            _lists.Add("Audiophile recordings");
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
@@ -861,6 +888,24 @@ namespace MusicLibrary.Forms
         private void btnLists_Click(object sender, EventArgs e)
         {
             ShowPanel(PanelEnum.Lists);
+        }
+
+        private void toolStripTbNewList_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                _lists.Add(toolStripTbNewList.Text);
+                UpdateListsCollection();
+                toolStripTbNewList.Clear();
+            }
+        }
+
+        private void UpdateListsCollection()
+        {
+            toolStripCbLists.Items.Clear();
+            toolStripCbLists.Items.AddRange(_lists.OrderBy(x => x).ToArray());
+            toolStripCbLists.Focus();
+            toolStripCbLists.DroppedDown = true;
         }
     }
 
