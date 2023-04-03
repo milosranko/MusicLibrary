@@ -161,6 +161,8 @@ namespace MusicLibrary.Forms
                     pnlDashboard.Visible = true;
                     break;
             }
+
+            toolStripStatusLabel2.Text = string.Empty;
         }
 
         enum PanelEnum
@@ -413,9 +415,9 @@ namespace MusicLibrary.Forms
                 .Select(x => new SearchResultModel
                 {
                     Id = x.Id,
-                    Artist = MetatagsHelpers.GetMetatags(x.Tags)[0], 
-                    Album = MetatagsHelpers.GetMetatags(x.Tags)[1], 
-                    Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1, 
+                    Artist = MetatagsHelpers.GetMetatags(x.Tags)[0],
+                    Album = MetatagsHelpers.GetMetatags(x.Tags)[1],
+                    Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1,
                     TrackName = MetatagsHelpers.GetMetatags(x.Tags)[4],
                     TrackNumber = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[5]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[5], out int value2) ? default(int?) : value2,
                     Tags = x.Tags,
@@ -550,7 +552,7 @@ namespace MusicLibrary.Forms
                         hit = (SearchResultModel)item.DataBoundItem;
                         files[index] = hit.Id;
                         sb.AppendLine(hit.FileName);
-                        
+
                         index++;
                     }
 
@@ -571,7 +573,7 @@ namespace MusicLibrary.Forms
                         var item = (SearchResultModel)dgSearchResult.SelectedRows[0].DataBoundItem;
 
                         if (File.Exists(item.Id))
-                        { 
+                        {
                             var psi = new ProcessStartInfo
                             {
                                 Arguments = string.Format("/select, \"{0}\"", item.Id),
@@ -767,9 +769,9 @@ namespace MusicLibrary.Forms
             btnOptimize.Visible = false;
             btnStopOptimize.Visible = true;
             statusStrip1.Items[1].Text = "optimizing index...";
-            
+
             _cts ??= new CancellationTokenSource();
-            
+
             var fi = new FileIndexer(_cts.Token);
             await Task.Run(async () => await fi.Optimize());
 
@@ -854,7 +856,7 @@ namespace MusicLibrary.Forms
             if (res == DialogResult.OK)
             {
                 var targetFolder = System.IO.Path.Combine(
-                    Constants.LocalAppDataShares, 
+                    Constants.LocalAppDataShares,
                     System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
 
                 if (Directory.Exists(targetFolder))
@@ -866,7 +868,7 @@ namespace MusicLibrary.Forms
                 {
                     Directory.CreateDirectory(targetFolder);
                 }
-                
+
                 using var archive = ZipFile.OpenRead(openFileDialog2.FileName);
 
                 foreach (var entry in archive.Entries)
@@ -885,14 +887,21 @@ namespace MusicLibrary.Forms
 
         private void btnLists_Click(object sender, EventArgs e)
         {
+            PopulateListsComboBox();
             ShowPanel(PanelEnum.Lists);
+        }
+
+        private void PopulateListsComboBox()
+        {
+            cmbLists.Items.Clear();
+            cmbLists.Items.AddRange(_lists.ToArray());
         }
 
         private void toolStripTbNewList_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                _lists.Add(toolStripTbNewList.Text);
+                AddNewListItem(toolStripTbNewList.Text);
                 UpdateListsCollection();
                 toolStripTbNewList.Clear();
             }
@@ -910,7 +919,7 @@ namespace MusicLibrary.Forms
         {
             if (toolStripCbLists.SelectedIndex == -1)
                 return;
- 
+
             //TODO on index changed persist list
             var listName = toolStripCbLists.SelectedItem.ToString();
             var selectedItems = dgSearchResult.SelectedRows
@@ -935,6 +944,42 @@ namespace MusicLibrary.Forms
 
             ctxFileOptions.Close();
             toolStripCbLists.SelectedIndex = -1;
+        }
+
+        private void btnNewList_Click(object sender, EventArgs e)
+        {
+            AddNewListItem(txtListName.Text);
+            PopulateListsComboBox();
+            txtListName.Clear();
+        }
+
+        private void btnSaveList_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddNewListItem(string text)
+        {
+            if (string.IsNullOrEmpty(text.Trim()))
+                return;
+
+            if (_lists.Any(x => x.Equals(text, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                MessageBox.Show("List name already exists!", "Warning", MessageBoxButtons.OK);
+                return;
+            };
+
+            _lists.Add(text);
+        }
+
+        private void txtListName_Enter(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                AddNewListItem(txtListName.Text);
+                PopulateListsComboBox();
+                txtListName.Clear();
+            }
         }
     }
 
@@ -970,7 +1015,7 @@ namespace MusicLibrary.Forms
                     if (_order == SortOrder.Descending) return String.Compare(item2, item1);
                     else return String.Compare(item1, item2);
                 }
-                
+
                 if (_type == typeof(int))
                 {
                     if (_order == SortOrder.Descending)
@@ -980,7 +1025,7 @@ namespace MusicLibrary.Forms
                         if (int.Parse(item1) > int.Parse(item2)) return -1;
                     }
                     else
-                    { 
+                    {
                         if (int.Parse(item1) < int.Parse(item2)) return -1;
                         if (int.Parse(item1) == int.Parse(item2)) return 0;
                         if (int.Parse(item1) > int.Parse(item2)) return 1;

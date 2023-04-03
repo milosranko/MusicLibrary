@@ -121,4 +121,10 @@
   <data name="music-note-circle-shape-brand_icon-icons.com_59119" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\music-note-circle-shape-brand_icon-icons.com_59119.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="settings-3110" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings-3110.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="settings-3110 (1)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\settings-3110 (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
