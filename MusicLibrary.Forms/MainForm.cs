@@ -30,14 +30,13 @@ namespace MusicLibrary.Forms
         private bool _hasFilesToIndex;
         private IProgress<ProgressArgs> _progress;
         private IList<string> _availableIndexes;
+        //private IList<string> _lists = new List<string>();
+        private SortedList<string, IList<string>> _listsDict = new SortedList<string, IList<string>>();
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
         [DllImport("user32.dll", EntryPoint = "SendMessage")]
         private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
-
-        private IList<string> _lists = new List<string>();
-        private IDictionary<string, IList<string>> _listsDict = new Dictionary<string, IList<string>>();
 
         public MainForm()
         {
@@ -447,6 +446,10 @@ namespace MusicLibrary.Forms
         private void dgSearchResult_RowContextMenuStripNeeded(object sender, DataGridViewRowContextMenuStripNeededEventArgs e)
         {
             e.ContextMenuStrip = ctxFileOptions;
+
+            //Populate Lists combobox
+            toolStripCbLists.Items.Clear();
+            toolStripCbLists.Items.AddRange(_listsDict.Keys.ToArray());
         }
 
         private void ctxFileOptions_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -647,16 +650,15 @@ namespace MusicLibrary.Forms
                 _availableIndexes.Insert(0, string.Empty);
 
             cmbAvailableIndexes.DataSource = _availableIndexes;
-            //TODO Get existing lists
             LoadExistingLists();
-            toolStripCbLists.Items.AddRange(_lists.OrderBy(x => x).ToArray());
             toolStripAddToList.DropDown = ctxLists;
         }
 
         private void LoadExistingLists()
         {
             //TODO Load lists from saved app data file
-            _lists.Add("Audiophile recordings");
+            //_listsDict.Add("Audiophile recordings", new List<string>(0));
+            //_lists.Add("Audiophile recordings");
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
@@ -889,12 +891,15 @@ namespace MusicLibrary.Forms
         {
             PopulateListsComboBox();
             ShowPanel(PanelEnum.Lists);
+            dgvList.Rows.Clear();
         }
 
         private void PopulateListsComboBox()
         {
             cmbLists.Items.Clear();
-            cmbLists.Items.AddRange(_lists.ToArray());
+            cmbLists.Items.AddRange(_listsDict.Keys.ToArray());
+            cmbLists.Items.Insert(0, string.Empty);
+            cmbLists.SelectedIndex = 0;
         }
 
         private void toolStripTbNewList_KeyPress(object sender, KeyPressEventArgs e)
@@ -910,7 +915,7 @@ namespace MusicLibrary.Forms
         private void UpdateListsCollection()
         {
             toolStripCbLists.Items.Clear();
-            toolStripCbLists.Items.AddRange(_lists.OrderBy(x => x).ToArray());
+            toolStripCbLists.Items.AddRange(_listsDict.Keys.ToArray());
             toolStripCbLists.Focus();
             toolStripCbLists.DroppedDown = true;
         }
@@ -948,8 +953,7 @@ namespace MusicLibrary.Forms
 
         private void btnNewList_Click(object sender, EventArgs e)
         {
-            AddNewListItem(txtListName.Text);
-            PopulateListsComboBox();
+            cmbLists.SelectedIndex = 0;
             txtListName.Clear();
         }
 
@@ -963,13 +967,13 @@ namespace MusicLibrary.Forms
             if (string.IsNullOrEmpty(text.Trim()))
                 return;
 
-            if (_lists.Any(x => x.Equals(text, StringComparison.InvariantCultureIgnoreCase)))
+            if (_listsDict.ContainsKey(text))
             {
                 MessageBox.Show("List name already exists!", "Warning", MessageBoxButtons.OK);
                 return;
             };
 
-            _lists.Add(text);
+            _listsDict.Add(text, new List<string>(0));
         }
 
         private void txtListName_Enter(object sender, KeyPressEventArgs e)
@@ -978,7 +982,26 @@ namespace MusicLibrary.Forms
             {
                 AddNewListItem(txtListName.Text);
                 PopulateListsComboBox();
+                cmbLists.SelectedItem = txtListName.Text;
                 txtListName.Clear();
+            }
+        }
+
+        private void cmbLists_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PopulateListsDataGrid();
+        }
+
+        private void PopulateListsDataGrid()
+        {
+            if (cmbLists.SelectedIndex < 0 || string.IsNullOrEmpty((string)cmbLists.SelectedItem))
+                return;
+
+            dgvList.Rows.Clear();
+
+            foreach (string item in _listsDict[(string)cmbLists.SelectedItem])
+            {
+                dgvList.Rows.Add(item);
             }
         }
     }

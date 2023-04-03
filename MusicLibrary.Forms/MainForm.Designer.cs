@@ -117,6 +117,7 @@ namespace MusicLibrary.Forms
             toolStripSearchAllMusic = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             toolStripAddToList = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -131,7 +132,7 @@ namespace MusicLibrary.Forms
             txtListName = new System.Windows.Forms.TextBox();
             cmbLists = new System.Windows.Forms.ComboBox();
             dgvList = new System.Windows.Forms.DataGridView();
-            colPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            dgvtbcFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             lblLists = new System.Windows.Forms.Label();
             ctxLists = new System.Windows.Forms.ContextMenuStrip(components);
             toolStripTbNewList = new System.Windows.Forms.ToolStripTextBox();
@@ -515,7 +516,7 @@ namespace MusicLibrary.Forms
             btnMainMenuIndex.Location = new System.Drawing.Point(178, 500);
             btnMainMenuIndex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             btnMainMenuIndex.Name = "btnMainMenuIndex";
-            btnMainMenuIndex.Size = new System.Drawing.Size(32, 32);
+            btnMainMenuIndex.Size = new System.Drawing.Size(33, 33);
             btnMainMenuIndex.TabIndex = 0;
             btnMainMenuIndex.UseVisualStyleBackColor = false;
             btnMainMenuIndex.Click += btnIndex_Click;
@@ -1030,9 +1031,15 @@ namespace MusicLibrary.Forms
             // 
             // toolStripAddToList
             // 
+            toolStripAddToList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItem1 });
             toolStripAddToList.Name = "toolStripAddToList";
             toolStripAddToList.Size = new System.Drawing.Size(169, 22);
             toolStripAddToList.Text = "Add to list";
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new System.Drawing.Size(67, 22);
             // 
             // toolStripSeparator4
             // 
@@ -1144,29 +1151,36 @@ namespace MusicLibrary.Forms
             cmbLists.Margin = new System.Windows.Forms.Padding(2);
             cmbLists.Name = "cmbLists";
             cmbLists.Size = new System.Drawing.Size(189, 23);
+            cmbLists.Sorted = true;
             cmbLists.TabIndex = 18;
+            cmbLists.SelectedIndexChanged += cmbLists_SelectedIndexChanged;
             // 
             // dgvList
             // 
-            dgvList.AllowUserToOrderColumns = true;
+            dgvList.AllowUserToAddRows = false;
+            dgvList.AllowUserToDeleteRows = false;
+            dgvList.AllowUserToResizeColumns = false;
+            dgvList.AllowUserToResizeRows = false;
+            dgvList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dgvList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { colPath });
+            dgvList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dgvtbcFile });
             dgvList.Location = new System.Drawing.Point(9, 110);
             dgvList.Margin = new System.Windows.Forms.Padding(2);
+            dgvList.MultiSelect = false;
             dgvList.Name = "dgvList";
             dgvList.ReadOnly = true;
-            dgvList.RowHeadersWidth = 62;
+            dgvList.RowHeadersVisible = false;
+            dgvList.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             dgvList.RowTemplate.Height = 33;
+            dgvList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             dgvList.Size = new System.Drawing.Size(872, 431);
             dgvList.TabIndex = 19;
             // 
-            // colPath
+            // dgvtbcFile
             // 
-            colPath.HeaderText = "Path";
-            colPath.MinimumWidth = 8;
-            colPath.Name = "colPath";
-            colPath.ReadOnly = true;
-            colPath.Width = 150;
+            dgvtbcFile.HeaderText = "File";
+            dgvtbcFile.Name = "dgvtbcFile";
+            dgvtbcFile.ReadOnly = true;
             // 
             // lblLists
             // 
@@ -1189,6 +1203,7 @@ namespace MusicLibrary.Forms
             // toolStripTbNewList
             // 
             toolStripTbNewList.BackColor = System.Drawing.SystemColors.HighlightText;
+            toolStripTbNewList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             toolStripTbNewList.Name = "toolStripTbNewList";
             toolStripTbNewList.Size = new System.Drawing.Size(100, 23);
             toolStripTbNewList.ToolTipText = "New list name";
@@ -1196,6 +1211,7 @@ namespace MusicLibrary.Forms
             // 
             // toolStripCbLists
             // 
+            toolStripCbLists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             toolStripCbLists.Name = "toolStripCbLists";
             toolStripCbLists.Size = new System.Drawing.Size(121, 23);
             toolStripCbLists.SelectedIndexChanged += toolStripCbLists_SelectedIndexChanged;
@@ -1207,9 +1223,9 @@ namespace MusicLibrary.Forms
             BackColor = System.Drawing.Color.Silver;
             ClientSize = new System.Drawing.Size(1120, 600);
             Controls.Add(pnlLists);
+            Controls.Add(pnlSearch);
             Controls.Add(pnlIndex);
             Controls.Add(pnlDashboard);
-            Controls.Add(pnlSearch);
             Controls.Add(pnlTop);
             Controls.Add(statusStrip1);
             Controls.Add(pnlLeft);
@@ -1346,7 +1362,6 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.Button btnNewList;
         private System.Windows.Forms.TextBox txtListName;
         private System.Windows.Forms.DataGridView dgvList;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPath;
         private System.Windows.Forms.Label lblListName;
         private System.Windows.Forms.Label lblSelectList;
         private System.Windows.Forms.Button btnSaveList;
@@ -1357,5 +1372,7 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ContextMenuStrip ctxLists;
         private System.Windows.Forms.ToolStripTextBox toolStripTbNewList;
         private System.Windows.Forms.ToolStripComboBox toolStripCbLists;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbcFile;
     }
 }
