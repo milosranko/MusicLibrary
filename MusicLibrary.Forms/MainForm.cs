@@ -664,7 +664,7 @@ namespace MusicLibrary.Forms
         private void btnClearSearch_Click(object sender, EventArgs e)
         {
             txtSearchField.ResetText();
-            dgSearchResult.DataSource = null;
+            btnSearchIndex.PerformClick();
         }
 
         private void lvExtensionsTotal_ColumnClick(object sender, ColumnClickEventArgs e)
