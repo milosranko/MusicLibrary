@@ -26,18 +26,17 @@ namespace MusicLibrary.Business
         }
 
         public void StartIndexing(
-            IEnumerable<string> fileList, 
-            IProgress<ProgressArgs> progress, 
+            IEnumerable<string> fileList,
+            IProgress<ProgressArgs> progress,
             bool onlyNewFiles = false)
         {
-            if (!fileList.Any()) return;
+            if (!fileList.Any())
+                return;
 
             using var engine = new SearchIndexEngine();
 
             if (onlyNewFiles)
-            {
                 fileList = engine.DocumentsExists(fileList);
-            }
 
             var contents = new ConcurrentBag<Content>();
             var progressArgs = new ProgressArgs();
@@ -98,7 +97,8 @@ namespace MusicLibrary.Business
 
             Parallel.ForEach(ids, new ParallelOptions { CancellationToken = _ct }, file =>
             {
-                if (!File.Exists(file)) filesToRemoveFromIndex.Add(file);
+                if (!File.Exists(file))
+                    filesToRemoveFromIndex.Add(file);
             });
 
             engine.DeleteById(filesToRemoveFromIndex.ToArray());
@@ -109,7 +109,9 @@ namespace MusicLibrary.Business
         public async Task<(bool Success, string FileName)> ShareIndex()
         {
             using var engine = new SearchIndexEngine();
-            if (engine.IndexNotExistsOrEmpty()) return (false, string.Empty);
+
+            if (engine.IndexNotExistsOrEmpty())
+                return (false, string.Empty);
 
             if (!Directory.Exists(Constants.LocalAppDataShares))
                 Directory.CreateDirectory(Constants.LocalAppDataShares);
@@ -118,9 +120,7 @@ namespace MusicLibrary.Business
             var path = $"{Constants.LocalAppDataShares}\\{fileName}";
 
             if (File.Exists(path))
-            {
                 File.Delete(path);
-            }
 
             await Task.Run(() => ZipFile.CreateFromDirectory(Constants.LocalAppDataIndex, path, CompressionLevel.SmallestSize, false, Encoding.ASCII));
 
@@ -133,7 +133,7 @@ namespace MusicLibrary.Business
 
             sb.AppendLine(file.Remove(0, 3).Replace("\\", " ").Replace(".", " "));
             sb.AppendLine(string.Join(" ", tags));
-            
+
             return ContentHelpers.CleanContent(sb);
         }
     }

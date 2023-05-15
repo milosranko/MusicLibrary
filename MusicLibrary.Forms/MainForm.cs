@@ -1,9 +1,12 @@
-﻿using MusicLibrary.Business;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
+using MusicLibrary.Business;
 using MusicLibrary.Business.Enums;
 using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Common.Helpers;
 using MusicLibrary.Indexer.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +35,8 @@ namespace MusicLibrary.Forms
         private IList<string> _availableIndexes;
         //private IList<string> _lists = new List<string>();
         private SortedList<string, IList<string>> _listsDict = new SortedList<string, IList<string>>();
+        private const string IndexCountsCacheKey = nameof(IndexSearcher.GetIndexCounts);
+        private readonly IMemoryCache _cache;
 
         [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -40,6 +45,7 @@ namespace MusicLibrary.Forms
 
         public MainForm()
         {
+            _cache = Program.ServiceProvider.GetRequiredService<IMemoryCache>();
             _progress = new Progress<ProgressArgs>(Progress);
             InitializeComponent();
         }
@@ -52,7 +58,13 @@ namespace MusicLibrary.Forms
 
             if (indexSearcher.IndexExists())
             {
-                var res = await indexSearcher.GetIndexCounts();
+                IndexCounts res;
+
+                if (!_cache.TryGetValue(IndexCountsCacheKey, out res))
+                {
+                    res = await indexSearcher.GetIndexCounts();
+                    _cache.Set(IndexCountsCacheKey, res);
+                }
 
                 lvExtensionsTotal.Items.Clear();
                 lvExtensionsTotal.Items.AddRange(
@@ -333,7 +345,8 @@ namespace MusicLibrary.Forms
 
         private async Task StartIndexing(CancellationToken ct, bool onlyNewFiles = false)
         {
-            if (_fileList == null || !_fileList.Any()) return;
+            if (_fileList == null || !_fileList.Any())
+                return;
 
             try
             {
@@ -355,6 +368,7 @@ namespace MusicLibrary.Forms
             {
                 _cts.Dispose();
                 _cts = null;
+                _cache.Remove(IndexCountsCacheKey);
             }
         }
 
@@ -402,7 +416,8 @@ namespace MusicLibrary.Forms
                 ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
                 : new IndexSearcher();
 
-            if (!indexSearcher.IndexExists()) return;
+            if (!indexSearcher.IndexExists())
+                return;
 
             SearchStarted();
 
@@ -623,9 +638,7 @@ namespace MusicLibrary.Forms
         private async void txtSearchField_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
-            {
                 await Search(SearchFieldsEnum.Text, txtSearchField.Text, null);
-            }
         }
 
         private void btnClearIndex_Click(object sender, EventArgs e)
@@ -634,6 +647,8 @@ namespace MusicLibrary.Forms
             {
                 var fi = new FileIndexer(CancellationToken.None);
                 fi.ClearIndex();
+
+                _cache.Remove(IndexCountsCacheKey);
             }
         }
 
@@ -656,9 +671,10 @@ namespace MusicLibrary.Forms
 
         private void LoadExistingLists()
         {
-            //TODO Load lists from saved app data file
-            //_listsDict.Add("Audiophile recordings", new List<string>(0));
-            //_lists.Add("Audiophile recordings");
+            if (!File.Exists($"{Constants.LocalAppDataLists}\\{Environment.MachineName}_{Environment.UserName}.mll"))
+                return;
+
+            _listsDict = JsonConvert.DeserializeObject<SortedList<string, IList<string>>>(File.ReadAllText($"{Constants.LocalAppDataLists}\\{Environment.MachineName}_{Environment.UserName}.mll"));
         }
 
         private void btnClearSearch_Click(object sender, EventArgs e)
@@ -669,52 +685,36 @@ namespace MusicLibrary.Forms
 
         private void lvExtensionsTotal_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            switch (lvExtensionsTotal.Sorting)
+            lvExtensionsTotal.Sorting = lvExtensionsTotal.Sorting switch
             {
-                case SortOrder.None:
-                    lvExtensionsTotal.Sorting = SortOrder.Ascending;
-                    break;
-                case SortOrder.Ascending:
-                    lvExtensionsTotal.Sorting = SortOrder.Descending;
-                    break;
-                case SortOrder.Descending:
-                    lvExtensionsTotal.Sorting = SortOrder.Ascending;
-                    break;
-                default:
-                    lvExtensionsTotal.Sorting = SortOrder.None;
-                    break;
-            }
+                SortOrder.None => SortOrder.Ascending,
+                SortOrder.Ascending => SortOrder.Descending,
+                SortOrder.Descending => SortOrder.Ascending,
+                _ => SortOrder.None,
+            };
 
             this.lvExtensionsTotal.ListViewItemSorter = new ListViewItemComparer(e.Column, lvExtensionsTotal.Sorting, e.Column == 1 ? typeof(int) : typeof(string));
         }
 
         private void lvGenres_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            switch (lvGenres.Sorting)
+            lvGenres.Sorting = lvGenres.Sorting switch
             {
-                case SortOrder.None:
-                    lvGenres.Sorting = SortOrder.Ascending;
-                    break;
-                case SortOrder.Ascending:
-                    lvGenres.Sorting = SortOrder.Descending;
-                    break;
-                case SortOrder.Descending:
-                    lvGenres.Sorting = SortOrder.Ascending;
-                    break;
-                default:
-                    lvGenres.Sorting = SortOrder.None;
-                    break;
-            }
+                SortOrder.None => SortOrder.Ascending,
+                SortOrder.Ascending => SortOrder.Descending,
+                SortOrder.Descending => SortOrder.Ascending,
+                _ => SortOrder.None,
+            };
 
             this.lvGenres.ListViewItemSorter = new ListViewItemComparer(e.Column, lvGenres.Sorting, e.Column == 1 ? typeof(int) : typeof(string));
         }
 
         private async void lvGenres_DoubleClick(object sender, EventArgs e)
         {
-            if (lvGenres.SelectedItems.Count == 0) return;
+            if (lvGenres.SelectedItems.Count == 0)
+                return;
 
             var item = lvGenres.SelectedItems[0];
-
             await Search(SearchFieldsEnum.Genre, item.Text, null);
 
             ShowPanel(PanelEnum.Search);
@@ -722,10 +722,10 @@ namespace MusicLibrary.Forms
 
         private async void lvExtensionsTotal_DoubleClick(object sender, EventArgs e)
         {
-            if (lvExtensionsTotal.SelectedItems.Count == 0) return;
+            if (lvExtensionsTotal.SelectedItems.Count == 0)
+                return;
 
             var item = lvExtensionsTotal.SelectedItems[0];
-
             await Search(SearchFieldsEnum.Extension, item.Text, null);
 
             ShowPanel(PanelEnum.Search);
@@ -746,10 +746,10 @@ namespace MusicLibrary.Forms
 
         private async void lvReleaseYears_DoubleClick(object sender, EventArgs e)
         {
-            if (lvReleaseYears.SelectedItems.Count == 0) return;
+            if (lvReleaseYears.SelectedItems.Count == 0)
+                return;
 
             var item = lvReleaseYears.SelectedItems[0];
-
             await Search(SearchFieldsEnum.Year, item.Text, null);
 
             ShowPanel(PanelEnum.Search);
@@ -777,6 +777,7 @@ namespace MusicLibrary.Forms
             var fi = new FileIndexer(_cts.Token);
             await Task.Run(async () => await fi.Optimize());
 
+            _cache.Remove(IndexCountsCacheKey);
             statusStrip1.Items[1].Text = "index optimization finished.";
             btnOptimize.Visible = true;
             btnStopOptimize.Visible = false;
@@ -925,30 +926,51 @@ namespace MusicLibrary.Forms
             if (toolStripCbLists.SelectedIndex == -1)
                 return;
 
-            //TODO on index changed persist list
             var listName = toolStripCbLists.SelectedItem.ToString();
             var selectedItems = dgSearchResult.SelectedRows
                 .Cast<DataGridViewRow>()
                 .Select(x => ((SearchResultModel)x.DataBoundItem).Id)
                 .ToList();
 
-            if (_listsDict.ContainsKey(listName))
+            AddToListAndPersist(listName, selectedItems);
+
+            ctxFileOptions.Close();
+            toolStripCbLists.SelectedIndex = -1;
+        }
+
+        private void AddToListAndPersist(string name, IList<string> items)
+        {
+            if (_listsDict.ContainsKey(name))
             {
-                foreach (var item in selectedItems)
+                foreach (var item in items)
                 {
-                    if (_listsDict[listName].Contains(item))
+                    if (_listsDict[name].Contains(item))
                         continue;
 
-                    _listsDict[listName].Add(item);
+                    _listsDict[name].Add(item);
                 }
             }
             else
             {
-                _listsDict.Add(listName, selectedItems);
+                _listsDict.Add(name, items);
             }
 
-            ctxFileOptions.Close();
-            toolStripCbLists.SelectedIndex = -1;
+            PersistLists();
+        }
+
+        private void PersistLists()
+        {
+            var json = JsonConvert.SerializeObject(_listsDict);
+
+            if (!Directory.Exists(Constants.LocalAppDataLists))
+                Directory.CreateDirectory(Constants.LocalAppDataLists);
+
+            using (var sw = File.CreateText($"{Constants.LocalAppDataLists}\\{Environment.MachineName}_{Environment.UserName}.mll"))
+            {
+                sw.Write(json);
+            }
+
+            statusStrip1.Items[1].Text = "lists sucessfully persisted";
         }
 
         private void btnNewList_Click(object sender, EventArgs e)
@@ -973,7 +995,7 @@ namespace MusicLibrary.Forms
                 return;
             };
 
-            _listsDict.Add(text, new List<string>(0));
+            AddToListAndPersist(text, new List<string>(0));
         }
 
         private void txtListName_Enter(object sender, KeyPressEventArgs e)

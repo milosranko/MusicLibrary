@@ -31,9 +31,9 @@ namespace MusicLibrary.Forms
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             pnlTop = new System.Windows.Forms.Panel();
             pbLogo = new System.Windows.Forms.PictureBox();
             btnMinimize = new System.Windows.Forms.Button();
@@ -545,7 +545,7 @@ namespace MusicLibrary.Forms
             // 
             lblLatestAdditions.AutoSize = true;
             lblLatestAdditions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            lblLatestAdditions.Location = new System.Drawing.Point(613, 137);
+            lblLatestAdditions.Location = new System.Drawing.Point(614, 138);
             lblLatestAdditions.Name = "lblLatestAdditions";
             lblLatestAdditions.Size = new System.Drawing.Size(94, 15);
             lblLatestAdditions.TabIndex = 11;
@@ -565,7 +565,7 @@ namespace MusicLibrary.Forms
             // 
             lblTotalByGenre.AutoSize = true;
             lblTotalByGenre.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            lblTotalByGenre.Location = new System.Drawing.Point(159, 138);
+            lblTotalByGenre.Location = new System.Drawing.Point(215, 138);
             lblTotalByGenre.Name = "lblTotalByGenre";
             lblTotalByGenre.Size = new System.Drawing.Size(86, 15);
             lblTotalByGenre.TabIndex = 8;
@@ -575,7 +575,7 @@ namespace MusicLibrary.Forms
             // 
             lblTotalByExtension.AutoSize = true;
             lblTotalByExtension.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            lblTotalByExtension.Location = new System.Drawing.Point(28, 138);
+            lblTotalByExtension.Location = new System.Drawing.Point(46, 138);
             lblTotalByExtension.Name = "lblTotalByExtension";
             lblTotalByExtension.Size = new System.Drawing.Size(92, 15);
             lblTotalByExtension.TabIndex = 7;
@@ -602,11 +602,13 @@ namespace MusicLibrary.Forms
             // 
             columnHeader3.Name = "columnHeader3";
             columnHeader3.Text = "Year";
+            columnHeader3.Width = 55;
             // 
             // columnHeader4
             // 
             columnHeader4.Name = "columnHeader4";
             columnHeader4.Text = "Tracks";
+            columnHeader4.Width = 55;
             // 
             // lvExtensionsTotal
             // 
@@ -629,13 +631,12 @@ namespace MusicLibrary.Forms
             // 
             columnHeader1.Name = "columnHeader1";
             columnHeader1.Text = "Format";
-            columnHeader1.Width = 70;
             // 
             // columnHeader2
             // 
             columnHeader2.Name = "columnHeader2";
             columnHeader2.Text = "Tracks";
-            columnHeader2.Width = 73;
+            columnHeader2.Width = 66;
             // 
             // lvGenres
             // 
@@ -658,14 +659,14 @@ namespace MusicLibrary.Forms
             // 
             columnExtension.Name = "columnExtension";
             columnExtension.Text = "Genre";
-            columnExtension.Width = 130;
+            columnExtension.Width = 120;
             // 
             // columnExtensionCount
             // 
             columnExtensionCount.Name = "columnExtensionCount";
             columnExtensionCount.Text = "Tracks";
             columnExtensionCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            columnExtensionCount.Width = 80;
+            columnExtensionCount.Width = 66;
             // 
             // lblTotalTracksValue
             // 
@@ -715,13 +716,13 @@ namespace MusicLibrary.Forms
             // 
             columnHeader5.Name = "columnHeader5";
             columnHeader5.Text = "Artist";
-            columnHeader5.Width = 190;
+            columnHeader5.Width = 164;
             // 
             // columnHeader6
             // 
             columnHeader6.Name = "columnHeader6";
             columnHeader6.Text = "Release";
-            columnHeader6.Width = 220;
+            columnHeader6.Width = 200;
             // 
             // statusStrip1
             // 
@@ -786,14 +787,14 @@ namespace MusicLibrary.Forms
             dgSearchResult.AllowUserToResizeRows = false;
             dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
             dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Id, Artist, Album, Track, Year, TrackNumber, Tags, Path, FileName, Genre });
             dgSearchResult.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -852,8 +853,8 @@ namespace MusicLibrary.Forms
             // Year
             // 
             Year.DataPropertyName = "Year";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            Year.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            Year.DefaultCellStyle = dataGridViewCellStyle5;
             Year.FillWeight = 101.5228F;
             Year.HeaderText = "Year";
             Year.MinimumWidth = 6;
@@ -864,8 +865,8 @@ namespace MusicLibrary.Forms
             // TrackNumber
             // 
             TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            TrackNumber.DefaultCellStyle = dataGridViewCellStyle6;
             TrackNumber.HeaderText = "Track no";
             TrackNumber.MinimumWidth = 6;
             TrackNumber.Name = "TrackNumber";
@@ -1179,6 +1180,7 @@ namespace MusicLibrary.Forms
             // dgvtbcFile
             // 
             dgvtbcFile.HeaderText = "File";
+            dgvtbcFile.MinimumWidth = 8;
             dgvtbcFile.Name = "dgvtbcFile";
             dgvtbcFile.ReadOnly = true;
             // 
@@ -1222,10 +1224,10 @@ namespace MusicLibrary.Forms
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.Silver;
             ClientSize = new System.Drawing.Size(1120, 600);
+            Controls.Add(pnlDashboard);
             Controls.Add(pnlLists);
             Controls.Add(pnlSearch);
             Controls.Add(pnlIndex);
-            Controls.Add(pnlDashboard);
             Controls.Add(pnlTop);
             Controls.Add(statusStrip1);
             Controls.Add(pnlLeft);
