@@ -33,7 +33,6 @@ namespace MusicLibrary.Forms
         private bool _hasFilesToIndex;
         private IProgress<ProgressArgs> _progress;
         private IList<string> _availableIndexes;
-        //private IList<string> _lists = new List<string>();
         private SortedList<string, IList<string>> _listsDict = new SortedList<string, IList<string>>();
         private const string IndexCountsCacheKey = nameof(IndexSearcher.GetIndexCounts);
         private readonly IMemoryCache _cache;
