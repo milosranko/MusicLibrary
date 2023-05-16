@@ -373,7 +373,7 @@ namespace MusicLibrary.Forms
 
         private void dgSearchResult_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var rowItem = (SearchResultModel)dgSearchResult.CurrentRow.DataBoundItem;
+            var rowItem = (SearchResultModel)((DataGridView)sender).CurrentRow.DataBoundItem;
             ShowFileInfo(rowItem);
         }
 
@@ -468,21 +468,22 @@ namespace MusicLibrary.Forms
 
         private void ctxFileOptions_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
+            var dgv = (DataGridView)((ContextMenuStrip)sender).SourceControl;
             ctxFileOptions.Hide();
 
-            if (dgSearchResult.SelectedRows.Count > 0)
+            if (dgv.SelectedRows.Count > 0)
             {
                 //Show file info
                 if (e.ClickedItem.Name.Equals(toolStripShowFileInfo.Name))
                 {
-                    var rowItem = (SearchResultModel)dgSearchResult.CurrentRow.DataBoundItem;
+                    var rowItem = (SearchResultModel)dgv.CurrentRow.DataBoundItem;
                     ShowFileInfo(rowItem);
                 }
 
                 //Show more from this artist
                 if (e.ClickedItem.Name.Equals(toolStripShowMoreFromArtist.Name))
                 {
-                    var rowItem = (SearchResultModel)dgSearchResult.CurrentRow.DataBoundItem;
+                    var rowItem = (SearchResultModel)dgv.CurrentRow.DataBoundItem;
                     ShowMoreFromArtist(rowItem);
                 }
 
@@ -491,7 +492,7 @@ namespace MusicLibrary.Forms
                 {
                     var metaTagsDialog = new MetaTagsForm
                     {
-                        Files = dgSearchResult.SelectedRows
+                        Files = dgv.SelectedRows
                             .Cast<DataGridViewRow>()
                             .Select(x => (SearchResultModel)x.DataBoundItem)
                             .OrderBy(x => x.Path)
@@ -507,7 +508,7 @@ namespace MusicLibrary.Forms
                 {
                     var convertFilesDialog = new ConvertFilesForm
                     {
-                        Files = dgSearchResult.SelectedRows
+                        Files = dgv.SelectedRows
                             .Cast<DataGridViewRow>()
                             .Select(x => (SearchResultModel)x.DataBoundItem)
                             .Where(x => System.IO.Path.GetExtension(x.FileName).EndsWith("flac"))
@@ -522,9 +523,9 @@ namespace MusicLibrary.Forms
                 //Search ruTracker
                 if (e.ClickedItem.Name.Equals(toolStripSearchRuTracker.Name))
                 {
-                    if (dgSearchResult.SelectedRows.Count > 0)
+                    if (dgv.SelectedRows.Count > 0)
                     {
-                        var item = (SearchResultModel)dgSearchResult.SelectedRows[0].DataBoundItem;
+                        var item = (SearchResultModel)dgv.SelectedRows[0].DataBoundItem;
                         var query = Uri.EscapeDataString($"{item.Artist} {item.Album}");
                         var psi = new ProcessStartInfo
                         {
@@ -539,9 +540,9 @@ namespace MusicLibrary.Forms
                 //Search AllMusic
                 if (e.ClickedItem.Name.Equals(toolStripSearchAllMusic.Name))
                 {
-                    if (dgSearchResult.SelectedRows.Count > 0)
+                    if (dgv.SelectedRows.Count > 0)
                     {
-                        var item = (SearchResultModel)dgSearchResult.SelectedRows[0].DataBoundItem;
+                        var item = (SearchResultModel)dgv.SelectedRows[0].DataBoundItem;
                         var query = Uri.EscapeDataString($"{item.Artist} {item.Album}");
                         var psi = new ProcessStartInfo
                         {
@@ -557,14 +558,14 @@ namespace MusicLibrary.Forms
                 if (e.ClickedItem.Name.Equals(toolStripRemoveFromIndex.Name))
                 {
                     var sb = new StringBuilder();
-                    var files = new string[dgSearchResult.SelectedRows.Count];
+                    var files = new string[dgv.SelectedRows.Count];
                     SearchResultModel hit;
                     var index = 0;
 
                     sb.AppendLine("Remove from index following files:");
                     sb.Append(Environment.NewLine);
 
-                    foreach (DataGridViewRow item in dgSearchResult.SelectedRows)
+                    foreach (DataGridViewRow item in dgv.SelectedRows)
                     {
                         hit = (SearchResultModel)item.DataBoundItem;
                         files[index] = hit.Id;
@@ -585,9 +586,9 @@ namespace MusicLibrary.Forms
                 //Open file location
                 if (e.ClickedItem.Name.Equals(toolStripOpenFileLocation.Name))
                 {
-                    if (dgSearchResult.SelectedRows.Count > 0)
+                    if (dgv.SelectedRows.Count > 0)
                     {
-                        var item = (SearchResultModel)dgSearchResult.SelectedRows[0].DataBoundItem;
+                        var item = (SearchResultModel)dgv.SelectedRows[0].DataBoundItem;
 
                         if (File.Exists(item.Id))
                         {
@@ -610,9 +611,9 @@ namespace MusicLibrary.Forms
                 //Play file
                 if (e.ClickedItem.Name.Equals(toolStripPlayFile.Name))
                 {
-                    if (dgSearchResult.SelectedRows.Count > 0)
+                    if (dgv.SelectedRows.Count > 0)
                     {
-                        var item = (SearchResultModel)dgSearchResult.SelectedRows[0].DataBoundItem;
+                        var item = (SearchResultModel)dgv.SelectedRows[0].DataBoundItem;
 
                         if (File.Exists(item.Id))
                         {
@@ -891,7 +892,6 @@ namespace MusicLibrary.Forms
         {
             PopulateListsComboBox();
             ShowPanel(PanelEnum.Lists);
-            dgvList.Rows.Clear();
         }
 
         private void PopulateListsComboBox()
@@ -1018,12 +1018,35 @@ namespace MusicLibrary.Forms
             if (cmbLists.SelectedIndex < 0 || string.IsNullOrEmpty((string)cmbLists.SelectedItem))
                 return;
 
-            dgvList.Rows.Clear();
+            var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
+                ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
+                : new IndexSearcher();
 
-            foreach (string item in _listsDict[(string)cmbLists.SelectedItem])
-            {
-                dgvList.Rows.Add(item);
-            }
+            if (!indexSearcher.IndexExists())
+                return;
+
+            var res = indexSearcher.GetSearchResultByIds(_listsDict[(string)cmbLists.SelectedItem].ToArray());
+
+            dgLists.DataSource = res
+                .Select(x => new SearchResultModel
+                {
+                    Id = x.Id,
+                    Artist = MetatagsHelpers.GetMetatags(x.Tags)[0],
+                    Album = MetatagsHelpers.GetMetatags(x.Tags)[1],
+                    Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1,
+                    TrackName = MetatagsHelpers.GetMetatags(x.Tags)[4],
+                    TrackNumber = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[5]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[5], out int value2) ? default(int?) : value2,
+                    Tags = x.Tags,
+                    Path = System.IO.Path.GetDirectoryName(x.Id),
+                    FileName = System.IO.Path.GetFileName(x.Id),
+                    Genre = MetatagsHelpers.GetMetatags(x.Tags)[3]
+                })
+                .OrderBy(x => x.Artist)
+                .ThenBy(x => x.Year)
+                .ThenBy(x => x.Album)
+                .ThenBy(x => x.TrackNumber)
+                .ToArray();
+            dgLists.Visible = true;
         }
     }
 

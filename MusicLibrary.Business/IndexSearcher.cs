@@ -17,7 +17,7 @@ namespace MusicLibrary.Business
         //private readonly SearchIndexEngine _engine;
         private readonly string _indexName = string.Empty;
         public IEnumerable<string> SharedIndexes;
-        
+
         public IndexSearcher()
         {
             //_engine = new SearchIndexEngine();
@@ -38,7 +38,7 @@ namespace MusicLibrary.Business
 
         private IEnumerable<string> GetSharedIndexes()
         {
-            if (!Directory.Exists(Constants.LocalAppDataShares)) 
+            if (!Directory.Exists(Constants.LocalAppDataShares))
                 return Enumerable.Empty<string>();
 
             return Directory.EnumerateDirectories(Constants.LocalAppDataShares)
@@ -59,11 +59,21 @@ namespace MusicLibrary.Business
             };
         }
 
+        public IEnumerable<SearchHit> GetSearchResultByIds(string[] ids)
+        {
+            using var engine = new SearchIndexEngine(_indexName);
+
+            if (engine.IndexNotExistsOrEmpty())
+                return Enumerable.Empty<SearchHit>();
+
+            return engine.GetById(ids);
+        }
+
         public Task<IndexCounts> GetIndexCounts()
         {
             using var engine = new SearchIndexEngine(_indexName);
-            
-            if (engine.IndexNotExistsOrEmpty()) 
+
+            if (engine.IndexNotExistsOrEmpty())
                 return Task.FromResult(IndexCounts.Empty);
 
             return Task.FromResult(engine.GetIndexStatistics());
@@ -77,10 +87,10 @@ namespace MusicLibrary.Business
 
         private Task<SearchResult> Search(string query, string[] terms, string[] fields, QueryTypesEnum queryType)
         {
-            if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0)) 
+            if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0))
                 return Task.FromResult(SearchResult.Empty());
-            
-            if (fields == null || fields.Length == 0) 
+
+            if (fields == null || fields.Length == 0)
                 return Task.FromResult(SearchResult.Empty());
 
             var searchRequest = new SearchRequest

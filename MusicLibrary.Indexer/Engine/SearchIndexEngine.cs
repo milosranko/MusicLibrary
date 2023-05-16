@@ -74,13 +74,13 @@ namespace MusicLibrary.Indexer.Engine
             foreach (var doc in documents)
             {
                 indexTerm = new Term(FieldNames.Id, doc);
-                
+
                 if (reader.DocFreq(indexTerm) == 0)
                 {
                     result.Add(doc);
                 }
             }
-            
+
             return result;
         }
 
@@ -121,7 +121,7 @@ namespace MusicLibrary.Indexer.Engine
                     q = parser.Parse(request.Text);
                     break;
             }
-            
+
             var startIndex = request.Pagination.PageIndex * request.Pagination.PageSize;
             var topDocs = searcher.Search(q, startIndex + request.Pagination.PageSize);
 
@@ -195,7 +195,7 @@ namespace MusicLibrary.Indexer.Engine
                 if (prevFolder != folder)
                     prevFolder = folder;
             }
-            
+
             return res;
         }
 
@@ -210,7 +210,7 @@ namespace MusicLibrary.Indexer.Engine
             {
                 var collector = new TotalHitCountCollector();
                 searcher.Search(new TermQuery(new Term(field, termsEnum.Term)), collector);
-                
+
                 if (collector.TotalHits > 0)
                     res.Add(termsEnum.Term.Utf8ToString(), collector.TotalHits);
             }
@@ -285,6 +285,31 @@ namespace MusicLibrary.Indexer.Engine
 
             using var reader = DirectoryReader.Open(directory);
             return reader.NumDocs == 0;
+        }
+
+        public IEnumerable<SearchHit> GetById(string[] ids)
+        {
+            if (ids == null || ids.Length == 0)
+                return Enumerable.Empty<SearchHit>();
+
+            var hits = new Collection<SearchHit>();
+
+            using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+            using var reader = DirectoryReader.Open(directory);
+            var searcher = new IndexSearcher(reader);
+            TermQuery q;
+
+            foreach (var id in ids)
+            {
+                q = new TermQuery(new Term(FieldNames.Id, id));
+
+                var res = searcher.Search(q, 1);
+                if (res.TotalHits == 0) continue;
+
+                hits.Add(CreateSearchHit(searcher.Doc(res.ScoreDocs[0].Doc)));
+            }
+
+            return hits;
         }
 
         public void Dispose()
