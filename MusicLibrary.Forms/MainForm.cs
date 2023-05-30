@@ -460,10 +460,6 @@ namespace MusicLibrary.Forms
         private void dgSearchResult_RowContextMenuStripNeeded(object sender, DataGridViewRowContextMenuStripNeededEventArgs e)
         {
             e.ContextMenuStrip = ctxFileOptions;
-
-            //Populate Lists combobox
-            toolStripCbLists.Items.Clear();
-            toolStripCbLists.Items.AddRange(_listsDict.Keys.ToArray());
         }
 
         private void ctxFileOptions_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -666,7 +662,8 @@ namespace MusicLibrary.Forms
 
             cmbAvailableIndexes.DataSource = _availableIndexes;
             LoadExistingLists();
-            toolStripAddToList.DropDown = ctxLists;
+            UpdateListsCollection();
+            //toolStripAddToList.DropDown = ctxLists;
         }
 
         private void LoadExistingLists()
@@ -906,35 +903,20 @@ namespace MusicLibrary.Forms
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                AddNewListItem(toolStripTbNewList.Text);
-                UpdateListsCollection();
-                toolStripTbNewList.Clear();
+                AddNewListItem(toolStripTbAddNewList.Text);
+                UpdateListsCollection(toolStripTbAddNewList.Text);
+                toolStripTbAddNewList.Clear();
             }
         }
 
         private void UpdateListsCollection()
         {
-            toolStripCbLists.Items.Clear();
-            toolStripCbLists.Items.AddRange(_listsDict.Keys.ToArray());
-            toolStripCbLists.Focus();
-            toolStripCbLists.DroppedDown = true;
+            toolStripAddToList.DropDownItems.AddRange(_listsDict.Keys.Select(x => new ToolStripButton(x)).ToArray());
         }
 
-        private void toolStripCbLists_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdateListsCollection(string listName)
         {
-            if (toolStripCbLists.SelectedIndex == -1)
-                return;
-
-            var listName = toolStripCbLists.SelectedItem.ToString();
-            var selectedItems = dgSearchResult.SelectedRows
-                .Cast<DataGridViewRow>()
-                .Select(x => ((SearchResultModel)x.DataBoundItem).Id)
-                .ToList();
-
-            AddToListAndPersist(listName, selectedItems);
-
-            ctxFileOptions.Close();
-            toolStripCbLists.SelectedIndex = -1;
+            toolStripAddToList.DropDownItems.Add(new ToolStripButton(listName));
         }
 
         private void AddToListAndPersist(string name, IList<string> items)
@@ -1047,6 +1029,22 @@ namespace MusicLibrary.Forms
                 .ThenBy(x => x.TrackNumber)
                 .ToArray();
             dgLists.Visible = true;
+        }
+
+        private void toolStripAddToList_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            if (e.ClickedItem is ToolStripTextBox)
+                return;
+
+            var listName = e.ClickedItem.Text;
+            var selectedItems = dgSearchResult.SelectedRows
+                .Cast<DataGridViewRow>()
+                .Select(x => ((SearchResultModel)x.DataBoundItem).Id)
+                .ToList();
+
+            AddToListAndPersist(listName, selectedItems);
+
+            ctxFileOptions.Close();
         }
     }
 

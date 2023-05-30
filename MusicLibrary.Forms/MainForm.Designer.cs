@@ -31,12 +31,12 @@ namespace MusicLibrary.Forms
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             pnlTop = new System.Windows.Forms.Panel();
             pbLogo = new System.Windows.Forms.PictureBox();
             btnMinimize = new System.Windows.Forms.Button();
@@ -120,7 +120,7 @@ namespace MusicLibrary.Forms
             toolStripSearchAllMusic = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             toolStripAddToList = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripTbAddNewList = new System.Windows.Forms.ToolStripTextBox();
             toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
             folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
@@ -146,9 +146,6 @@ namespace MusicLibrary.Forms
             txtListName = new System.Windows.Forms.TextBox();
             cmbLists = new System.Windows.Forms.ComboBox();
             lblLists = new System.Windows.Forms.Label();
-            ctxLists = new System.Windows.Forms.ContextMenuStrip(components);
-            toolStripTbNewList = new System.Windows.Forms.ToolStripTextBox();
-            toolStripCbLists = new System.Windows.Forms.ToolStripComboBox();
             pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             pnlIndex.SuspendLayout();
@@ -164,7 +161,6 @@ namespace MusicLibrary.Forms
             pnlLists.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgLists).BeginInit();
             gbLists.SuspendLayout();
-            ctxLists.SuspendLayout();
             SuspendLayout();
             // 
             // pnlTop
@@ -799,14 +795,14 @@ namespace MusicLibrary.Forms
             dgSearchResult.AllowUserToResizeRows = false;
             dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
             dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Id, Artist, Album, Track, Year, TrackNumber, Tags, Path, FileName, Genre });
             dgSearchResult.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -865,8 +861,8 @@ namespace MusicLibrary.Forms
             // Year
             // 
             Year.DataPropertyName = "Year";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            Year.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            Year.DefaultCellStyle = dataGridViewCellStyle2;
             Year.FillWeight = 101.5228F;
             Year.HeaderText = "Year";
             Year.MinimumWidth = 6;
@@ -877,8 +873,8 @@ namespace MusicLibrary.Forms
             // TrackNumber
             // 
             TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            TrackNumber.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
             TrackNumber.HeaderText = "Track no";
             TrackNumber.MinimumWidth = 6;
             TrackNumber.Name = "TrackNumber";
@@ -970,7 +966,7 @@ namespace MusicLibrary.Forms
             ctxFileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripShowFileInfo, toolStripShowMoreFromArtist, toolStripSeparator5, toolStripEditMetaTags, toolStripConvertSelectedFiles, toolStripSeparator3, toolStripOpenFileLocation, toolStripPlayFile, toolStripSeparator1, toolStripSearchRuTracker, toolStripSearchAllMusic, toolStripSeparator2, toolStripAddToList, toolStripSeparator4, toolStripRemoveFromIndex });
             ctxFileOptions.Name = "ctxFileOptions";
             ctxFileOptions.ShowImageMargin = false;
-            ctxFileOptions.Size = new System.Drawing.Size(170, 254);
+            ctxFileOptions.Size = new System.Drawing.Size(170, 276);
             ctxFileOptions.ItemClicked += ctxFileOptions_ItemClicked;
             // 
             // toolStripShowFileInfo
@@ -1044,15 +1040,19 @@ namespace MusicLibrary.Forms
             // 
             // toolStripAddToList
             // 
-            toolStripAddToList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripMenuItem1 });
+            toolStripAddToList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            toolStripAddToList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTbAddNewList });
             toolStripAddToList.Name = "toolStripAddToList";
             toolStripAddToList.Size = new System.Drawing.Size(169, 22);
             toolStripAddToList.Text = "Add to list";
+            toolStripAddToList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            toolStripAddToList.DropDownItemClicked += toolStripAddToList_DropDownItemClicked;
             // 
-            // toolStripMenuItem1
+            // toolStripTbAddNewList
             // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new System.Drawing.Size(67, 22);
+            toolStripTbAddNewList.Name = "toolStripTbAddNewList";
+            toolStripTbAddNewList.Size = new System.Drawing.Size(100, 23);
+            toolStripTbAddNewList.KeyPress += toolStripTbNewList_KeyPress;
             // 
             // toolStripSeparator4
             // 
@@ -1094,14 +1094,14 @@ namespace MusicLibrary.Forms
             dgLists.AllowUserToResizeRows = false;
             dgLists.BackgroundColor = System.Drawing.Color.LightBlue;
             dgLists.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            dgLists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dgLists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             dgLists.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgLists.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewTextBoxColumn10 });
             dgLists.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1160,8 +1160,8 @@ namespace MusicLibrary.Forms
             // dataGridViewTextBoxColumn5
             // 
             dataGridViewTextBoxColumn5.DataPropertyName = "Year";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle5;
             dataGridViewTextBoxColumn5.FillWeight = 101.5228F;
             dataGridViewTextBoxColumn5.HeaderText = "Year";
             dataGridViewTextBoxColumn5.MinimumWidth = 6;
@@ -1172,8 +1172,8 @@ namespace MusicLibrary.Forms
             // dataGridViewTextBoxColumn6
             // 
             dataGridViewTextBoxColumn6.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle6;
             dataGridViewTextBoxColumn6.HeaderText = "Track no";
             dataGridViewTextBoxColumn6.MinimumWidth = 6;
             dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
@@ -1312,30 +1312,6 @@ namespace MusicLibrary.Forms
             lblLists.TabIndex = 17;
             lblLists.Text = "Lists";
             // 
-            // ctxLists
-            // 
-            ctxLists.ImageScalingSize = new System.Drawing.Size(20, 20);
-            ctxLists.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTbNewList, toolStripCbLists });
-            ctxLists.Name = "ctxFileOptions";
-            ctxLists.ShowImageMargin = false;
-            ctxLists.Size = new System.Drawing.Size(157, 56);
-            // 
-            // toolStripTbNewList
-            // 
-            toolStripTbNewList.BackColor = System.Drawing.SystemColors.HighlightText;
-            toolStripTbNewList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            toolStripTbNewList.Name = "toolStripTbNewList";
-            toolStripTbNewList.Size = new System.Drawing.Size(100, 23);
-            toolStripTbNewList.ToolTipText = "New list name";
-            toolStripTbNewList.KeyPress += toolStripTbNewList_KeyPress;
-            // 
-            // toolStripCbLists
-            // 
-            toolStripCbLists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            toolStripCbLists.Name = "toolStripCbLists";
-            toolStripCbLists.Size = new System.Drawing.Size(121, 23);
-            toolStripCbLists.SelectedIndexChanged += toolStripCbLists_SelectedIndexChanged;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1380,8 +1356,6 @@ namespace MusicLibrary.Forms
             ((System.ComponentModel.ISupportInitialize)dgLists).EndInit();
             gbLists.ResumeLayout(false);
             gbLists.PerformLayout();
-            ctxLists.ResumeLayout(false);
-            ctxLists.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1488,10 +1462,6 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem toolStripAddToList;
-        private System.Windows.Forms.ContextMenuStrip ctxLists;
-        private System.Windows.Forms.ToolStripTextBox toolStripTbNewList;
-        private System.Windows.Forms.ToolStripComboBox toolStripCbLists;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbcFile;
         private System.Windows.Forms.DataGridView dgLists;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -1504,5 +1474,6 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.ToolStripTextBox toolStripTbAddNewList;
     }
 }
