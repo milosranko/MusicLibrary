@@ -1,9 +1,8 @@
-﻿namespace MusicLibrary.Indexer.Models
+﻿namespace MusicLibrary.Indexer.Models;
+
+public struct SearchHit
 {
-    public struct SearchHit
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Tags { get; set; }
-    }
+	public string Id { get; set; }
+	public string Name { get; set; }
+	public string Tags { get; set; }
 }

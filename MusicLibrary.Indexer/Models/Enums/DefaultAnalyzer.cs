@@ -1,8 +1,7 @@
-﻿namespace MusicLibrary.Indexer.Models.Enums
+﻿namespace MusicLibrary.Indexer.Models.Enums;
+
+public enum DefaultAnalyzer
 {
-    public enum DefaultAnalyzer
-    {
-        English,
-        Other
-    }
+	English,
+	Other
 }

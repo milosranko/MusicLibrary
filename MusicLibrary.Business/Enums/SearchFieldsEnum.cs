@@ -1,12 +1,11 @@
-﻿namespace MusicLibrary.Business.Enums
+﻿namespace MusicLibrary.Business.Enums;
+
+public enum SearchFieldsEnum
 {
-    public enum SearchFieldsEnum
-    {
-        Text,
-        Genre,
-        Year,
-        Extension,
-        Release,
-        Artist
-    }
+	Text,
+	Genre,
+	Year,
+	Extension,
+	Release,
+	Artist
 }

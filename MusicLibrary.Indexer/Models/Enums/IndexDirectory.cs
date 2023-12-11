@@ -1,9 +1,8 @@
-﻿namespace MusicLibrary.Indexer.Models.Enums
+﻿namespace MusicLibrary.Indexer.Models.Enums;
+
+public enum IndexDirectory
 {
-    public enum IndexDirectory
-    {
-        FileSystem,
-        Memory,
-        Azure
-    }
+	FileSystem,
+	Memory,
+	Azure
 }

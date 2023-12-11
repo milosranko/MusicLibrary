@@ -1,10 +1,9 @@
-﻿namespace MusicLibrary.Indexer.Models.Enums
+﻿namespace MusicLibrary.Indexer.Models.Enums;
+
+public enum QueryTypesEnum
 {
-    public enum QueryTypesEnum
-    {
-        Term,
-        MultiTerm,
-        Numeric,
-        Text
-    }
+	Term,
+	MultiTerm,
+	Numeric,
+	Text
 }

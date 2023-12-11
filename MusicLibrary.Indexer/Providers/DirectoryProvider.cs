@@ -5,36 +5,35 @@ using MusicLibrary.Common;
 using System.IO;
 using Directory = Lucene.Net.Store.Directory;
 
-namespace MusicLibrary.Indexer.Providers
+namespace MusicLibrary.Indexer.Providers;
+
+internal static class DirectoryProvider
 {
-    internal static class DirectoryProvider
-    {
-        public static Directory GetOrCreateDocumentIndex(string indexName)
-        {
-            FSDirectory directory = null;
+	public static Directory GetOrCreateDocumentIndex(string indexName)
+	{
+		FSDirectory directory = null;
 
-            if (string.IsNullOrEmpty(indexName))
-            {
-                if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
-                    System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
+		if (string.IsNullOrEmpty(indexName))
+		{
+			if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
+				System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
 
-                directory = FSDirectory.Open(Constants.LocalAppDataIndex);
-            }
-            else
-            {
-                var path = Path.Combine(Constants.LocalAppDataShares, indexName);
+			directory = FSDirectory.Open(Constants.LocalAppDataIndex);
+		}
+		else
+		{
+			var path = Path.Combine(Constants.LocalAppDataShares, indexName);
 
-                if (!System.IO.Directory.Exists(path))
-                    System.IO.Directory.CreateDirectory(path);
+			if (!System.IO.Directory.Exists(path))
+				System.IO.Directory.CreateDirectory(path);
 
-                directory = FSDirectory.Open(path);
-            }
+			directory = FSDirectory.Open(path);
+		}
 
-            using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
-            using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
-            writer.DeleteUnusedFiles();
+		using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
+		using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
+		writer.DeleteUnusedFiles();
 
-            return directory;
-        }
-    }
+		return directory;
+	}
 }
