@@ -19,7 +19,7 @@ namespace MusicLibrary.Forms.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -66,6 +66,26 @@ namespace MusicLibrary.Forms.Properties {
         internal static System.Drawing.Bitmap music_note_circle_shape_brand_icon_icons_com_59119 {
             get {
                 object obj = ResourceManager.GetObject("music-note-circle-shape-brand_icon-icons.com_59119", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_3110 {
+            get {
+                object obj = ResourceManager.GetObject("settings-3110", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings_3110__1_ {
+            get {
+                object obj = ResourceManager.GetObject("settings-3110 (1)", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

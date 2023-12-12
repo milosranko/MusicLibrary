@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
 
@@ -11,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MetaBrainz.MusicBrainz" Version="4.0.1" />
-    <PackageReference Include="Xabe.FFmpeg" Version="5.0.2" />
-    <PackageReference Include="z440.atl.core" Version="4.1.0" />
+    <PackageReference Include="MetaBrainz.MusicBrainz" Version="5.0.1" />
+    <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
+    <PackageReference Include="z440.atl.core" Version="4.33.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -21,1056 +21,1346 @@ namespace MusicLibrary.Forms
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.pnlTop = new System.Windows.Forms.Panel();
-            this.pbLogo = new System.Windows.Forms.PictureBox();
-            this.btnMinimize = new System.Windows.Forms.Button();
-            this.lblFormTitle = new System.Windows.Forms.Label();
-            this.btnCloseForm = new System.Windows.Forms.Button();
-            this.pnlIndex = new System.Windows.Forms.Panel();
-            this.gbIndexSharing = new System.Windows.Forms.GroupBox();
-            this.lblDefaultIndex = new System.Windows.Forms.Label();
-            this.cmbAvailableIndexes = new System.Windows.Forms.ComboBox();
-            this.btnLoadIndex = new System.Windows.Forms.Button();
-            this.btnIndexShare = new System.Windows.Forms.Button();
-            this.lblIndex = new System.Windows.Forms.Label();
-            this.gbIndexScanner = new System.Windows.Forms.GroupBox();
-            this.btnIndexNewFiles = new System.Windows.Forms.Button();
-            this.btnIndex = new System.Windows.Forms.Button();
-            this.lblIndexFolder = new System.Windows.Forms.Label();
-            this.btnIndexFolder = new System.Windows.Forms.Button();
-            this.btnScan = new System.Windows.Forms.Button();
-            this.gbIndexMaintenance = new System.Windows.Forms.GroupBox();
-            this.btnStopOptimize = new System.Windows.Forms.Button();
-            this.btnOptimize = new System.Windows.Forms.Button();
-            this.btnClearIndex = new System.Windows.Forms.Button();
-            this.pnlLeft = new System.Windows.Forms.Panel();
-            this.btnMainMenuDashboard = new System.Windows.Forms.Button();
-            this.btnMainMenuSearch = new System.Windows.Forms.Button();
-            this.btnMainMenuIndex = new System.Windows.Forms.Button();
-            this.pnlDashboard = new System.Windows.Forms.Panel();
-            this.lblLatestAdditions = new System.Windows.Forms.Label();
-            this.lblTotalByReleaseYear = new System.Windows.Forms.Label();
-            this.lblTotalByGenre = new System.Windows.Forms.Label();
-            this.lblTotalByExtension = new System.Windows.Forms.Label();
-            this.lvReleaseYears = new System.Windows.Forms.ListView();
-            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.lvExtensionsTotal = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.lvGenres = new System.Windows.Forms.ListView();
-            this.columnExtension = new System.Windows.Forms.ColumnHeader();
-            this.columnExtensionCount = new System.Windows.Forms.ColumnHeader();
-            this.lblTotalTracksValue = new System.Windows.Forms.Label();
-            this.lblTotalTracks = new System.Windows.Forms.Label();
-            this.lblDashboard = new System.Windows.Forms.Label();
-            this.lvLatestAdditions = new System.Windows.Forms.ListView();
-            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pnlSearch = new System.Windows.Forms.Panel();
-            this.btnClearSearch = new System.Windows.Forms.Button();
-            this.dgSearchResult = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Artist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Track = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrackNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Genre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnSearchIndex = new System.Windows.Forms.Button();
-            this.txtSearchField = new System.Windows.Forms.TextBox();
-            this.lblSearchQuery = new System.Windows.Forms.Label();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.toolTipBtnClose = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTipBtnMinimize = new System.Windows.Forms.ToolTip(this.components);
-            this.ctxFileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripShowFileInfo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripEditMetaTags = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripConvertSelectedFiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripOpenFileLocation = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripPlayFile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSearchRuTracker = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
-            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripSearchAllMusic = new System.Windows.Forms.ToolStripMenuItem();
-            this.pnlTop.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
-            this.pnlIndex.SuspendLayout();
-            this.gbIndexSharing.SuspendLayout();
-            this.gbIndexScanner.SuspendLayout();
-            this.gbIndexMaintenance.SuspendLayout();
-            this.pnlLeft.SuspendLayout();
-            this.pnlDashboard.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.pnlSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).BeginInit();
-            this.ctxFileOptions.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // pnlTop
-            // 
-            this.pnlTop.BackColor = System.Drawing.Color.Navy;
-            this.pnlTop.Controls.Add(this.pbLogo);
-            this.pnlTop.Controls.Add(this.btnMinimize);
-            this.pnlTop.Controls.Add(this.lblFormTitle);
-            this.pnlTop.Controls.Add(this.btnCloseForm);
-            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTop.Location = new System.Drawing.Point(0, 0);
-            this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1280, 45);
-            this.pnlTop.TabIndex = 0;
-            this.pnlTop.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlTop_MouseDown);
-            // 
-            // pbLogo
-            // 
-            this.pbLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbLogo.Image")));
-            this.pbLogo.Location = new System.Drawing.Point(0, 3);
-            this.pbLogo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pbLogo.Name = "pbLogo";
-            this.pbLogo.Size = new System.Drawing.Size(46, 41);
-            this.pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbLogo.TabIndex = 3;
-            this.pbLogo.TabStop = false;
-            // 
-            // btnMinimize
-            // 
-            this.btnMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMinimize.FlatAppearance.BorderSize = 0;
-            this.btnMinimize.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Highlight;
-            this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMinimize.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMinimize.ForeColor = System.Drawing.Color.White;
-            this.btnMinimize.Location = new System.Drawing.Point(1192, 3);
-            this.btnMinimize.Name = "btnMinimize";
-            this.btnMinimize.Size = new System.Drawing.Size(37, 36);
-            this.btnMinimize.TabIndex = 2;
-            this.btnMinimize.Text = "─";
-            this.toolTipBtnMinimize.SetToolTip(this.btnMinimize, "Minimize");
-            this.btnMinimize.UseVisualStyleBackColor = true;
-            this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
-            // 
-            // lblFormTitle
-            // 
-            this.lblFormTitle.AutoSize = true;
-            this.lblFormTitle.Font = new System.Drawing.Font("Century Gothic", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblFormTitle.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblFormTitle.Location = new System.Drawing.Point(49, 5);
-            this.lblFormTitle.Name = "lblFormTitle";
-            this.lblFormTitle.Size = new System.Drawing.Size(177, 32);
-            this.lblFormTitle.TabIndex = 1;
-            this.lblFormTitle.Text = "MusicLibrary";
-            // 
-            // btnCloseForm
-            // 
-            this.btnCloseForm.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCloseForm.FlatAppearance.BorderSize = 0;
-            this.btnCloseForm.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.btnCloseForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCloseForm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnCloseForm.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnCloseForm.Location = new System.Drawing.Point(1235, 4);
-            this.btnCloseForm.Name = "btnCloseForm";
-            this.btnCloseForm.Size = new System.Drawing.Size(37, 36);
-            this.btnCloseForm.TabIndex = 0;
-            this.btnCloseForm.Text = "X";
-            this.toolTipBtnClose.SetToolTip(this.btnCloseForm, "Close");
-            this.btnCloseForm.UseVisualStyleBackColor = true;
-            this.btnCloseForm.Click += new System.EventHandler(this.btnCloseForm_Click);
-            // 
-            // pnlIndex
-            // 
-            this.pnlIndex.BackColor = System.Drawing.Color.LightBlue;
-            this.pnlIndex.Controls.Add(this.gbIndexSharing);
-            this.pnlIndex.Controls.Add(this.lblIndex);
-            this.pnlIndex.Controls.Add(this.gbIndexScanner);
-            this.pnlIndex.Controls.Add(this.gbIndexMaintenance);
-            this.pnlIndex.Location = new System.Drawing.Point(261, 45);
-            this.pnlIndex.Name = "pnlIndex";
-            this.pnlIndex.Size = new System.Drawing.Size(1019, 725);
-            this.pnlIndex.TabIndex = 4;
-            // 
-            // gbIndexSharing
-            // 
-            this.gbIndexSharing.Controls.Add(this.lblDefaultIndex);
-            this.gbIndexSharing.Controls.Add(this.cmbAvailableIndexes);
-            this.gbIndexSharing.Controls.Add(this.btnLoadIndex);
-            this.gbIndexSharing.Controls.Add(this.btnIndexShare);
-            this.gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbIndexSharing.Location = new System.Drawing.Point(194, 521);
-            this.gbIndexSharing.Name = "gbIndexSharing";
-            this.gbIndexSharing.Size = new System.Drawing.Size(559, 151);
-            this.gbIndexSharing.TabIndex = 17;
-            this.gbIndexSharing.TabStop = false;
-            this.gbIndexSharing.Text = "Index sharing";
-            // 
-            // lblDefaultIndex
-            // 
-            this.lblDefaultIndex.AutoSize = true;
-            this.lblDefaultIndex.Location = new System.Drawing.Point(276, 35);
-            this.lblDefaultIndex.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblDefaultIndex.Name = "lblDefaultIndex";
-            this.lblDefaultIndex.Size = new System.Drawing.Size(150, 20);
-            this.lblDefaultIndex.TabIndex = 3;
-            this.lblDefaultIndex.Text = "Select default index:";
-            // 
-            // cmbAvailableIndexes
-            // 
-            this.cmbAvailableIndexes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cmbAvailableIndexes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAvailableIndexes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbAvailableIndexes.FormattingEnabled = true;
-            this.cmbAvailableIndexes.Location = new System.Drawing.Point(276, 58);
-            this.cmbAvailableIndexes.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.cmbAvailableIndexes.Name = "cmbAvailableIndexes";
-            this.cmbAvailableIndexes.Size = new System.Drawing.Size(278, 28);
-            this.cmbAvailableIndexes.TabIndex = 2;
-            // 
-            // btnLoadIndex
-            // 
-            this.btnLoadIndex.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLoadIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLoadIndex.Location = new System.Drawing.Point(152, 35);
-            this.btnLoadIndex.Name = "btnLoadIndex";
-            this.btnLoadIndex.Size = new System.Drawing.Size(100, 100);
-            this.btnLoadIndex.TabIndex = 1;
-            this.btnLoadIndex.Text = "Load index";
-            this.btnLoadIndex.UseVisualStyleBackColor = true;
-            this.btnLoadIndex.Click += new System.EventHandler(this.btnLoadIndex_Click);
-            // 
-            // btnIndexShare
-            // 
-            this.btnIndexShare.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIndexShare.Location = new System.Drawing.Point(21, 35);
-            this.btnIndexShare.Name = "btnIndexShare";
-            this.btnIndexShare.Size = new System.Drawing.Size(100, 100);
-            this.btnIndexShare.TabIndex = 0;
-            this.btnIndexShare.Text = "Share index";
-            this.btnIndexShare.UseVisualStyleBackColor = true;
-            this.btnIndexShare.Click += new System.EventHandler(this.btnIndexShare_Click);
-            // 
-            // lblIndex
-            // 
-            this.lblIndex.AutoSize = true;
-            this.lblIndex.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblIndex.Location = new System.Drawing.Point(10, 17);
-            this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(244, 89);
-            this.lblIndex.TabIndex = 16;
-            this.lblIndex.Text = "Index";
-            // 
-            // gbIndexScanner
-            // 
-            this.gbIndexScanner.BackColor = System.Drawing.Color.LightBlue;
-            this.gbIndexScanner.Controls.Add(this.btnIndexNewFiles);
-            this.gbIndexScanner.Controls.Add(this.btnIndex);
-            this.gbIndexScanner.Controls.Add(this.lblIndexFolder);
-            this.gbIndexScanner.Controls.Add(this.btnIndexFolder);
-            this.gbIndexScanner.Controls.Add(this.btnScan);
-            this.gbIndexScanner.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.gbIndexScanner.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbIndexScanner.Location = new System.Drawing.Point(25, 153);
-            this.gbIndexScanner.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbIndexScanner.Name = "gbIndexScanner";
-            this.gbIndexScanner.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbIndexScanner.Size = new System.Drawing.Size(454, 308);
-            this.gbIndexScanner.TabIndex = 15;
-            this.gbIndexScanner.TabStop = false;
-            this.gbIndexScanner.Text = "Index scanner";
-            // 
-            // btnIndexNewFiles
-            // 
-            this.btnIndexNewFiles.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnIndexNewFiles.Enabled = false;
-            this.btnIndexNewFiles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnIndexNewFiles.Location = new System.Drawing.Point(169, 124);
-            this.btnIndexNewFiles.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnIndexNewFiles.Name = "btnIndexNewFiles";
-            this.btnIndexNewFiles.Size = new System.Drawing.Size(104, 105);
-            this.btnIndexNewFiles.TabIndex = 14;
-            this.btnIndexNewFiles.Text = "Index new files only";
-            this.btnIndexNewFiles.UseVisualStyleBackColor = true;
-            this.btnIndexNewFiles.Click += new System.EventHandler(this.btnIndexNewFiles_Click);
-            // 
-            // btnIndex
-            // 
-            this.btnIndex.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnIndex.Enabled = false;
-            this.btnIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnIndex.Location = new System.Drawing.Point(321, 124);
-            this.btnIndex.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnIndex.Name = "btnIndex";
-            this.btnIndex.Size = new System.Drawing.Size(104, 105);
-            this.btnIndex.TabIndex = 10;
-            this.btnIndex.Text = "Index all files";
-            this.btnIndex.UseVisualStyleBackColor = true;
-            this.btnIndex.Click += new System.EventHandler(this.btnIndex_Click_1);
-            // 
-            // lblIndexFolder
-            // 
-            this.lblIndexFolder.AutoSize = true;
-            this.lblIndexFolder.BackColor = System.Drawing.Color.LightBlue;
-            this.lblIndexFolder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblIndexFolder.Location = new System.Drawing.Point(30, 35);
-            this.lblIndexFolder.Name = "lblIndexFolder";
-            this.lblIndexFolder.Size = new System.Drawing.Size(176, 20);
-            this.lblIndexFolder.TabIndex = 13;
-            this.lblIndexFolder.Text = "Select root folder to scan";
-            // 
-            // btnIndexFolder
-            // 
-            this.btnIndexFolder.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnIndexFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnIndexFolder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnIndexFolder.Location = new System.Drawing.Point(30, 64);
-            this.btnIndexFolder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnIndexFolder.Name = "btnIndexFolder";
-            this.btnIndexFolder.Size = new System.Drawing.Size(101, 31);
-            this.btnIndexFolder.TabIndex = 12;
-            this.btnIndexFolder.Text = "Select folder";
-            this.btnIndexFolder.UseVisualStyleBackColor = true;
-            this.btnIndexFolder.Click += new System.EventHandler(this.btnIndexFolder_Click);
-            // 
-            // btnScan
-            // 
-            this.btnScan.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnScan.Enabled = false;
-            this.btnScan.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnScan.Location = new System.Drawing.Point(30, 124);
-            this.btnScan.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(101, 105);
-            this.btnScan.TabIndex = 11;
-            this.btnScan.Text = "Scan";
-            this.btnScan.UseVisualStyleBackColor = true;
-            this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
-            // 
-            // gbIndexMaintenance
-            // 
-            this.gbIndexMaintenance.Controls.Add(this.btnStopOptimize);
-            this.gbIndexMaintenance.Controls.Add(this.btnOptimize);
-            this.gbIndexMaintenance.Controls.Add(this.btnClearIndex);
-            this.gbIndexMaintenance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.gbIndexMaintenance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.gbIndexMaintenance.Location = new System.Drawing.Point(571, 153);
-            this.gbIndexMaintenance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbIndexMaintenance.Name = "gbIndexMaintenance";
-            this.gbIndexMaintenance.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbIndexMaintenance.Size = new System.Drawing.Size(362, 308);
-            this.gbIndexMaintenance.TabIndex = 14;
-            this.gbIndexMaintenance.TabStop = false;
-            this.gbIndexMaintenance.Text = "Index maintenance";
-            // 
-            // btnStopOptimize
-            // 
-            this.btnStopOptimize.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStopOptimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStopOptimize.Location = new System.Drawing.Point(32, 124);
-            this.btnStopOptimize.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnStopOptimize.Name = "btnStopOptimize";
-            this.btnStopOptimize.Size = new System.Drawing.Size(101, 105);
-            this.btnStopOptimize.TabIndex = 16;
-            this.btnStopOptimize.Text = "Stop";
-            this.btnStopOptimize.UseVisualStyleBackColor = true;
-            this.btnStopOptimize.Visible = false;
-            this.btnStopOptimize.Click += new System.EventHandler(this.btnStopOptimize_Click);
-            // 
-            // btnOptimize
-            // 
-            this.btnOptimize.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOptimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOptimize.Location = new System.Drawing.Point(32, 124);
-            this.btnOptimize.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnOptimize.Name = "btnOptimize";
-            this.btnOptimize.Size = new System.Drawing.Size(101, 105);
-            this.btnOptimize.TabIndex = 14;
-            this.btnOptimize.Text = "Optimize";
-            this.btnOptimize.UseVisualStyleBackColor = true;
-            this.btnOptimize.Click += new System.EventHandler(this.btnOptimize_Click);
-            // 
-            // btnClearIndex
-            // 
-            this.btnClearIndex.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClearIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnClearIndex.Location = new System.Drawing.Point(226, 124);
-            this.btnClearIndex.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnClearIndex.Name = "btnClearIndex";
-            this.btnClearIndex.Size = new System.Drawing.Size(101, 105);
-            this.btnClearIndex.TabIndex = 15;
-            this.btnClearIndex.Text = "Clear index";
-            this.btnClearIndex.UseVisualStyleBackColor = true;
-            this.btnClearIndex.Click += new System.EventHandler(this.btnClearIndex_Click);
-            // 
-            // pnlLeft
-            // 
-            this.pnlLeft.BackColor = System.Drawing.Color.RoyalBlue;
-            this.pnlLeft.Controls.Add(this.btnMainMenuDashboard);
-            this.pnlLeft.Controls.Add(this.btnMainMenuSearch);
-            this.pnlLeft.Controls.Add(this.btnMainMenuIndex);
-            this.pnlLeft.Location = new System.Drawing.Point(0, 45);
-            this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(265, 733);
-            this.pnlLeft.TabIndex = 1;
-            // 
-            // btnMainMenuDashboard
-            // 
-            this.btnMainMenuDashboard.BackColor = System.Drawing.Color.LightGreen;
-            this.btnMainMenuDashboard.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMainMenuDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMainMenuDashboard.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMainMenuDashboard.Location = new System.Drawing.Point(22, 120);
-            this.btnMainMenuDashboard.Name = "btnMainMenuDashboard";
-            this.btnMainMenuDashboard.Size = new System.Drawing.Size(218, 77);
-            this.btnMainMenuDashboard.TabIndex = 2;
-            this.btnMainMenuDashboard.Text = "Dashboard";
-            this.btnMainMenuDashboard.UseVisualStyleBackColor = false;
-            this.btnMainMenuDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
-            // 
-            // btnMainMenuSearch
-            // 
-            this.btnMainMenuSearch.BackColor = System.Drawing.Color.LightGreen;
-            this.btnMainMenuSearch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMainMenuSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMainMenuSearch.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMainMenuSearch.Location = new System.Drawing.Point(22, 332);
-            this.btnMainMenuSearch.Name = "btnMainMenuSearch";
-            this.btnMainMenuSearch.Size = new System.Drawing.Size(218, 77);
-            this.btnMainMenuSearch.TabIndex = 1;
-            this.btnMainMenuSearch.Text = "Search";
-            this.btnMainMenuSearch.UseVisualStyleBackColor = false;
-            this.btnMainMenuSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // btnMainMenuIndex
-            // 
-            this.btnMainMenuIndex.BackColor = System.Drawing.Color.LightGreen;
-            this.btnMainMenuIndex.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMainMenuIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMainMenuIndex.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnMainMenuIndex.Location = new System.Drawing.Point(22, 227);
-            this.btnMainMenuIndex.Name = "btnMainMenuIndex";
-            this.btnMainMenuIndex.Size = new System.Drawing.Size(218, 77);
-            this.btnMainMenuIndex.TabIndex = 0;
-            this.btnMainMenuIndex.Text = "Index";
-            this.btnMainMenuIndex.UseVisualStyleBackColor = false;
-            this.btnMainMenuIndex.Click += new System.EventHandler(this.btnIndex_Click);
-            // 
-            // pnlDashboard
-            // 
-            this.pnlDashboard.BackColor = System.Drawing.Color.LightBlue;
-            this.pnlDashboard.Controls.Add(this.lblLatestAdditions);
-            this.pnlDashboard.Controls.Add(this.lblTotalByReleaseYear);
-            this.pnlDashboard.Controls.Add(this.lblTotalByGenre);
-            this.pnlDashboard.Controls.Add(this.lblTotalByExtension);
-            this.pnlDashboard.Controls.Add(this.lvReleaseYears);
-            this.pnlDashboard.Controls.Add(this.lvExtensionsTotal);
-            this.pnlDashboard.Controls.Add(this.lvGenres);
-            this.pnlDashboard.Controls.Add(this.lblTotalTracksValue);
-            this.pnlDashboard.Controls.Add(this.lblTotalTracks);
-            this.pnlDashboard.Controls.Add(this.lblDashboard);
-            this.pnlDashboard.Controls.Add(this.lvLatestAdditions);
-            this.pnlDashboard.Location = new System.Drawing.Point(261, 45);
-            this.pnlDashboard.Name = "pnlDashboard";
-            this.pnlDashboard.Size = new System.Drawing.Size(1019, 730);
-            this.pnlDashboard.TabIndex = 3;
-            // 
-            // lblLatestAdditions
-            // 
-            this.lblLatestAdditions.AutoSize = true;
-            this.lblLatestAdditions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblLatestAdditions.Location = new System.Drawing.Point(701, 183);
-            this.lblLatestAdditions.Name = "lblLatestAdditions";
-            this.lblLatestAdditions.Size = new System.Drawing.Size(121, 20);
-            this.lblLatestAdditions.TabIndex = 11;
-            this.lblLatestAdditions.Text = "Latest additions";
-            // 
-            // lblTotalByReleaseYear
-            // 
-            this.lblTotalByReleaseYear.AutoSize = true;
-            this.lblTotalByReleaseYear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalByReleaseYear.Location = new System.Drawing.Point(420, 184);
-            this.lblTotalByReleaseYear.Name = "lblTotalByReleaseYear";
-            this.lblTotalByReleaseYear.Size = new System.Drawing.Size(152, 20);
-            this.lblTotalByReleaseYear.TabIndex = 9;
-            this.lblTotalByReleaseYear.Text = "Total by release year";
-            // 
-            // lblTotalByGenre
-            // 
-            this.lblTotalByGenre.AutoSize = true;
-            this.lblTotalByGenre.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalByGenre.Location = new System.Drawing.Point(182, 184);
-            this.lblTotalByGenre.Name = "lblTotalByGenre";
-            this.lblTotalByGenre.Size = new System.Drawing.Size(109, 20);
-            this.lblTotalByGenre.TabIndex = 8;
-            this.lblTotalByGenre.Text = "Total by genre";
-            // 
-            // lblTotalByExtension
-            // 
-            this.lblTotalByExtension.AutoSize = true;
-            this.lblTotalByExtension.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalByExtension.Location = new System.Drawing.Point(32, 184);
-            this.lblTotalByExtension.Name = "lblTotalByExtension";
-            this.lblTotalByExtension.Size = new System.Drawing.Size(118, 20);
-            this.lblTotalByExtension.TabIndex = 7;
-            this.lblTotalByExtension.Text = "Total by format";
-            // 
-            // lvReleaseYears
-            // 
-            this.lvReleaseYears.BackColor = System.Drawing.Color.LightBlue;
-            this.lvReleaseYears.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvReleaseYears.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader3,
-            this.columnHeader4});
-            this.lvReleaseYears.FullRowSelect = true;
-            this.lvReleaseYears.Location = new System.Drawing.Point(420, 212);
-            this.lvReleaseYears.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.lvReleaseYears.MultiSelect = false;
-            this.lvReleaseYears.Name = "lvReleaseYears";
-            this.lvReleaseYears.Size = new System.Drawing.Size(145, 497);
-            this.lvReleaseYears.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lvReleaseYears.TabIndex = 6;
-            this.lvReleaseYears.UseCompatibleStateImageBehavior = false;
-            this.lvReleaseYears.View = System.Windows.Forms.View.Details;
-            this.lvReleaseYears.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvReleaseYears_ColumnClick);
-            this.lvReleaseYears.DoubleClick += new System.EventHandler(this.lvReleaseYears_DoubleClick);
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Name = "columnHeader3";
-            this.columnHeader3.Text = "Year";
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Name = "columnHeader4";
-            this.columnHeader4.Text = "Tracks";
-            // 
-            // lvExtensionsTotal
-            // 
-            this.lvExtensionsTotal.BackColor = System.Drawing.Color.LightBlue;
-            this.lvExtensionsTotal.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvExtensionsTotal.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.lvExtensionsTotal.FullRowSelect = true;
-            this.lvExtensionsTotal.Location = new System.Drawing.Point(32, 212);
-            this.lvExtensionsTotal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.lvExtensionsTotal.MultiSelect = false;
-            this.lvExtensionsTotal.Name = "lvExtensionsTotal";
-            this.lvExtensionsTotal.Size = new System.Drawing.Size(144, 497);
-            this.lvExtensionsTotal.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lvExtensionsTotal.TabIndex = 4;
-            this.lvExtensionsTotal.UseCompatibleStateImageBehavior = false;
-            this.lvExtensionsTotal.View = System.Windows.Forms.View.Details;
-            this.lvExtensionsTotal.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvExtensionsTotal_ColumnClick);
-            this.lvExtensionsTotal.DoubleClick += new System.EventHandler(this.lvExtensionsTotal_DoubleClick);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Name = "columnHeader1";
-            this.columnHeader1.Text = "Format";
-            this.columnHeader1.Width = 70;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Name = "columnHeader2";
-            this.columnHeader2.Text = "Tracks";
-            this.columnHeader2.Width = 73;
-            // 
-            // lvGenres
-            // 
-            this.lvGenres.BackColor = System.Drawing.Color.LightBlue;
-            this.lvGenres.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvGenres.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnExtension,
-            this.columnExtensionCount});
-            this.lvGenres.FullRowSelect = true;
-            this.lvGenres.Location = new System.Drawing.Point(182, 212);
-            this.lvGenres.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.lvGenres.MultiSelect = false;
-            this.lvGenres.Name = "lvGenres";
-            this.lvGenres.Size = new System.Drawing.Size(232, 497);
-            this.lvGenres.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.lvGenres.TabIndex = 5;
-            this.lvGenres.UseCompatibleStateImageBehavior = false;
-            this.lvGenres.View = System.Windows.Forms.View.Details;
-            this.lvGenres.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvGenres_ColumnClick);
-            this.lvGenres.DoubleClick += new System.EventHandler(this.lvGenres_DoubleClick);
-            // 
-            // columnExtension
-            // 
-            this.columnExtension.Name = "columnExtension";
-            this.columnExtension.Text = "Genre";
-            this.columnExtension.Width = 130;
-            // 
-            // columnExtensionCount
-            // 
-            this.columnExtensionCount.Name = "columnExtensionCount";
-            this.columnExtensionCount.Text = "Tracks";
-            this.columnExtensionCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.columnExtensionCount.Width = 80;
-            // 
-            // lblTotalTracksValue
-            // 
-            this.lblTotalTracksValue.AutoSize = true;
-            this.lblTotalTracksValue.Location = new System.Drawing.Point(118, 147);
-            this.lblTotalTracksValue.Name = "lblTotalTracksValue";
-            this.lblTotalTracksValue.Size = new System.Drawing.Size(17, 20);
-            this.lblTotalTracksValue.TabIndex = 3;
-            this.lblTotalTracksValue.Text = "0";
-            // 
-            // lblTotalTracks
-            // 
-            this.lblTotalTracks.AutoSize = true;
-            this.lblTotalTracks.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTotalTracks.Location = new System.Drawing.Point(32, 147);
-            this.lblTotalTracks.Name = "lblTotalTracks";
-            this.lblTotalTracks.Size = new System.Drawing.Size(94, 20);
-            this.lblTotalTracks.TabIndex = 2;
-            this.lblTotalTracks.Text = "Total tracks:";
-            // 
-            // lblDashboard
-            // 
-            this.lblDashboard.AutoSize = true;
-            this.lblDashboard.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblDashboard.Location = new System.Drawing.Point(10, 5);
-            this.lblDashboard.Name = "lblDashboard";
-            this.lblDashboard.Size = new System.Drawing.Size(441, 89);
-            this.lblDashboard.TabIndex = 1;
-            this.lblDashboard.Text = "Dashboard";
-            // 
-            // lvLatestAdditions
-            // 
-            this.lvLatestAdditions.BackColor = System.Drawing.Color.LightBlue;
-            this.lvLatestAdditions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvLatestAdditions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader5,
-            this.columnHeader6});
-            this.lvLatestAdditions.FullRowSelect = true;
-            this.lvLatestAdditions.Location = new System.Drawing.Point(571, 212);
-            this.lvLatestAdditions.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.lvLatestAdditions.MultiSelect = false;
-            this.lvLatestAdditions.Name = "lvLatestAdditions";
-            this.lvLatestAdditions.Size = new System.Drawing.Size(435, 497);
-            this.lvLatestAdditions.TabIndex = 10;
-            this.lvLatestAdditions.UseCompatibleStateImageBehavior = false;
-            this.lvLatestAdditions.View = System.Windows.Forms.View.Details;
-            this.lvLatestAdditions.DoubleClick += new System.EventHandler(this.lvLatestAdditions_DoubleClick);
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Name = "columnHeader5";
-            this.columnHeader5.Text = "Artist";
-            this.columnHeader5.Width = 190;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Name = "columnHeader6";
-            this.columnHeader6.Text = "Release";
-            this.columnHeader6.Width = 220;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.BackColor = System.Drawing.Color.Navy;
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 774);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1280, 26);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 4;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(57, 20);
-            this.toolStripStatusLabel1.Text = "Status:";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(25, 20);
-            this.toolStripStatusLabel2.Text = "ok";
-            // 
-            // pnlSearch
-            // 
-            this.pnlSearch.BackColor = System.Drawing.Color.LightBlue;
-            this.pnlSearch.Controls.Add(this.btnClearSearch);
-            this.pnlSearch.Controls.Add(this.dgSearchResult);
-            this.pnlSearch.Controls.Add(this.btnSearchIndex);
-            this.pnlSearch.Controls.Add(this.txtSearchField);
-            this.pnlSearch.Controls.Add(this.lblSearchQuery);
-            this.pnlSearch.Controls.Add(this.lblSearch);
-            this.pnlSearch.Location = new System.Drawing.Point(261, 45);
-            this.pnlSearch.Name = "pnlSearch";
-            this.pnlSearch.Size = new System.Drawing.Size(1019, 725);
-            this.pnlSearch.TabIndex = 6;
-            // 
-            // btnClearSearch
-            // 
-            this.btnClearSearch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnClearSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClearSearch.Location = new System.Drawing.Point(365, 137);
-            this.btnClearSearch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnClearSearch.Name = "btnClearSearch";
-            this.btnClearSearch.Size = new System.Drawing.Size(86, 31);
-            this.btnClearSearch.TabIndex = 15;
-            this.btnClearSearch.Text = "Clear";
-            this.btnClearSearch.UseVisualStyleBackColor = true;
-            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
-            // 
-            // dgSearchResult
-            // 
-            this.dgSearchResult.AllowUserToAddRows = false;
-            this.dgSearchResult.AllowUserToDeleteRows = false;
-            this.dgSearchResult.AllowUserToResizeColumns = false;
-            this.dgSearchResult.AllowUserToResizeRows = false;
-            this.dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
-            this.dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.Artist,
-            this.Album,
-            this.Track,
-            this.Year,
-            this.TrackNumber,
-            this.Tags,
-            this.Path,
-            this.FileName,
-            this.Genre});
-            this.dgSearchResult.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dgSearchResult.Location = new System.Drawing.Point(32, 179);
-            this.dgSearchResult.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgSearchResult.Name = "dgSearchResult";
-            this.dgSearchResult.ReadOnly = true;
-            this.dgSearchResult.RowHeadersWidth = 51;
-            this.dgSearchResult.RowTemplate.Height = 25;
-            this.dgSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgSearchResult.Size = new System.Drawing.Size(974, 531);
-            this.dgSearchResult.TabIndex = 14;
-            this.dgSearchResult.Visible = false;
-            this.dgSearchResult.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSearchResult_CellDoubleClick);
-            this.dgSearchResult.RowContextMenuStripNeeded += new System.Windows.Forms.DataGridViewRowContextMenuStripNeededEventHandler(this.dgSearchResult_RowContextMenuStripNeeded);
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.MinimumWidth = 6;
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            this.Id.Width = 125;
-            // 
-            // Artist
-            // 
-            this.Artist.DataPropertyName = "Artist";
-            this.Artist.FillWeight = 99.49239F;
-            this.Artist.HeaderText = "Artist";
-            this.Artist.MinimumWidth = 6;
-            this.Artist.Name = "Artist";
-            this.Artist.ReadOnly = true;
-            this.Artist.Width = 200;
-            // 
-            // Album
-            // 
-            this.Album.DataPropertyName = "Album";
-            this.Album.FillWeight = 99.49239F;
-            this.Album.HeaderText = "Album";
-            this.Album.MinimumWidth = 6;
-            this.Album.Name = "Album";
-            this.Album.ReadOnly = true;
-            this.Album.Width = 220;
-            // 
-            // Track
-            // 
-            this.Track.DataPropertyName = "TrackName";
-            this.Track.FillWeight = 99.49239F;
-            this.Track.HeaderText = "Track";
-            this.Track.MinimumWidth = 6;
-            this.Track.Name = "Track";
-            this.Track.ReadOnly = true;
-            this.Track.Width = 270;
-            // 
-            // Year
-            // 
-            this.Year.DataPropertyName = "Year";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Year.DefaultCellStyle = dataGridViewCellStyle5;
-            this.Year.FillWeight = 101.5228F;
-            this.Year.HeaderText = "Year";
-            this.Year.MinimumWidth = 6;
-            this.Year.Name = "Year";
-            this.Year.ReadOnly = true;
-            this.Year.Width = 54;
-            // 
-            // TrackNumber
-            // 
-            this.TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.TrackNumber.DefaultCellStyle = dataGridViewCellStyle6;
-            this.TrackNumber.HeaderText = "Track no";
-            this.TrackNumber.MinimumWidth = 6;
-            this.TrackNumber.Name = "TrackNumber";
-            this.TrackNumber.ReadOnly = true;
-            this.TrackNumber.Width = 50;
-            // 
-            // Tags
-            // 
-            this.Tags.DataPropertyName = "Tags";
-            this.Tags.HeaderText = "Tags";
-            this.Tags.MinimumWidth = 6;
-            this.Tags.Name = "Tags";
-            this.Tags.ReadOnly = true;
-            this.Tags.Visible = false;
-            this.Tags.Width = 125;
-            // 
-            // Path
-            // 
-            this.Path.DataPropertyName = "Path";
-            this.Path.HeaderText = "Path";
-            this.Path.MinimumWidth = 6;
-            this.Path.Name = "Path";
-            this.Path.ReadOnly = true;
-            this.Path.Visible = false;
-            this.Path.Width = 125;
-            // 
-            // FileName
-            // 
-            this.FileName.DataPropertyName = "FileName";
-            this.FileName.HeaderText = "FileName";
-            this.FileName.MinimumWidth = 6;
-            this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
-            this.FileName.Visible = false;
-            this.FileName.Width = 125;
-            // 
-            // Genre
-            // 
-            this.Genre.DataPropertyName = "Genre";
-            this.Genre.HeaderText = "Genre";
-            this.Genre.MinimumWidth = 6;
-            this.Genre.Name = "Genre";
-            this.Genre.ReadOnly = true;
-            this.Genre.Visible = false;
-            this.Genre.Width = 125;
-            // 
-            // btnSearchIndex
-            // 
-            this.btnSearchIndex.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSearchIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSearchIndex.Location = new System.Drawing.Point(257, 137);
-            this.btnSearchIndex.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnSearchIndex.Name = "btnSearchIndex";
-            this.btnSearchIndex.Size = new System.Drawing.Size(86, 31);
-            this.btnSearchIndex.TabIndex = 13;
-            this.btnSearchIndex.Text = "Search";
-            this.btnSearchIndex.UseVisualStyleBackColor = true;
-            this.btnSearchIndex.Click += new System.EventHandler(this.btnSearchIndex_Click);
-            // 
-            // txtSearchField
-            // 
-            this.txtSearchField.Location = new System.Drawing.Point(32, 137);
-            this.txtSearchField.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtSearchField.Name = "txtSearchField";
-            this.txtSearchField.Size = new System.Drawing.Size(217, 27);
-            this.txtSearchField.TabIndex = 12;
-            this.txtSearchField.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSearchField_KeyPress);
-            // 
-            // lblSearchQuery
-            // 
-            this.lblSearchQuery.AutoSize = true;
-            this.lblSearchQuery.Location = new System.Drawing.Point(32, 111);
-            this.lblSearchQuery.Name = "lblSearchQuery";
-            this.lblSearchQuery.Size = new System.Drawing.Size(155, 20);
-            this.lblSearchQuery.TabIndex = 11;
-            this.lblSearchQuery.Text = "Enter search keywords";
-            // 
-            // lblSearch
-            // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblSearch.Location = new System.Drawing.Point(10, 5);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(292, 89);
-            this.lblSearch.TabIndex = 1;
-            this.lblSearch.Text = "Search";
-            // 
-            // ctxFileOptions
-            // 
-            this.ctxFileOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.ctxFileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripShowFileInfo,
-            this.toolStripEditMetaTags,
-            this.toolStripConvertSelectedFiles,
-            this.toolStripSeparator3,
-            this.toolStripOpenFileLocation,
-            this.toolStripPlayFile,
-            this.toolStripSeparator1,
-            this.toolStripSearchRuTracker,
-            this.toolStripSearchAllMusic,
-            this.toolStripSeparator2,
-            this.toolStripRemoveFromIndex});
-            this.ctxFileOptions.Name = "ctxFileOptions";
-            this.ctxFileOptions.ShowImageMargin = false;
-            this.ctxFileOptions.Size = new System.Drawing.Size(205, 242);
-            this.ctxFileOptions.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ctxFileOptions_ItemClicked);
-            // 
-            // toolStripShowFileInfo
-            // 
-            this.toolStripShowFileInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.toolStripShowFileInfo.Name = "toolStripShowFileInfo";
-            this.toolStripShowFileInfo.Size = new System.Drawing.Size(204, 24);
-            this.toolStripShowFileInfo.Text = "Show file info";
-            // 
-            // toolStripEditMetaTags
-            // 
-            this.toolStripEditMetaTags.Name = "toolStripEditMetaTags";
-            this.toolStripEditMetaTags.Size = new System.Drawing.Size(204, 24);
-            this.toolStripEditMetaTags.Text = "Edit meta tags";
-            // 
-            // toolStripConvertSelectedFiles
-            // 
-            this.toolStripConvertSelectedFiles.Name = "toolStripConvertSelectedFiles";
-            this.toolStripConvertSelectedFiles.Size = new System.Drawing.Size(204, 24);
-            this.toolStripConvertSelectedFiles.Text = "Convert selected file(s)";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(201, 6);
-            // 
-            // toolStripOpenFileLocation
-            // 
-            this.toolStripOpenFileLocation.Name = "toolStripOpenFileLocation";
-            this.toolStripOpenFileLocation.Size = new System.Drawing.Size(204, 24);
-            this.toolStripOpenFileLocation.Text = "Open file location";
-            // 
-            // toolStripPlayFile
-            // 
-            this.toolStripPlayFile.Name = "toolStripPlayFile";
-            this.toolStripPlayFile.Size = new System.Drawing.Size(204, 24);
-            this.toolStripPlayFile.Text = "Play file";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
-            // 
-            // toolStripSearchRuTracker
-            // 
-            this.toolStripSearchRuTracker.Name = "toolStripSearchRuTracker";
-            this.toolStripSearchRuTracker.Size = new System.Drawing.Size(204, 24);
-            this.toolStripSearchRuTracker.Text = "Search ruTracker";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(201, 6);
-            // 
-            // toolStripRemoveFromIndex
-            // 
-            this.toolStripRemoveFromIndex.Name = "toolStripRemoveFromIndex";
-            this.toolStripRemoveFromIndex.Size = new System.Drawing.Size(204, 24);
-            this.toolStripRemoveFromIndex.Text = "Remove from index";
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // openFileDialog2
-            // 
-            this.openFileDialog2.DefaultExt = "mla";
-            this.openFileDialog2.FileName = "openFileDialog2";
-            // 
-            // toolStripSearchAllMusic
-            // 
-            this.toolStripSearchAllMusic.Name = "toolStripSearchAllMusic";
-            this.toolStripSearchAllMusic.Size = new System.Drawing.Size(204, 24);
-            this.toolStripSearchAllMusic.Text = "Search AllMusic";
-            // 
-            // MainForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(1280, 800);
-            this.Controls.Add(this.pnlIndex);
-            this.Controls.Add(this.pnlDashboard);
-            this.Controls.Add(this.pnlSearch);
-            this.Controls.Add(this.pnlTop);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.pnlLeft);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MusicLibrary";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.pnlTop.ResumeLayout(false);
-            this.pnlTop.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).EndInit();
-            this.pnlIndex.ResumeLayout(false);
-            this.pnlIndex.PerformLayout();
-            this.gbIndexSharing.ResumeLayout(false);
-            this.gbIndexSharing.PerformLayout();
-            this.gbIndexScanner.ResumeLayout(false);
-            this.gbIndexScanner.PerformLayout();
-            this.gbIndexMaintenance.ResumeLayout(false);
-            this.pnlLeft.ResumeLayout(false);
-            this.pnlDashboard.ResumeLayout(false);
-            this.pnlDashboard.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.pnlSearch.ResumeLayout(false);
-            this.pnlSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgSearchResult)).EndInit();
-            this.ctxFileOptions.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			pnlTop = new System.Windows.Forms.Panel();
+			pbLogo = new System.Windows.Forms.PictureBox();
+			btnMinimize = new System.Windows.Forms.Button();
+			lblFormTitle = new System.Windows.Forms.Label();
+			btnCloseForm = new System.Windows.Forms.Button();
+			pnlIndex = new System.Windows.Forms.Panel();
+			gbIndexSharing = new System.Windows.Forms.GroupBox();
+			lblDefaultIndex = new System.Windows.Forms.Label();
+			cmbAvailableIndexes = new System.Windows.Forms.ComboBox();
+			btnLoadIndex = new System.Windows.Forms.Button();
+			btnIndexShare = new System.Windows.Forms.Button();
+			lblIndex = new System.Windows.Forms.Label();
+			gbIndexScanner = new System.Windows.Forms.GroupBox();
+			btnIndexNewFiles = new System.Windows.Forms.Button();
+			btnIndex = new System.Windows.Forms.Button();
+			lblIndexFolder = new System.Windows.Forms.Label();
+			btnIndexFolder = new System.Windows.Forms.Button();
+			btnScan = new System.Windows.Forms.Button();
+			gbIndexMaintenance = new System.Windows.Forms.GroupBox();
+			btnStopOptimize = new System.Windows.Forms.Button();
+			btnOptimize = new System.Windows.Forms.Button();
+			btnClearIndex = new System.Windows.Forms.Button();
+			pnlLeft = new System.Windows.Forms.Panel();
+			btnLists = new System.Windows.Forms.Button();
+			btnMainMenuDashboard = new System.Windows.Forms.Button();
+			btnMainMenuSearch = new System.Windows.Forms.Button();
+			btnMainMenuIndex = new System.Windows.Forms.Button();
+			pnlDashboard = new System.Windows.Forms.Panel();
+			lblLatestAdditions = new System.Windows.Forms.Label();
+			lblTotalByReleaseYear = new System.Windows.Forms.Label();
+			lblTotalByGenre = new System.Windows.Forms.Label();
+			lblTotalByExtension = new System.Windows.Forms.Label();
+			lvReleaseYears = new System.Windows.Forms.ListView();
+			columnHeader3 = new System.Windows.Forms.ColumnHeader();
+			columnHeader4 = new System.Windows.Forms.ColumnHeader();
+			lvExtensionsTotal = new System.Windows.Forms.ListView();
+			columnHeader1 = new System.Windows.Forms.ColumnHeader();
+			columnHeader2 = new System.Windows.Forms.ColumnHeader();
+			lvGenres = new System.Windows.Forms.ListView();
+			columnExtension = new System.Windows.Forms.ColumnHeader();
+			columnExtensionCount = new System.Windows.Forms.ColumnHeader();
+			lblTotalTracksValue = new System.Windows.Forms.Label();
+			lblTotalTracks = new System.Windows.Forms.Label();
+			lblDashboard = new System.Windows.Forms.Label();
+			lvLatestAdditions = new System.Windows.Forms.ListView();
+			columnHeader5 = new System.Windows.Forms.ColumnHeader();
+			columnHeader6 = new System.Windows.Forms.ColumnHeader();
+			statusStrip1 = new System.Windows.Forms.StatusStrip();
+			toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+			pnlSearch = new System.Windows.Forms.Panel();
+			btnClearSearch = new System.Windows.Forms.Button();
+			dgSearchResult = new System.Windows.Forms.DataGridView();
+			Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Artist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Track = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			TrackNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			Genre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			btnSearchIndex = new System.Windows.Forms.Button();
+			txtSearchField = new System.Windows.Forms.TextBox();
+			lblSearchQuery = new System.Windows.Forms.Label();
+			lblSearch = new System.Windows.Forms.Label();
+			toolTipBtnClose = new System.Windows.Forms.ToolTip(components);
+			toolTipBtnMinimize = new System.Windows.Forms.ToolTip(components);
+			ctxFileOptions = new System.Windows.Forms.ContextMenuStrip(components);
+			toolStripShowFileInfo = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripShowMoreFromArtist = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+			toolStripEditMetaTags = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripConvertSelectedFiles = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+			toolStripOpenFileLocation = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripPlayFile = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			toolStripSearchRuTracker = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripSearchAllMusic = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			toolStripAddToList = new System.Windows.Forms.ToolStripMenuItem();
+			toolStripTbAddNewList = new System.Windows.Forms.ToolStripTextBox();
+			toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+			toolStripRemoveFromIndex = new System.Windows.Forms.ToolStripMenuItem();
+			folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+			openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+			openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+			pnlLists = new System.Windows.Forms.Panel();
+			dgLists = new System.Windows.Forms.DataGridView();
+			dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			gbLists = new System.Windows.Forms.GroupBox();
+			btnSaveList = new System.Windows.Forms.Button();
+			lblListName = new System.Windows.Forms.Label();
+			lblSelectList = new System.Windows.Forms.Label();
+			btnNewList = new System.Windows.Forms.Button();
+			txtListName = new System.Windows.Forms.TextBox();
+			cmbLists = new System.Windows.Forms.ComboBox();
+			lblLists = new System.Windows.Forms.Label();
+			pnlTop.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
+			pnlIndex.SuspendLayout();
+			gbIndexSharing.SuspendLayout();
+			gbIndexScanner.SuspendLayout();
+			gbIndexMaintenance.SuspendLayout();
+			pnlLeft.SuspendLayout();
+			pnlDashboard.SuspendLayout();
+			statusStrip1.SuspendLayout();
+			pnlSearch.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)dgSearchResult).BeginInit();
+			ctxFileOptions.SuspendLayout();
+			pnlLists.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)dgLists).BeginInit();
+			gbLists.SuspendLayout();
+			SuspendLayout();
+			// 
+			// pnlTop
+			// 
+			pnlTop.BackColor = System.Drawing.Color.Navy;
+			pnlTop.Controls.Add(pbLogo);
+			pnlTop.Controls.Add(btnMinimize);
+			pnlTop.Controls.Add(lblFormTitle);
+			pnlTop.Controls.Add(btnCloseForm);
+			pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
+			pnlTop.Location = new System.Drawing.Point(0, 0);
+			pnlTop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			pnlTop.Name = "pnlTop";
+			pnlTop.Size = new System.Drawing.Size(1120, 34);
+			pnlTop.TabIndex = 0;
+			pnlTop.MouseDown += pnlTop_MouseDown;
+			// 
+			// pbLogo
+			// 
+			pbLogo.Image = (System.Drawing.Image)resources.GetObject("pbLogo.Image");
+			pbLogo.Location = new System.Drawing.Point(0, 2);
+			pbLogo.Name = "pbLogo";
+			pbLogo.Size = new System.Drawing.Size(40, 31);
+			pbLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			pbLogo.TabIndex = 3;
+			pbLogo.TabStop = false;
+			// 
+			// btnMinimize
+			// 
+			btnMinimize.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnMinimize.FlatAppearance.BorderSize = 0;
+			btnMinimize.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Highlight;
+			btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnMinimize.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+			btnMinimize.ForeColor = System.Drawing.Color.White;
+			btnMinimize.Location = new System.Drawing.Point(1043, 2);
+			btnMinimize.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnMinimize.Name = "btnMinimize";
+			btnMinimize.Size = new System.Drawing.Size(32, 27);
+			btnMinimize.TabIndex = 2;
+			btnMinimize.Text = "─";
+			toolTipBtnMinimize.SetToolTip(btnMinimize, "Minimize");
+			btnMinimize.UseVisualStyleBackColor = true;
+			btnMinimize.Click += btnMinimize_Click;
+			// 
+			// lblFormTitle
+			// 
+			lblFormTitle.AutoSize = true;
+			lblFormTitle.Font = new System.Drawing.Font("Century Gothic", 16F, System.Drawing.FontStyle.Bold);
+			lblFormTitle.ForeColor = System.Drawing.Color.WhiteSmoke;
+			lblFormTitle.Location = new System.Drawing.Point(43, 4);
+			lblFormTitle.Name = "lblFormTitle";
+			lblFormTitle.Size = new System.Drawing.Size(146, 26);
+			lblFormTitle.TabIndex = 1;
+			lblFormTitle.Text = "MusicLibrary";
+			// 
+			// btnCloseForm
+			// 
+			btnCloseForm.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnCloseForm.FlatAppearance.BorderSize = 0;
+			btnCloseForm.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+			btnCloseForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnCloseForm.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+			btnCloseForm.ForeColor = System.Drawing.Color.WhiteSmoke;
+			btnCloseForm.Location = new System.Drawing.Point(1081, 3);
+			btnCloseForm.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnCloseForm.Name = "btnCloseForm";
+			btnCloseForm.Size = new System.Drawing.Size(32, 27);
+			btnCloseForm.TabIndex = 0;
+			btnCloseForm.Text = "X";
+			toolTipBtnClose.SetToolTip(btnCloseForm, "Close");
+			btnCloseForm.UseVisualStyleBackColor = true;
+			btnCloseForm.Click += btnCloseForm_Click;
+			// 
+			// pnlIndex
+			// 
+			pnlIndex.BackColor = System.Drawing.Color.LightBlue;
+			pnlIndex.Controls.Add(gbIndexSharing);
+			pnlIndex.Controls.Add(lblIndex);
+			pnlIndex.Controls.Add(gbIndexScanner);
+			pnlIndex.Controls.Add(gbIndexMaintenance);
+			pnlIndex.Location = new System.Drawing.Point(228, 34);
+			pnlIndex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			pnlIndex.Name = "pnlIndex";
+			pnlIndex.Size = new System.Drawing.Size(892, 544);
+			pnlIndex.TabIndex = 4;
+			// 
+			// gbIndexSharing
+			// 
+			gbIndexSharing.Controls.Add(lblDefaultIndex);
+			gbIndexSharing.Controls.Add(cmbAvailableIndexes);
+			gbIndexSharing.Controls.Add(btnLoadIndex);
+			gbIndexSharing.Controls.Add(btnIndexShare);
+			gbIndexSharing.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			gbIndexSharing.Location = new System.Drawing.Point(170, 391);
+			gbIndexSharing.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			gbIndexSharing.Name = "gbIndexSharing";
+			gbIndexSharing.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			gbIndexSharing.Size = new System.Drawing.Size(489, 113);
+			gbIndexSharing.TabIndex = 17;
+			gbIndexSharing.TabStop = false;
+			gbIndexSharing.Text = "Index sharing";
+			// 
+			// lblDefaultIndex
+			// 
+			lblDefaultIndex.AutoSize = true;
+			lblDefaultIndex.Location = new System.Drawing.Point(242, 26);
+			lblDefaultIndex.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			lblDefaultIndex.Name = "lblDefaultIndex";
+			lblDefaultIndex.Size = new System.Drawing.Size(122, 15);
+			lblDefaultIndex.TabIndex = 3;
+			lblDefaultIndex.Text = "Select default index:";
+			// 
+			// cmbAvailableIndexes
+			// 
+			cmbAvailableIndexes.Cursor = System.Windows.Forms.Cursors.Hand;
+			cmbAvailableIndexes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			cmbAvailableIndexes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			cmbAvailableIndexes.FormattingEnabled = true;
+			cmbAvailableIndexes.Location = new System.Drawing.Point(242, 44);
+			cmbAvailableIndexes.Margin = new System.Windows.Forms.Padding(2);
+			cmbAvailableIndexes.Name = "cmbAvailableIndexes";
+			cmbAvailableIndexes.Size = new System.Drawing.Size(244, 23);
+			cmbAvailableIndexes.TabIndex = 2;
+			// 
+			// btnLoadIndex
+			// 
+			btnLoadIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnLoadIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnLoadIndex.Location = new System.Drawing.Point(133, 26);
+			btnLoadIndex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnLoadIndex.Name = "btnLoadIndex";
+			btnLoadIndex.Size = new System.Drawing.Size(88, 75);
+			btnLoadIndex.TabIndex = 1;
+			btnLoadIndex.Text = "Import index";
+			btnLoadIndex.UseVisualStyleBackColor = true;
+			btnLoadIndex.Click += btnLoadIndex_Click;
+			// 
+			// btnIndexShare
+			// 
+			btnIndexShare.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnIndexShare.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnIndexShare.Location = new System.Drawing.Point(18, 26);
+			btnIndexShare.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnIndexShare.Name = "btnIndexShare";
+			btnIndexShare.Size = new System.Drawing.Size(88, 75);
+			btnIndexShare.TabIndex = 0;
+			btnIndexShare.Text = "Export index";
+			btnIndexShare.UseVisualStyleBackColor = true;
+			btnIndexShare.Click += btnIndexShare_Click;
+			// 
+			// lblIndex
+			// 
+			lblIndex.AutoSize = true;
+			lblIndex.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold);
+			lblIndex.Location = new System.Drawing.Point(9, 13);
+			lblIndex.Name = "lblIndex";
+			lblIndex.Size = new System.Drawing.Size(195, 70);
+			lblIndex.TabIndex = 16;
+			lblIndex.Text = "Index";
+			// 
+			// gbIndexScanner
+			// 
+			gbIndexScanner.BackColor = System.Drawing.Color.LightBlue;
+			gbIndexScanner.Controls.Add(btnIndexNewFiles);
+			gbIndexScanner.Controls.Add(btnIndex);
+			gbIndexScanner.Controls.Add(lblIndexFolder);
+			gbIndexScanner.Controls.Add(btnIndexFolder);
+			gbIndexScanner.Controls.Add(btnScan);
+			gbIndexScanner.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			gbIndexScanner.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			gbIndexScanner.Location = new System.Drawing.Point(22, 115);
+			gbIndexScanner.Name = "gbIndexScanner";
+			gbIndexScanner.Size = new System.Drawing.Size(397, 231);
+			gbIndexScanner.TabIndex = 15;
+			gbIndexScanner.TabStop = false;
+			gbIndexScanner.Text = "Index scanner";
+			// 
+			// btnIndexNewFiles
+			// 
+			btnIndexNewFiles.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnIndexNewFiles.Enabled = false;
+			btnIndexNewFiles.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			btnIndexNewFiles.Location = new System.Drawing.Point(148, 93);
+			btnIndexNewFiles.Name = "btnIndexNewFiles";
+			btnIndexNewFiles.Size = new System.Drawing.Size(91, 79);
+			btnIndexNewFiles.TabIndex = 14;
+			btnIndexNewFiles.Text = "Index new files only";
+			btnIndexNewFiles.UseVisualStyleBackColor = true;
+			btnIndexNewFiles.Click += btnIndexNewFiles_Click;
+			// 
+			// btnIndex
+			// 
+			btnIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnIndex.Enabled = false;
+			btnIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			btnIndex.Location = new System.Drawing.Point(281, 93);
+			btnIndex.Name = "btnIndex";
+			btnIndex.Size = new System.Drawing.Size(91, 79);
+			btnIndex.TabIndex = 10;
+			btnIndex.Text = "Index all files";
+			btnIndex.UseVisualStyleBackColor = true;
+			btnIndex.Click += btnIndex_Click_1;
+			// 
+			// lblIndexFolder
+			// 
+			lblIndexFolder.AutoSize = true;
+			lblIndexFolder.BackColor = System.Drawing.Color.LightBlue;
+			lblIndexFolder.Font = new System.Drawing.Font("Segoe UI", 9F);
+			lblIndexFolder.Location = new System.Drawing.Point(26, 26);
+			lblIndexFolder.Name = "lblIndexFolder";
+			lblIndexFolder.Size = new System.Drawing.Size(138, 15);
+			lblIndexFolder.TabIndex = 13;
+			lblIndexFolder.Text = "Select root folder to scan";
+			// 
+			// btnIndexFolder
+			// 
+			btnIndexFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnIndexFolder.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			btnIndexFolder.Font = new System.Drawing.Font("Segoe UI", 9F);
+			btnIndexFolder.Location = new System.Drawing.Point(26, 48);
+			btnIndexFolder.Name = "btnIndexFolder";
+			btnIndexFolder.Size = new System.Drawing.Size(88, 23);
+			btnIndexFolder.TabIndex = 12;
+			btnIndexFolder.Text = "Select folder";
+			btnIndexFolder.UseVisualStyleBackColor = true;
+			btnIndexFolder.Click += btnIndexFolder_Click;
+			// 
+			// btnScan
+			// 
+			btnScan.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnScan.Enabled = false;
+			btnScan.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			btnScan.Location = new System.Drawing.Point(26, 93);
+			btnScan.Name = "btnScan";
+			btnScan.Size = new System.Drawing.Size(88, 79);
+			btnScan.TabIndex = 11;
+			btnScan.Text = "Scan";
+			btnScan.UseVisualStyleBackColor = true;
+			btnScan.Click += btnScan_Click;
+			// 
+			// gbIndexMaintenance
+			// 
+			gbIndexMaintenance.Controls.Add(btnStopOptimize);
+			gbIndexMaintenance.Controls.Add(btnOptimize);
+			gbIndexMaintenance.Controls.Add(btnClearIndex);
+			gbIndexMaintenance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			gbIndexMaintenance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			gbIndexMaintenance.Location = new System.Drawing.Point(500, 115);
+			gbIndexMaintenance.Name = "gbIndexMaintenance";
+			gbIndexMaintenance.Size = new System.Drawing.Size(317, 231);
+			gbIndexMaintenance.TabIndex = 14;
+			gbIndexMaintenance.TabStop = false;
+			gbIndexMaintenance.Text = "Index maintenance";
+			// 
+			// btnStopOptimize
+			// 
+			btnStopOptimize.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnStopOptimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnStopOptimize.Location = new System.Drawing.Point(28, 93);
+			btnStopOptimize.Name = "btnStopOptimize";
+			btnStopOptimize.Size = new System.Drawing.Size(88, 79);
+			btnStopOptimize.TabIndex = 16;
+			btnStopOptimize.Text = "Stop";
+			btnStopOptimize.UseVisualStyleBackColor = true;
+			btnStopOptimize.Visible = false;
+			btnStopOptimize.Click += btnStopOptimize_Click;
+			// 
+			// btnOptimize
+			// 
+			btnOptimize.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnOptimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnOptimize.Location = new System.Drawing.Point(28, 93);
+			btnOptimize.Name = "btnOptimize";
+			btnOptimize.Size = new System.Drawing.Size(88, 79);
+			btnOptimize.TabIndex = 14;
+			btnOptimize.Text = "Optimize";
+			btnOptimize.UseVisualStyleBackColor = true;
+			btnOptimize.Click += btnOptimize_Click;
+			// 
+			// btnClearIndex
+			// 
+			btnClearIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnClearIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			btnClearIndex.Location = new System.Drawing.Point(198, 93);
+			btnClearIndex.Name = "btnClearIndex";
+			btnClearIndex.Size = new System.Drawing.Size(88, 79);
+			btnClearIndex.TabIndex = 15;
+			btnClearIndex.Text = "Clear index";
+			btnClearIndex.UseVisualStyleBackColor = true;
+			btnClearIndex.Click += btnClearIndex_Click;
+			// 
+			// pnlLeft
+			// 
+			pnlLeft.BackColor = System.Drawing.Color.RoyalBlue;
+			pnlLeft.Controls.Add(btnLists);
+			pnlLeft.Controls.Add(btnMainMenuDashboard);
+			pnlLeft.Controls.Add(btnMainMenuSearch);
+			pnlLeft.Controls.Add(btnMainMenuIndex);
+			pnlLeft.Location = new System.Drawing.Point(0, 34);
+			pnlLeft.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			pnlLeft.Name = "pnlLeft";
+			pnlLeft.Size = new System.Drawing.Size(232, 550);
+			pnlLeft.TabIndex = 1;
+			// 
+			// btnLists
+			// 
+			btnLists.BackColor = System.Drawing.Color.LightGreen;
+			btnLists.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnLists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnLists.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold);
+			btnLists.Location = new System.Drawing.Point(19, 240);
+			btnLists.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnLists.Name = "btnLists";
+			btnLists.Size = new System.Drawing.Size(191, 61);
+			btnLists.TabIndex = 3;
+			btnLists.Text = "Lists";
+			btnLists.UseVisualStyleBackColor = false;
+			btnLists.Click += btnLists_Click;
+			// 
+			// btnMainMenuDashboard
+			// 
+			btnMainMenuDashboard.BackColor = System.Drawing.Color.LightGreen;
+			btnMainMenuDashboard.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnMainMenuDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnMainMenuDashboard.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold);
+			btnMainMenuDashboard.Location = new System.Drawing.Point(19, 90);
+			btnMainMenuDashboard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnMainMenuDashboard.Name = "btnMainMenuDashboard";
+			btnMainMenuDashboard.Size = new System.Drawing.Size(191, 58);
+			btnMainMenuDashboard.TabIndex = 2;
+			btnMainMenuDashboard.Text = "Dashboard";
+			btnMainMenuDashboard.UseVisualStyleBackColor = false;
+			btnMainMenuDashboard.Click += btnDashboard_Click;
+			// 
+			// btnMainMenuSearch
+			// 
+			btnMainMenuSearch.BackColor = System.Drawing.Color.LightGreen;
+			btnMainMenuSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnMainMenuSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnMainMenuSearch.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold);
+			btnMainMenuSearch.Location = new System.Drawing.Point(19, 163);
+			btnMainMenuSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnMainMenuSearch.Name = "btnMainMenuSearch";
+			btnMainMenuSearch.Size = new System.Drawing.Size(191, 58);
+			btnMainMenuSearch.TabIndex = 1;
+			btnMainMenuSearch.Text = "Search";
+			btnMainMenuSearch.UseVisualStyleBackColor = false;
+			btnMainMenuSearch.Click += btnSearch_Click;
+			// 
+			// btnMainMenuIndex
+			// 
+			btnMainMenuIndex.BackColor = System.Drawing.Color.RoyalBlue;
+			btnMainMenuIndex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			btnMainMenuIndex.CausesValidation = false;
+			btnMainMenuIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnMainMenuIndex.FlatAppearance.BorderSize = 0;
+			btnMainMenuIndex.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnMainMenuIndex.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold);
+			btnMainMenuIndex.Image = Properties.Resources.settings_3110__1_;
+			btnMainMenuIndex.Location = new System.Drawing.Point(178, 500);
+			btnMainMenuIndex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			btnMainMenuIndex.Name = "btnMainMenuIndex";
+			btnMainMenuIndex.Size = new System.Drawing.Size(33, 33);
+			btnMainMenuIndex.TabIndex = 0;
+			btnMainMenuIndex.UseVisualStyleBackColor = false;
+			btnMainMenuIndex.Click += btnIndex_Click;
+			// 
+			// pnlDashboard
+			// 
+			pnlDashboard.BackColor = System.Drawing.Color.LightBlue;
+			pnlDashboard.Controls.Add(lblLatestAdditions);
+			pnlDashboard.Controls.Add(lblTotalByReleaseYear);
+			pnlDashboard.Controls.Add(lblTotalByGenre);
+			pnlDashboard.Controls.Add(lblTotalByExtension);
+			pnlDashboard.Controls.Add(lvReleaseYears);
+			pnlDashboard.Controls.Add(lvExtensionsTotal);
+			pnlDashboard.Controls.Add(lvGenres);
+			pnlDashboard.Controls.Add(lblTotalTracksValue);
+			pnlDashboard.Controls.Add(lblTotalTracks);
+			pnlDashboard.Controls.Add(lblDashboard);
+			pnlDashboard.Controls.Add(lvLatestAdditions);
+			pnlDashboard.Location = new System.Drawing.Point(228, 34);
+			pnlDashboard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			pnlDashboard.Name = "pnlDashboard";
+			pnlDashboard.Size = new System.Drawing.Size(892, 548);
+			pnlDashboard.TabIndex = 3;
+			// 
+			// lblLatestAdditions
+			// 
+			lblLatestAdditions.AutoSize = true;
+			lblLatestAdditions.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			lblLatestAdditions.Location = new System.Drawing.Point(614, 138);
+			lblLatestAdditions.Name = "lblLatestAdditions";
+			lblLatestAdditions.Size = new System.Drawing.Size(94, 15);
+			lblLatestAdditions.TabIndex = 11;
+			lblLatestAdditions.Text = "Latest additions";
+			// 
+			// lblTotalByReleaseYear
+			// 
+			lblTotalByReleaseYear.AutoSize = true;
+			lblTotalByReleaseYear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			lblTotalByReleaseYear.Location = new System.Drawing.Point(368, 138);
+			lblTotalByReleaseYear.Name = "lblTotalByReleaseYear";
+			lblTotalByReleaseYear.Size = new System.Drawing.Size(120, 15);
+			lblTotalByReleaseYear.TabIndex = 9;
+			lblTotalByReleaseYear.Text = "Total by release year";
+			// 
+			// lblTotalByGenre
+			// 
+			lblTotalByGenre.AutoSize = true;
+			lblTotalByGenre.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			lblTotalByGenre.Location = new System.Drawing.Point(215, 138);
+			lblTotalByGenre.Name = "lblTotalByGenre";
+			lblTotalByGenre.Size = new System.Drawing.Size(86, 15);
+			lblTotalByGenre.TabIndex = 8;
+			lblTotalByGenre.Text = "Total by genre";
+			// 
+			// lblTotalByExtension
+			// 
+			lblTotalByExtension.AutoSize = true;
+			lblTotalByExtension.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			lblTotalByExtension.Location = new System.Drawing.Point(46, 138);
+			lblTotalByExtension.Name = "lblTotalByExtension";
+			lblTotalByExtension.Size = new System.Drawing.Size(92, 15);
+			lblTotalByExtension.TabIndex = 7;
+			lblTotalByExtension.Text = "Total by format";
+			// 
+			// lvReleaseYears
+			// 
+			lvReleaseYears.BackColor = System.Drawing.Color.LightBlue;
+			lvReleaseYears.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			lvReleaseYears.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader3, columnHeader4 });
+			lvReleaseYears.FullRowSelect = true;
+			lvReleaseYears.Location = new System.Drawing.Point(368, 159);
+			lvReleaseYears.MultiSelect = false;
+			lvReleaseYears.Name = "lvReleaseYears";
+			lvReleaseYears.Size = new System.Drawing.Size(127, 373);
+			lvReleaseYears.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			lvReleaseYears.TabIndex = 6;
+			lvReleaseYears.UseCompatibleStateImageBehavior = false;
+			lvReleaseYears.View = System.Windows.Forms.View.Details;
+			lvReleaseYears.ColumnClick += lvReleaseYears_ColumnClick;
+			lvReleaseYears.DoubleClick += lvReleaseYears_DoubleClick;
+			// 
+			// columnHeader3
+			// 
+			columnHeader3.Name = "columnHeader3";
+			columnHeader3.Text = "Year";
+			columnHeader3.Width = 55;
+			// 
+			// columnHeader4
+			// 
+			columnHeader4.Name = "columnHeader4";
+			columnHeader4.Text = "Tracks";
+			columnHeader4.Width = 55;
+			// 
+			// lvExtensionsTotal
+			// 
+			lvExtensionsTotal.BackColor = System.Drawing.Color.LightBlue;
+			lvExtensionsTotal.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			lvExtensionsTotal.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader1, columnHeader2 });
+			lvExtensionsTotal.FullRowSelect = true;
+			lvExtensionsTotal.Location = new System.Drawing.Point(28, 159);
+			lvExtensionsTotal.MultiSelect = false;
+			lvExtensionsTotal.Name = "lvExtensionsTotal";
+			lvExtensionsTotal.Size = new System.Drawing.Size(126, 373);
+			lvExtensionsTotal.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			lvExtensionsTotal.TabIndex = 4;
+			lvExtensionsTotal.UseCompatibleStateImageBehavior = false;
+			lvExtensionsTotal.View = System.Windows.Forms.View.Details;
+			lvExtensionsTotal.ColumnClick += lvExtensionsTotal_ColumnClick;
+			lvExtensionsTotal.DoubleClick += lvExtensionsTotal_DoubleClick;
+			// 
+			// columnHeader1
+			// 
+			columnHeader1.Name = "columnHeader1";
+			columnHeader1.Text = "Format";
+			// 
+			// columnHeader2
+			// 
+			columnHeader2.Name = "columnHeader2";
+			columnHeader2.Text = "Tracks";
+			columnHeader2.Width = 66;
+			// 
+			// lvGenres
+			// 
+			lvGenres.BackColor = System.Drawing.Color.LightBlue;
+			lvGenres.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			lvGenres.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnExtension, columnExtensionCount });
+			lvGenres.FullRowSelect = true;
+			lvGenres.Location = new System.Drawing.Point(159, 159);
+			lvGenres.MultiSelect = false;
+			lvGenres.Name = "lvGenres";
+			lvGenres.Size = new System.Drawing.Size(203, 373);
+			lvGenres.Sorting = System.Windows.Forms.SortOrder.Ascending;
+			lvGenres.TabIndex = 5;
+			lvGenres.UseCompatibleStateImageBehavior = false;
+			lvGenres.View = System.Windows.Forms.View.Details;
+			lvGenres.ColumnClick += lvGenres_ColumnClick;
+			lvGenres.DoubleClick += lvGenres_DoubleClick;
+			// 
+			// columnExtension
+			// 
+			columnExtension.Name = "columnExtension";
+			columnExtension.Text = "Genre";
+			columnExtension.Width = 120;
+			// 
+			// columnExtensionCount
+			// 
+			columnExtensionCount.Name = "columnExtensionCount";
+			columnExtensionCount.Text = "Tracks";
+			columnExtensionCount.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			columnExtensionCount.Width = 66;
+			// 
+			// lblTotalTracksValue
+			// 
+			lblTotalTracksValue.AutoSize = true;
+			lblTotalTracksValue.Location = new System.Drawing.Point(103, 110);
+			lblTotalTracksValue.Name = "lblTotalTracksValue";
+			lblTotalTracksValue.Size = new System.Drawing.Size(13, 15);
+			lblTotalTracksValue.TabIndex = 3;
+			lblTotalTracksValue.Text = "0";
+			// 
+			// lblTotalTracks
+			// 
+			lblTotalTracks.AutoSize = true;
+			lblTotalTracks.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			lblTotalTracks.Location = new System.Drawing.Point(28, 110);
+			lblTotalTracks.Name = "lblTotalTracks";
+			lblTotalTracks.Size = new System.Drawing.Size(74, 15);
+			lblTotalTracks.TabIndex = 2;
+			lblTotalTracks.Text = "Total tracks:";
+			// 
+			// lblDashboard
+			// 
+			lblDashboard.AutoSize = true;
+			lblDashboard.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold);
+			lblDashboard.Location = new System.Drawing.Point(9, 4);
+			lblDashboard.Name = "lblDashboard";
+			lblDashboard.Size = new System.Drawing.Size(351, 70);
+			lblDashboard.TabIndex = 1;
+			lblDashboard.Text = "Dashboard";
+			// 
+			// lvLatestAdditions
+			// 
+			lvLatestAdditions.BackColor = System.Drawing.Color.LightBlue;
+			lvLatestAdditions.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			lvLatestAdditions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { columnHeader5, columnHeader6 });
+			lvLatestAdditions.FullRowSelect = true;
+			lvLatestAdditions.Location = new System.Drawing.Point(500, 159);
+			lvLatestAdditions.MultiSelect = false;
+			lvLatestAdditions.Name = "lvLatestAdditions";
+			lvLatestAdditions.Size = new System.Drawing.Size(381, 373);
+			lvLatestAdditions.TabIndex = 10;
+			lvLatestAdditions.UseCompatibleStateImageBehavior = false;
+			lvLatestAdditions.View = System.Windows.Forms.View.Details;
+			lvLatestAdditions.DoubleClick += lvLatestAdditions_DoubleClick;
+			// 
+			// columnHeader5
+			// 
+			columnHeader5.Name = "columnHeader5";
+			columnHeader5.Text = "Artist";
+			columnHeader5.Width = 164;
+			// 
+			// columnHeader6
+			// 
+			columnHeader6.Name = "columnHeader6";
+			columnHeader6.Text = "Release";
+			columnHeader6.Width = 200;
+			// 
+			// statusStrip1
+			// 
+			statusStrip1.BackColor = System.Drawing.Color.Navy;
+			statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+			statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripStatusLabel1, toolStripStatusLabel2 });
+			statusStrip1.Location = new System.Drawing.Point(0, 578);
+			statusStrip1.Name = "statusStrip1";
+			statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
+			statusStrip1.Size = new System.Drawing.Size(1120, 22);
+			statusStrip1.SizingGrip = false;
+			statusStrip1.TabIndex = 4;
+			statusStrip1.Text = "statusStrip1";
+			// 
+			// toolStripStatusLabel1
+			// 
+			toolStripStatusLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			toolStripStatusLabel1.ForeColor = System.Drawing.Color.WhiteSmoke;
+			toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			toolStripStatusLabel1.Size = new System.Drawing.Size(45, 17);
+			toolStripStatusLabel1.Text = "Status:";
+			// 
+			// toolStripStatusLabel2
+			// 
+			toolStripStatusLabel2.ForeColor = System.Drawing.Color.WhiteSmoke;
+			toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+			toolStripStatusLabel2.Size = new System.Drawing.Size(20, 17);
+			toolStripStatusLabel2.Text = "ok";
+			// 
+			// pnlSearch
+			// 
+			pnlSearch.BackColor = System.Drawing.Color.LightBlue;
+			pnlSearch.Controls.Add(btnClearSearch);
+			pnlSearch.Controls.Add(dgSearchResult);
+			pnlSearch.Controls.Add(btnSearchIndex);
+			pnlSearch.Controls.Add(txtSearchField);
+			pnlSearch.Controls.Add(lblSearchQuery);
+			pnlSearch.Controls.Add(lblSearch);
+			pnlSearch.Location = new System.Drawing.Point(228, 34);
+			pnlSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			pnlSearch.Name = "pnlSearch";
+			pnlSearch.Size = new System.Drawing.Size(892, 544);
+			pnlSearch.TabIndex = 6;
+			// 
+			// btnClearSearch
+			// 
+			btnClearSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnClearSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnClearSearch.Location = new System.Drawing.Point(319, 103);
+			btnClearSearch.Name = "btnClearSearch";
+			btnClearSearch.Size = new System.Drawing.Size(75, 23);
+			btnClearSearch.TabIndex = 15;
+			btnClearSearch.Text = "Clear";
+			btnClearSearch.UseVisualStyleBackColor = true;
+			btnClearSearch.Click += btnClearSearch_Click;
+			// 
+			// dgSearchResult
+			// 
+			dgSearchResult.AllowUserToAddRows = false;
+			dgSearchResult.AllowUserToDeleteRows = false;
+			dgSearchResult.AllowUserToResizeColumns = false;
+			dgSearchResult.AllowUserToResizeRows = false;
+			dgSearchResult.BackgroundColor = System.Drawing.Color.LightBlue;
+			dgSearchResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			dgSearchResult.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dgSearchResult.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dgSearchResult.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { Id, Artist, Album, Track, Year, TrackNumber, Tags, Path, FileName, Genre });
+			dgSearchResult.Cursor = System.Windows.Forms.Cursors.Hand;
+			dgSearchResult.Location = new System.Drawing.Point(28, 134);
+			dgSearchResult.Name = "dgSearchResult";
+			dgSearchResult.ReadOnly = true;
+			dgSearchResult.RowHeadersWidth = 51;
+			dgSearchResult.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			dgSearchResult.Size = new System.Drawing.Size(852, 398);
+			dgSearchResult.TabIndex = 14;
+			dgSearchResult.Visible = false;
+			dgSearchResult.CellDoubleClick += dgSearchResult_CellDoubleClick;
+			dgSearchResult.RowContextMenuStripNeeded += dgSearchResult_RowContextMenuStripNeeded;
+			// 
+			// Id
+			// 
+			Id.DataPropertyName = "Id";
+			Id.HeaderText = "Id";
+			Id.MinimumWidth = 6;
+			Id.Name = "Id";
+			Id.ReadOnly = true;
+			Id.Visible = false;
+			Id.Width = 125;
+			// 
+			// Artist
+			// 
+			Artist.DataPropertyName = "Artist";
+			Artist.FillWeight = 99.49239F;
+			Artist.HeaderText = "Artist";
+			Artist.MinimumWidth = 6;
+			Artist.Name = "Artist";
+			Artist.ReadOnly = true;
+			Artist.Width = 200;
+			// 
+			// Album
+			// 
+			Album.DataPropertyName = "Album";
+			Album.FillWeight = 99.49239F;
+			Album.HeaderText = "Album";
+			Album.MinimumWidth = 6;
+			Album.Name = "Album";
+			Album.ReadOnly = true;
+			Album.Width = 220;
+			// 
+			// Track
+			// 
+			Track.DataPropertyName = "TrackName";
+			Track.FillWeight = 99.49239F;
+			Track.HeaderText = "Track";
+			Track.MinimumWidth = 6;
+			Track.Name = "Track";
+			Track.ReadOnly = true;
+			Track.Width = 270;
+			// 
+			// Year
+			// 
+			Year.DataPropertyName = "Year";
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			Year.DefaultCellStyle = dataGridViewCellStyle2;
+			Year.FillWeight = 101.5228F;
+			Year.HeaderText = "Year";
+			Year.MinimumWidth = 6;
+			Year.Name = "Year";
+			Year.ReadOnly = true;
+			Year.Width = 48;
+			// 
+			// TrackNumber
+			// 
+			TrackNumber.DataPropertyName = "TrackNumber";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
+			TrackNumber.HeaderText = "Track no";
+			TrackNumber.MinimumWidth = 6;
+			TrackNumber.Name = "TrackNumber";
+			TrackNumber.ReadOnly = true;
+			TrackNumber.Width = 45;
+			// 
+			// Tags
+			// 
+			Tags.DataPropertyName = "Tags";
+			Tags.HeaderText = "Tags";
+			Tags.MinimumWidth = 6;
+			Tags.Name = "Tags";
+			Tags.ReadOnly = true;
+			Tags.Visible = false;
+			Tags.Width = 125;
+			// 
+			// Path
+			// 
+			Path.DataPropertyName = "Path";
+			Path.HeaderText = "Path";
+			Path.MinimumWidth = 6;
+			Path.Name = "Path";
+			Path.ReadOnly = true;
+			Path.Visible = false;
+			Path.Width = 125;
+			// 
+			// FileName
+			// 
+			FileName.DataPropertyName = "FileName";
+			FileName.HeaderText = "FileName";
+			FileName.MinimumWidth = 6;
+			FileName.Name = "FileName";
+			FileName.ReadOnly = true;
+			FileName.Visible = false;
+			FileName.Width = 125;
+			// 
+			// Genre
+			// 
+			Genre.DataPropertyName = "Genre";
+			Genre.HeaderText = "Genre";
+			Genre.MinimumWidth = 6;
+			Genre.Name = "Genre";
+			Genre.ReadOnly = true;
+			Genre.Visible = false;
+			Genre.Width = 125;
+			// 
+			// btnSearchIndex
+			// 
+			btnSearchIndex.Cursor = System.Windows.Forms.Cursors.Hand;
+			btnSearchIndex.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+			btnSearchIndex.Location = new System.Drawing.Point(225, 103);
+			btnSearchIndex.Name = "btnSearchIndex";
+			btnSearchIndex.Size = new System.Drawing.Size(75, 23);
+			btnSearchIndex.TabIndex = 13;
+			btnSearchIndex.Text = "Search";
+			btnSearchIndex.UseVisualStyleBackColor = true;
+			btnSearchIndex.Click += btnSearchIndex_Click;
+			// 
+			// txtSearchField
+			// 
+			txtSearchField.Location = new System.Drawing.Point(28, 103);
+			txtSearchField.Name = "txtSearchField";
+			txtSearchField.Size = new System.Drawing.Size(190, 23);
+			txtSearchField.TabIndex = 12;
+			txtSearchField.KeyPress += txtSearchField_KeyPress;
+			// 
+			// lblSearchQuery
+			// 
+			lblSearchQuery.AutoSize = true;
+			lblSearchQuery.Location = new System.Drawing.Point(28, 83);
+			lblSearchQuery.Name = "lblSearchQuery";
+			lblSearchQuery.Size = new System.Drawing.Size(124, 15);
+			lblSearchQuery.TabIndex = 11;
+			lblSearchQuery.Text = "Enter search keywords";
+			// 
+			// lblSearch
+			// 
+			lblSearch.AutoSize = true;
+			lblSearch.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold);
+			lblSearch.Location = new System.Drawing.Point(9, 4);
+			lblSearch.Name = "lblSearch";
+			lblSearch.Size = new System.Drawing.Size(232, 70);
+			lblSearch.TabIndex = 1;
+			lblSearch.Text = "Search";
+			// 
+			// ctxFileOptions
+			// 
+			ctxFileOptions.ImageScalingSize = new System.Drawing.Size(20, 20);
+			ctxFileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripShowFileInfo, toolStripShowMoreFromArtist, toolStripSeparator5, toolStripEditMetaTags, toolStripConvertSelectedFiles, toolStripSeparator3, toolStripOpenFileLocation, toolStripPlayFile, toolStripSeparator1, toolStripSearchRuTracker, toolStripSearchAllMusic, toolStripSeparator2, toolStripAddToList, toolStripSeparator4, toolStripRemoveFromIndex });
+			ctxFileOptions.Name = "ctxFileOptions";
+			ctxFileOptions.ShowImageMargin = false;
+			ctxFileOptions.Size = new System.Drawing.Size(170, 254);
+			ctxFileOptions.ItemClicked += ctxFileOptions_ItemClicked;
+			// 
+			// toolStripShowFileInfo
+			// 
+			toolStripShowFileInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			toolStripShowFileInfo.Name = "toolStripShowFileInfo";
+			toolStripShowFileInfo.Size = new System.Drawing.Size(169, 22);
+			toolStripShowFileInfo.Text = "Show file info";
+			// 
+			// toolStripShowMoreFromArtist
+			// 
+			toolStripShowMoreFromArtist.Name = "toolStripShowMoreFromArtist";
+			toolStripShowMoreFromArtist.Size = new System.Drawing.Size(169, 22);
+			toolStripShowMoreFromArtist.Text = "All from this artist";
+			// 
+			// toolStripSeparator5
+			// 
+			toolStripSeparator5.Name = "toolStripSeparator5";
+			toolStripSeparator5.Size = new System.Drawing.Size(166, 6);
+			// 
+			// toolStripEditMetaTags
+			// 
+			toolStripEditMetaTags.Name = "toolStripEditMetaTags";
+			toolStripEditMetaTags.Size = new System.Drawing.Size(169, 22);
+			toolStripEditMetaTags.Text = "Edit meta tags";
+			// 
+			// toolStripConvertSelectedFiles
+			// 
+			toolStripConvertSelectedFiles.Name = "toolStripConvertSelectedFiles";
+			toolStripConvertSelectedFiles.Size = new System.Drawing.Size(169, 22);
+			toolStripConvertSelectedFiles.Text = "Convert selected file(s)";
+			// 
+			// toolStripSeparator3
+			// 
+			toolStripSeparator3.Name = "toolStripSeparator3";
+			toolStripSeparator3.Size = new System.Drawing.Size(166, 6);
+			// 
+			// toolStripOpenFileLocation
+			// 
+			toolStripOpenFileLocation.Name = "toolStripOpenFileLocation";
+			toolStripOpenFileLocation.Size = new System.Drawing.Size(169, 22);
+			toolStripOpenFileLocation.Text = "Open file location";
+			// 
+			// toolStripPlayFile
+			// 
+			toolStripPlayFile.Name = "toolStripPlayFile";
+			toolStripPlayFile.Size = new System.Drawing.Size(169, 22);
+			toolStripPlayFile.Text = "Play file";
+			// 
+			// toolStripSeparator1
+			// 
+			toolStripSeparator1.Name = "toolStripSeparator1";
+			toolStripSeparator1.Size = new System.Drawing.Size(166, 6);
+			// 
+			// toolStripSearchRuTracker
+			// 
+			toolStripSearchRuTracker.Name = "toolStripSearchRuTracker";
+			toolStripSearchRuTracker.Size = new System.Drawing.Size(169, 22);
+			toolStripSearchRuTracker.Text = "Search ruTracker";
+			// 
+			// toolStripSearchAllMusic
+			// 
+			toolStripSearchAllMusic.Name = "toolStripSearchAllMusic";
+			toolStripSearchAllMusic.Size = new System.Drawing.Size(169, 22);
+			toolStripSearchAllMusic.Text = "Search AllMusic";
+			// 
+			// toolStripSeparator2
+			// 
+			toolStripSeparator2.Name = "toolStripSeparator2";
+			toolStripSeparator2.Size = new System.Drawing.Size(166, 6);
+			// 
+			// toolStripAddToList
+			// 
+			toolStripAddToList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			toolStripAddToList.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { toolStripTbAddNewList });
+			toolStripAddToList.Name = "toolStripAddToList";
+			toolStripAddToList.Size = new System.Drawing.Size(169, 22);
+			toolStripAddToList.Text = "Add to list";
+			toolStripAddToList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			toolStripAddToList.DropDownItemClicked += toolStripAddToList_DropDownItemClicked;
+			// 
+			// toolStripTbAddNewList
+			// 
+			toolStripTbAddNewList.Name = "toolStripTbAddNewList";
+			toolStripTbAddNewList.Size = new System.Drawing.Size(100, 23);
+			toolStripTbAddNewList.KeyPress += toolStripTbNewList_KeyPress;
+			// 
+			// toolStripSeparator4
+			// 
+			toolStripSeparator4.Name = "toolStripSeparator4";
+			toolStripSeparator4.Size = new System.Drawing.Size(166, 6);
+			// 
+			// toolStripRemoveFromIndex
+			// 
+			toolStripRemoveFromIndex.Name = "toolStripRemoveFromIndex";
+			toolStripRemoveFromIndex.Size = new System.Drawing.Size(169, 22);
+			toolStripRemoveFromIndex.Text = "Remove from index";
+			// 
+			// openFileDialog1
+			// 
+			openFileDialog1.FileName = "openFileDialog1";
+			// 
+			// openFileDialog2
+			// 
+			openFileDialog2.DefaultExt = "mla";
+			openFileDialog2.FileName = "openFileDialog2";
+			// 
+			// pnlLists
+			// 
+			pnlLists.BackColor = System.Drawing.Color.LightBlue;
+			pnlLists.Controls.Add(dgLists);
+			pnlLists.Controls.Add(gbLists);
+			pnlLists.Controls.Add(lblLists);
+			pnlLists.Location = new System.Drawing.Point(228, 34);
+			pnlLists.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			pnlLists.Name = "pnlLists";
+			pnlLists.Size = new System.Drawing.Size(892, 548);
+			pnlLists.TabIndex = 20;
+			// 
+			// dgLists
+			// 
+			dgLists.AllowUserToAddRows = false;
+			dgLists.AllowUserToDeleteRows = false;
+			dgLists.AllowUserToResizeColumns = false;
+			dgLists.AllowUserToResizeRows = false;
+			dgLists.BackgroundColor = System.Drawing.Color.LightBlue;
+			dgLists.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			dgLists.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+			dgLists.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dgLists.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8, dataGridViewTextBoxColumn9, dataGridViewTextBoxColumn10 });
+			dgLists.Cursor = System.Windows.Forms.Cursors.Hand;
+			dgLists.Location = new System.Drawing.Point(20, 113);
+			dgLists.Name = "dgLists";
+			dgLists.ReadOnly = true;
+			dgLists.RowHeadersWidth = 51;
+			dgLists.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			dgLists.Size = new System.Drawing.Size(852, 398);
+			dgLists.TabIndex = 21;
+			dgLists.Visible = false;
+			dgLists.CellDoubleClick += dgSearchResult_CellDoubleClick;
+			dgLists.RowContextMenuStripNeeded += dgSearchResult_RowContextMenuStripNeeded;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			dataGridViewTextBoxColumn1.DataPropertyName = "Id";
+			dataGridViewTextBoxColumn1.HeaderText = "Id";
+			dataGridViewTextBoxColumn1.MinimumWidth = 6;
+			dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			dataGridViewTextBoxColumn1.ReadOnly = true;
+			dataGridViewTextBoxColumn1.Visible = false;
+			dataGridViewTextBoxColumn1.Width = 125;
+			// 
+			// dataGridViewTextBoxColumn2
+			// 
+			dataGridViewTextBoxColumn2.DataPropertyName = "Artist";
+			dataGridViewTextBoxColumn2.FillWeight = 99.49239F;
+			dataGridViewTextBoxColumn2.HeaderText = "Artist";
+			dataGridViewTextBoxColumn2.MinimumWidth = 6;
+			dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+			dataGridViewTextBoxColumn2.ReadOnly = true;
+			dataGridViewTextBoxColumn2.Width = 200;
+			// 
+			// dataGridViewTextBoxColumn3
+			// 
+			dataGridViewTextBoxColumn3.DataPropertyName = "Album";
+			dataGridViewTextBoxColumn3.FillWeight = 99.49239F;
+			dataGridViewTextBoxColumn3.HeaderText = "Album";
+			dataGridViewTextBoxColumn3.MinimumWidth = 6;
+			dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+			dataGridViewTextBoxColumn3.ReadOnly = true;
+			dataGridViewTextBoxColumn3.Width = 220;
+			// 
+			// dataGridViewTextBoxColumn4
+			// 
+			dataGridViewTextBoxColumn4.DataPropertyName = "TrackName";
+			dataGridViewTextBoxColumn4.FillWeight = 99.49239F;
+			dataGridViewTextBoxColumn4.HeaderText = "Track";
+			dataGridViewTextBoxColumn4.MinimumWidth = 6;
+			dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+			dataGridViewTextBoxColumn4.ReadOnly = true;
+			dataGridViewTextBoxColumn4.Width = 270;
+			// 
+			// dataGridViewTextBoxColumn5
+			// 
+			dataGridViewTextBoxColumn5.DataPropertyName = "Year";
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewTextBoxColumn5.FillWeight = 101.5228F;
+			dataGridViewTextBoxColumn5.HeaderText = "Year";
+			dataGridViewTextBoxColumn5.MinimumWidth = 6;
+			dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+			dataGridViewTextBoxColumn5.ReadOnly = true;
+			dataGridViewTextBoxColumn5.Width = 48;
+			// 
+			// dataGridViewTextBoxColumn6
+			// 
+			dataGridViewTextBoxColumn6.DataPropertyName = "TrackNumber";
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+			dataGridViewTextBoxColumn6.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewTextBoxColumn6.HeaderText = "Track no";
+			dataGridViewTextBoxColumn6.MinimumWidth = 6;
+			dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+			dataGridViewTextBoxColumn6.ReadOnly = true;
+			dataGridViewTextBoxColumn6.Width = 45;
+			// 
+			// dataGridViewTextBoxColumn7
+			// 
+			dataGridViewTextBoxColumn7.DataPropertyName = "Tags";
+			dataGridViewTextBoxColumn7.HeaderText = "Tags";
+			dataGridViewTextBoxColumn7.MinimumWidth = 6;
+			dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+			dataGridViewTextBoxColumn7.ReadOnly = true;
+			dataGridViewTextBoxColumn7.Visible = false;
+			dataGridViewTextBoxColumn7.Width = 125;
+			// 
+			// dataGridViewTextBoxColumn8
+			// 
+			dataGridViewTextBoxColumn8.DataPropertyName = "Path";
+			dataGridViewTextBoxColumn8.HeaderText = "Path";
+			dataGridViewTextBoxColumn8.MinimumWidth = 6;
+			dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+			dataGridViewTextBoxColumn8.ReadOnly = true;
+			dataGridViewTextBoxColumn8.Visible = false;
+			dataGridViewTextBoxColumn8.Width = 125;
+			// 
+			// dataGridViewTextBoxColumn9
+			// 
+			dataGridViewTextBoxColumn9.DataPropertyName = "FileName";
+			dataGridViewTextBoxColumn9.HeaderText = "FileName";
+			dataGridViewTextBoxColumn9.MinimumWidth = 6;
+			dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+			dataGridViewTextBoxColumn9.ReadOnly = true;
+			dataGridViewTextBoxColumn9.Visible = false;
+			dataGridViewTextBoxColumn9.Width = 125;
+			// 
+			// dataGridViewTextBoxColumn10
+			// 
+			dataGridViewTextBoxColumn10.DataPropertyName = "Genre";
+			dataGridViewTextBoxColumn10.HeaderText = "Genre";
+			dataGridViewTextBoxColumn10.MinimumWidth = 6;
+			dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+			dataGridViewTextBoxColumn10.ReadOnly = true;
+			dataGridViewTextBoxColumn10.Visible = false;
+			dataGridViewTextBoxColumn10.Width = 125;
+			// 
+			// gbLists
+			// 
+			gbLists.Controls.Add(btnSaveList);
+			gbLists.Controls.Add(lblListName);
+			gbLists.Controls.Add(lblSelectList);
+			gbLists.Controls.Add(btnNewList);
+			gbLists.Controls.Add(txtListName);
+			gbLists.Controls.Add(cmbLists);
+			gbLists.Location = new System.Drawing.Point(170, 26);
+			gbLists.Margin = new System.Windows.Forms.Padding(2);
+			gbLists.Name = "gbLists";
+			gbLists.Padding = new System.Windows.Forms.Padding(2);
+			gbLists.Size = new System.Drawing.Size(702, 73);
+			gbLists.TabIndex = 20;
+			gbLists.TabStop = false;
+			gbLists.Text = "Actions";
+			// 
+			// btnSaveList
+			// 
+			btnSaveList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnSaveList.Location = new System.Drawing.Point(513, 40);
+			btnSaveList.Margin = new System.Windows.Forms.Padding(2);
+			btnSaveList.Name = "btnSaveList";
+			btnSaveList.Size = new System.Drawing.Size(79, 26);
+			btnSaveList.TabIndex = 24;
+			btnSaveList.Text = "Save";
+			btnSaveList.UseVisualStyleBackColor = true;
+			btnSaveList.Click += btnSaveList_Click;
+			// 
+			// lblListName
+			// 
+			lblListName.AutoSize = true;
+			lblListName.Location = new System.Drawing.Point(223, 23);
+			lblListName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			lblListName.Name = "lblListName";
+			lblListName.Size = new System.Drawing.Size(58, 15);
+			lblListName.TabIndex = 21;
+			lblListName.Text = "List name";
+			// 
+			// lblSelectList
+			// 
+			lblSelectList.AutoSize = true;
+			lblSelectList.Location = new System.Drawing.Point(12, 25);
+			lblSelectList.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			lblSelectList.Name = "lblSelectList";
+			lblSelectList.Size = new System.Drawing.Size(56, 15);
+			lblSelectList.TabIndex = 23;
+			lblSelectList.Text = "Select list";
+			// 
+			// btnNewList
+			// 
+			btnNewList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			btnNewList.Location = new System.Drawing.Point(422, 40);
+			btnNewList.Margin = new System.Windows.Forms.Padding(2);
+			btnNewList.Name = "btnNewList";
+			btnNewList.Size = new System.Drawing.Size(79, 26);
+			btnNewList.TabIndex = 22;
+			btnNewList.Text = "New";
+			btnNewList.UseVisualStyleBackColor = true;
+			btnNewList.Click += btnNewList_Click;
+			// 
+			// txtListName
+			// 
+			txtListName.Location = new System.Drawing.Point(223, 43);
+			txtListName.Margin = new System.Windows.Forms.Padding(2);
+			txtListName.Name = "txtListName";
+			txtListName.Size = new System.Drawing.Size(175, 23);
+			txtListName.TabIndex = 21;
+			txtListName.KeyPress += txtListName_Enter;
+			// 
+			// cmbLists
+			// 
+			cmbLists.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			cmbLists.FormattingEnabled = true;
+			cmbLists.Location = new System.Drawing.Point(12, 41);
+			cmbLists.Margin = new System.Windows.Forms.Padding(2);
+			cmbLists.Name = "cmbLists";
+			cmbLists.Size = new System.Drawing.Size(189, 23);
+			cmbLists.Sorted = true;
+			cmbLists.TabIndex = 18;
+			cmbLists.SelectedIndexChanged += cmbLists_SelectedIndexChanged;
+			// 
+			// lblLists
+			// 
+			lblLists.AutoSize = true;
+			lblLists.Font = new System.Drawing.Font("Century Gothic", 45F, System.Drawing.FontStyle.Bold);
+			lblLists.Location = new System.Drawing.Point(23, 13);
+			lblLists.Name = "lblLists";
+			lblLists.Size = new System.Drawing.Size(140, 70);
+			lblLists.TabIndex = 17;
+			lblLists.Text = "Lists";
+			// 
+			// MainForm
+			// 
+			AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			BackColor = System.Drawing.Color.Silver;
+			ClientSize = new System.Drawing.Size(1120, 600);
+			Controls.Add(pnlDashboard);
+			Controls.Add(pnlLists);
+			Controls.Add(pnlSearch);
+			Controls.Add(pnlIndex);
+			Controls.Add(pnlTop);
+			Controls.Add(statusStrip1);
+			Controls.Add(pnlLeft);
+			FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+			Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			Name = "MainForm";
+			StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			Text = "MusicLibrary";
+			Load += MainForm_Load;
+			pnlTop.ResumeLayout(false);
+			pnlTop.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)pbLogo).EndInit();
+			pnlIndex.ResumeLayout(false);
+			pnlIndex.PerformLayout();
+			gbIndexSharing.ResumeLayout(false);
+			gbIndexSharing.PerformLayout();
+			gbIndexScanner.ResumeLayout(false);
+			gbIndexScanner.PerformLayout();
+			gbIndexMaintenance.ResumeLayout(false);
+			pnlLeft.ResumeLayout(false);
+			pnlDashboard.ResumeLayout(false);
+			pnlDashboard.PerformLayout();
+			statusStrip1.ResumeLayout(false);
+			statusStrip1.PerformLayout();
+			pnlSearch.ResumeLayout(false);
+			pnlSearch.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)dgSearchResult).EndInit();
+			ctxFileOptions.ResumeLayout(false);
+			pnlLists.ResumeLayout(false);
+			pnlLists.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)dgLists).EndInit();
+			gbLists.ResumeLayout(false);
+			gbLists.PerformLayout();
+			ResumeLayout(false);
+			PerformLayout();
+		}
 
-        }
+		#endregion
 
-        #endregion
-
-        private System.Windows.Forms.Panel pnlTop;
+		private System.Windows.Forms.Panel pnlTop;
         private System.Windows.Forms.Button btnCloseForm;
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Label lblFormTitle;
@@ -1099,7 +1389,6 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.DataGridView dgSearchResult;
         private System.Windows.Forms.ContextMenuStrip ctxFileOptions;
         private System.Windows.Forms.ToolStripMenuItem toolStripEditMetaTags;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.Button btnClearSearch;
         private System.Windows.Forms.ListView lvGenres;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -1157,5 +1446,32 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.ComboBox cmbAvailableIndexes;
         private System.Windows.Forms.Label lblDefaultIndex;
         private System.Windows.Forms.ToolStripMenuItem toolStripSearchAllMusic;
+        private System.Windows.Forms.Button btnLists;
+        private System.Windows.Forms.Panel pnlLists;
+        private System.Windows.Forms.Label lblLists;
+        private System.Windows.Forms.ComboBox cmbLists;
+        private System.Windows.Forms.GroupBox gbLists;
+        private System.Windows.Forms.Button btnNewList;
+        private System.Windows.Forms.TextBox txtListName;
+        private System.Windows.Forms.Label lblListName;
+        private System.Windows.Forms.Label lblSelectList;
+        private System.Windows.Forms.Button btnSaveList;
+        private System.Windows.Forms.ToolStripMenuItem toolStripShowMoreFromArtist;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripAddToList;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dgvtbcFile;
+        private System.Windows.Forms.DataGridView dgLists;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.ToolStripTextBox toolStripTbAddNewList;
     }
 }

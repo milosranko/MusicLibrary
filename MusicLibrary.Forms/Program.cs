@@ -1,42 +1,48 @@
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
 
-namespace MusicLibrary.Forms
+namespace MusicLibrary.Forms;
+
+static class Program
 {
-    static class Program
-    {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            PrepareFFMpegFiles();
+	public static IServiceProvider ServiceProvider { get; private set; }
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
-        }
+	/// <summary>
+	///  The main entry point for the application.
+	/// </summary>
+	[STAThread]
+	static void Main()
+	{
+		ServiceProvider = new ServiceCollection()
+			.AddMemoryCache()
+			.BuildServiceProvider();
 
-        private static void PrepareFFMpegFiles()
-        {
-            var path = $"{Environment.CurrentDirectory}\\ffmpeg\\ffmpeg.zip";
+		PrepareFFMpegFiles();
 
-            if (!File.Exists(path)) return;
+		Application.SetHighDpiMode(HighDpiMode.SystemAware);
+		Application.EnableVisualStyles();
+		Application.SetCompatibleTextRenderingDefault(false);
+		Application.Run(new MainForm());
+	}
 
-            using (var archive = ZipFile.OpenRead(path))
-            { 
-                foreach (var entry in archive.Entries)
-                {
-                    var destinationPath = Path.GetFullPath(Path.Combine($"{Environment.CurrentDirectory}\\ffmpeg", entry.FullName));
-                    entry.ExtractToFile(destinationPath, true);
-                }
-            }
+	private static void PrepareFFMpegFiles()
+	{
+		var path = $"{Environment.CurrentDirectory}\\ffmpeg\\ffmpeg.zip";
 
-            File.Delete(path);
-        }
-    }
+		if (!File.Exists(path)) return;
+
+		using (var archive = ZipFile.OpenRead(path))
+		{
+			foreach (var entry in archive.Entries)
+			{
+				var destinationPath = Path.GetFullPath(Path.Combine($"{Environment.CurrentDirectory}\\ffmpeg", entry.FullName));
+				entry.ExtractToFile(destinationPath, true);
+			}
+		}
+
+		File.Delete(path);
+	}
 }
