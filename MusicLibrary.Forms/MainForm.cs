@@ -57,9 +57,7 @@ public partial class MainForm : Form
 
 		if (indexSearcher.IndexExists())
 		{
-			IndexCounts res;
-
-			if (!_cache.TryGetValue(IndexCountsCacheKey, out res))
+			if (!_cache.TryGetValue(IndexCountsCacheKey, out IndexCounts res))
 			{
 				res = await indexSearcher.GetIndexCounts();
 				_cache.Set(IndexCountsCacheKey, res);
@@ -70,6 +68,7 @@ public partial class MainForm : Form
 				res.TotalFilesByExtension
 				.Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
 				.ToArray());
+			lvExtensionsTotal.Items.Add(new ListViewItem(new[] { "flac hr", res.TotalHiResFiles.ToString() }));
 
 			lvGenres.Items.Clear();
 			lvGenres.Items.AddRange(

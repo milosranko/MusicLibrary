@@ -166,6 +166,14 @@ public class SearchIndexEngine : IDisposable
 		{
 			TotalFiles = reader.NumDocs,
 			TotalFilesByExtension = GetMostFrequentTerms(searcher, FieldNames.Extension),
+			TotalHiResFiles = Search(new SearchRequest
+			{
+				Text = QueryParser.Escape("hr flac"),
+				Fields = [FieldNames.Text],
+				QueryType = QueryTypesEnum.Text,
+				Terms = null,
+				Pagination = new Pagination(100000, 0)
+			}).TotalHits,
 			ReleaseYears = GetMostFrequentTermsNumeric(searcher, FieldNames.Year),
 			GenreCount = GetMostFrequentTerms(searcher, FieldNames.Genre),
 			LatestAdditions = GetLatestAddedItems(searcher, FieldNames.ModifiedDate, 500)

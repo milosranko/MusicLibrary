@@ -49,13 +49,13 @@ public class IndexSearcher
 	{
 		return searchField switch
 		{
-			SearchFieldsEnum.Text => Search(query.RemoveSpecialCharacters().ToLower(), terms, new string[1] { FieldNames.Text }, QueryTypesEnum.Text),
-			SearchFieldsEnum.Genre => Search(query, terms, new string[1] { FieldNames.Genre }, QueryTypesEnum.Term),
-			SearchFieldsEnum.Year => Search(query, terms, new string[1] { FieldNames.Year }, QueryTypesEnum.Numeric),
-			SearchFieldsEnum.Extension => Search(query, terms, new string[1] { FieldNames.Extension }, QueryTypesEnum.Term),
-			SearchFieldsEnum.Release => Search(query, terms, new string[2] { FieldNames.Artist, FieldNames.Album }, QueryTypesEnum.MultiTerm),
-			SearchFieldsEnum.Artist => Search(query, terms, new string[1] { FieldNames.Artist }, QueryTypesEnum.Term),
-			_ => Search(query.RemoveSpecialCharacters().ToLower(), terms, new string[1] { FieldNames.Text }, QueryTypesEnum.Text),
+			SearchFieldsEnum.Text => Search(query.RemoveSpecialCharacters().ToLower(), terms, [FieldNames.Text], QueryTypesEnum.Text),
+			SearchFieldsEnum.Genre => Search(query, terms, [FieldNames.Genre], QueryTypesEnum.Term),
+			SearchFieldsEnum.Year => Search(query, terms, [FieldNames.Year], QueryTypesEnum.Numeric),
+			SearchFieldsEnum.Extension => Search(query, terms, [FieldNames.Extension], QueryTypesEnum.Term),
+			SearchFieldsEnum.Release => Search(query, terms, [FieldNames.Artist, FieldNames.Album], QueryTypesEnum.MultiTerm),
+			SearchFieldsEnum.Artist => Search(query, terms, [FieldNames.Artist], QueryTypesEnum.Term),
+			_ => Search(query.RemoveSpecialCharacters().ToLower(), terms, [FieldNames.Text], QueryTypesEnum.Text),
 		};
 	}
 
