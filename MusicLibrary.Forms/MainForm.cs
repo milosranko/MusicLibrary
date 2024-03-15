@@ -68,7 +68,8 @@ public partial class MainForm : Form
                 res.TotalFilesByExtension
                 .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
                 .ToArray());
-            lvExtensionsTotal.Items.Add(new ListViewItem(new[] { "flac hr", res.TotalHiResFiles.ToString() }));
+            if (res.TotalHiResFiles > 0)
+                lvExtensionsTotal.Items.Add(new ListViewItem(new[] { "flac hr", res.TotalHiResFiles.ToString() }));
 
             lvGenres.Items.Clear();
             lvGenres.Items.AddRange(
@@ -408,7 +409,7 @@ public partial class MainForm : Form
         await Search(SearchFieldsEnum.Text, txtSearchField.Text, null);
     }
 
-    private async Task Search(SearchFieldsEnum searchField, string query, string[] terms)
+    private async Task Search(SearchFieldsEnum searchField, string query, string[]? terms)
     {
         var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
             ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
@@ -427,15 +428,15 @@ public partial class MainForm : Form
             .Select(x => new SearchResultModel
             {
                 Id = x.Id,
-                Artist = MetatagsHelpers.GetMetatags(x.Tags)[0],
-                Album = MetatagsHelpers.GetMetatags(x.Tags)[1],
-                Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1,
-                TrackName = MetatagsHelpers.GetMetatags(x.Tags)[4],
-                TrackNumber = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[5]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[5], out int value2) ? default(int?) : value2,
-                Tags = x.Tags,
+                Artist = x.Artist,
+                Album = x.Album,
+                Year = x.Year,
+                TrackName = x.Tags[4],
+                TrackNumber = string.IsNullOrWhiteSpace(x.Tags[5]) || !int.TryParse(x.Tags[5], out int value2) ? default(int?) : value2,
+                Tags = string.Join("|", x.Tags),
                 Path = System.IO.Path.GetDirectoryName(x.Id),
                 FileName = System.IO.Path.GetFileName(x.Id),
-                Genre = MetatagsHelpers.GetMetatags(x.Tags)[3]
+                Genre = x.Genre
             })
             .OrderBy(x => x.Artist)
             .ThenBy(x => x.Year)
@@ -450,7 +451,7 @@ public partial class MainForm : Form
         statusStrip1.Items[1].Text = "searching...";
     }
 
-    private void SearchFinished(SearchResult res)
+    private void SearchFinished(SearchResult<Content> res)
     {
         txtSearchField.Text = res.SearchText;
         statusStrip1.Items[1].Text = $"found {res.TotalHits} matches";
@@ -757,7 +758,7 @@ public partial class MainForm : Form
 
         var item = lvLatestAdditions.SelectedItems[0];
 
-        await Search(SearchFieldsEnum.Release, null, new string[2] { item.SubItems[0].Text, item.SubItems[1].Text });
+        await Search(SearchFieldsEnum.Release, null, [item.SubItems[0].Text, item.SubItems[1].Text]);
 
         ShowPanel(PanelEnum.Search);
     }
@@ -1012,16 +1013,16 @@ public partial class MainForm : Form
             .Select(x => new SearchResultModel
             {
                 Id = x.Id,
-                Artist = MetatagsHelpers.GetMetatags(x.Tags)[0],
-                Album = MetatagsHelpers.GetMetatags(x.Tags)[1],
-                Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1,
-                TrackName = MetatagsHelpers.GetMetatags(x.Tags)[4],
-                TrackNumber = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[5]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[5], out int value2) ? default(int?) : value2,
-                Tags = x.Tags,
+                Artist = x.Artist,
+                Album = x.Album,
+                Year = x.Year,
+                TrackName = x.Tags[4],
+                TrackNumber = string.IsNullOrWhiteSpace(x.Tags[5]) || !int.TryParse(x.Tags[5], out int value2) ? default(int?) : value2,
+                Tags = string.Join("|", x.Tags),
                 Path = System.IO.Path.GetDirectoryName(x.Id),
                 FileName = System.IO.Path.GetFileName(x.Id),
                 Drive = x.Drive,
-                Genre = MetatagsHelpers.GetMetatags(x.Tags)[3]
+                Genre = x.Genre
             })
             .OrderBy(x => x.Artist)
             .ThenBy(x => x.Year)

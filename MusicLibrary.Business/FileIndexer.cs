@@ -35,10 +35,10 @@ public class FileIndexer
         if (!fileList.Any())
             return;
 
-        using var engine = new SearchIndexEngine();
+        var engine = new GenericSearchIndexEngine<Content>();
 
         if (onlyNewFiles)
-            fileList = engine.DocumentsExists(fileList);
+            fileList = engine.SkipExistingDocuments(fileList.ToArray());
 
         var contents = new ConcurrentBag<Content>();
         var progressArgs = new ProgressArgs();
@@ -54,15 +54,16 @@ public class FileIndexer
 
                 contents.Add(new Content
                 {
-                    FileId = file,
+                    FileId = RemoveDriveInfo(file),
+                    Drive = GetOrSetDriveInfo(file),
                     FileName = Path.GetFileName(file),
                     Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
                     ModifiedDate = track.GetModifiedDate(),
                     Tags = metaTags,
                     Text = GetContentText(file, metaTags),
-                    Artist = track.Artist,
-                    Album = track.Album,
-                    Genre = track.Genre,
+                    Artist = string.IsNullOrEmpty(track.Artist.Trim()) ? "Unknown" : track.Artist.Trim(),
+                    Album = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
+                    Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
                     Year = track.Year ?? 0
                 });
             }
@@ -81,23 +82,23 @@ public class FileIndexer
 
     public void ClearIndex()
     {
-        using var engine = new SearchIndexEngine();
+        var engine = new GenericSearchIndexEngine<Content>();
         engine.DeleteAll();
     }
 
     public void RemoveFromIndex(string[] ids)
     {
-        using var engine = new SearchIndexEngine();
+        var engine = new GenericSearchIndexEngine<Content>();
         engine.DeleteById(ids);
     }
 
     public Task Optimize()
     {
-        using var engine = new SearchIndexEngine();
+        var engine = new GenericSearchIndexEngine<Content>();
         var filesToRemoveFromIndex = new ConcurrentBag<string>();
         var ids = engine.GetAllIndexedIds();
 
-        Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount - 1, CancellationToken = _ct }, file =>
+        Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
         {
             if (!File.Exists(file))
                 filesToRemoveFromIndex.Add(file);
@@ -110,7 +111,7 @@ public class FileIndexer
 
     public async Task<(bool Success, string FileName)> ShareIndex()
     {
-        using var engine = new SearchIndexEngine();
+        var engine = new GenericSearchIndexEngine<Content>();
 
         if (engine.IndexNotExistsOrEmpty())
             return (false, string.Empty);

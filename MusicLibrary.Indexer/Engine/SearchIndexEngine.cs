@@ -1,6 +1,8 @@
 ﻿using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
 using Lucene.Net.Documents;
+using Lucene.Net.Facet;
+using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
@@ -26,12 +28,17 @@ public class SearchIndexEngine : IDisposable
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
     private readonly Analyzer _analyzer;
     private readonly string _indexName;
+    private readonly FacetsConfig _facetsConfig = new();
 
     public SearchIndexEngine()
     {
         //_directory = DirectoryProvider.GetOrCreateDocumentIndex(string.Empty);
         _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
         _indexName = string.Empty;
+
+        _facetsConfig.SetIndexFieldName(FieldNames.Artist, FieldNames.Artist);
+        _facetsConfig.SetIndexFieldName(FieldNames.Album, FieldNames.Album);
+        _facetsConfig.SetIndexFieldName(FieldNames.Year, FieldNames.Year);
     }
 
     public SearchIndexEngine(string indexName)
@@ -39,23 +46,31 @@ public class SearchIndexEngine : IDisposable
         //_directory = DirectoryProvider.GetOrCreateDocumentIndex(indexName);
         _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
         _indexName = indexName;
+
+        _facetsConfig.SetIndexFieldName(FieldNames.Artist, FieldNames.Artist);
+        _facetsConfig.SetIndexFieldName(FieldNames.Album, FieldNames.Album);
     }
 
-    public void AddOrUpdateDocuments(ConcurrentBag<Content> contents, CancellationToken ct)
+    public void AddOrUpdateDocuments(ConcurrentBag<Content> contents, CancellationToken ct = default)
     {
         if (contents.IsEmpty) return;
 
         using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
+        using var taxoDirectory = DirectoryProvider.GetOrCreateTaxoIndex();
         using var writer = new IndexWriter(directory, new IndexWriterConfig(AppLuceneVersion, _analyzer));
         using var reader = DirectoryReader.Open(directory);
+        using var taxoWriter = new DirectoryTaxonomyWriter(taxoDirectory, OpenMode.CREATE);
 
-        Parallel.ForEach(contents, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = ct }, content =>
+        Parallel.ForEach(contents, new ParallelOptions { MaxDegreeOfParallelism = 1, CancellationToken = ct }, content =>
         {
             var document = DocumentModelBuilders.BuildContentDocument(content);
             var indexTerm = new Term(FieldNames.Id, content.FileId);
 
             if (reader.DocFreq(indexTerm) == 0)
-                writer.AddDocument(document);
+                //writer.AddDocument(document);
+                writer.AddDocument(_facetsConfig.Build(
+                    taxoWriter,
+                    document));
             else
                 writer.UpdateDocument(indexTerm, document);
         });
@@ -85,10 +100,12 @@ public class SearchIndexEngine : IDisposable
         return result;
     }
 
-    public SearchResult Search(SearchRequest request)
+    public SearchResult Search(SearchQueryBase request)
     {
         using var directory = DirectoryProvider.GetOrCreateDocumentIndex(_indexName);
         using var reader = DirectoryReader.Open(directory);
+        using var taxoDirectory = DirectoryProvider.GetOrCreateTaxoIndex();
+        using var taxoReader = new DirectoryTaxonomyReader(taxoDirectory);
         var searcher = new IndexSearcher(reader);
         var searchResult = new SearchResult
         {
@@ -167,7 +184,7 @@ public class SearchIndexEngine : IDisposable
         {
             TotalFiles = reader.NumDocs,
             TotalFilesByExtension = GetMostFrequentTerms(searcher, FieldNames.Extension),
-            TotalHiResFiles = Search(new SearchRequest
+            TotalHiResFiles = Search(new SearchQueryBase
             {
                 Text = QueryParser.Escape("hr flac"),
                 Fields = [FieldNames.Text],

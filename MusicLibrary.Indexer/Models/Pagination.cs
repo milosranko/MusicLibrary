@@ -2,12 +2,13 @@
 
 public struct Pagination
 {
-	public Pagination(int pageSize, int pageIndex)
-	{
-		PageSize = pageSize;
-		PageIndex = pageIndex;
-	}
+    public Pagination(int pageSize, int pageIndex)
+    {
+        PageSize = pageSize;
+        PageIndex = pageIndex;
+    }
 
-	public int PageSize { get; private set; }
-	public int PageIndex { get; private set; }
+    public int PageSize { get; private set; }
+    public int PageIndex { get; private set; }
+    public int TotalPages { get; set; }
 }

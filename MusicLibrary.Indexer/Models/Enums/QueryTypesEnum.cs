@@ -2,8 +2,8 @@
 
 public enum QueryTypesEnum
 {
-	Term,
-	MultiTerm,
-	Numeric,
-	Text
+    Term,
+    MultiTerm,
+    Numeric,
+    Text
 }
