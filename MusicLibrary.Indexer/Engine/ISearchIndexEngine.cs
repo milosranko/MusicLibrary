@@ -15,5 +15,5 @@ public interface ISearchIndexEngine<T> where T : IDocument
     bool IndexNotExistsOrEmpty();
     IEnumerable<string> SkipExistingDocuments(string[] ids);
     SearchResult<T> Search(SearchRequest request);
-    IndexCounts GetIndexStatistics();
+    IDictionary<string, int> CountDocuments(SearchRequest? request);
 }

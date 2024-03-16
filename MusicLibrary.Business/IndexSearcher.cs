@@ -1,5 +1,6 @@
 ﻿using MusicLibrary.Business.Enums;
 using MusicLibrary.Business.Helpers;
+using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
 using MusicLibrary.Indexer.Models;
@@ -38,49 +39,50 @@ public class IndexSearcher
             return Enumerable.Empty<string>();
 
         return Directory.EnumerateDirectories(Constants.LocalAppDataShares)
-            .Select(x => x.Split(Path.DirectorySeparatorChar).Last());
+            .Select(x => x.Split(Path.DirectorySeparatorChar)
+            .Last());
     }
 
     public Task<SearchResult<Content>> Search(string query, string[]? terms, SearchFieldsEnum searchField)
     {
         return searchField switch
         {
-            SearchFieldsEnum.Text => Search(
+            SearchFieldsEnum.Text => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
                 [nameof(Content.Text)],
                 QueryTypesEnum.Text),
-            SearchFieldsEnum.Genre => Search(
+            SearchFieldsEnum.Genre => PerformSearch(
                 query,
                 [query],
                 [nameof(Content.Genre)],
                 QueryTypesEnum.Term,
                 new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Artist), [] }, { nameof(Content.Album), [] } }),
-            SearchFieldsEnum.Year => Search(
+            SearchFieldsEnum.Year => PerformSearch(
                 query,
                 [query],
                 [nameof(Content.Year)],
                 QueryTypesEnum.Numeric,
                 new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Artist), [] }, { nameof(Content.Album), [] } }),
-            SearchFieldsEnum.Extension => Search(
+            SearchFieldsEnum.Extension => PerformSearch(
                 query,
                 [query],
                 [nameof(Content.Extension)],
                 QueryTypesEnum.Term,
                 new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Extension), [] } }),
-            SearchFieldsEnum.Release => Search(
+            SearchFieldsEnum.Release => PerformSearch(
                 query,
                 terms,
                 [nameof(Content.Artist), nameof(Content.Album)],
                 QueryTypesEnum.MultiTerm,
                 new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Year), [] } }),
-            SearchFieldsEnum.Artist => Search(
+            SearchFieldsEnum.Artist => PerformSearch(
                 query,
                 [query],
                 [nameof(Content.Artist)],
                 QueryTypesEnum.Term,
                 new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Artist), [query] }, { nameof(Content.Album), [] } }),
-            _ => Search(
+            _ => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
                 [nameof(Content.Text)],
@@ -101,15 +103,29 @@ public class IndexSearcher
         if (_searchIndexEngine.IndexNotExistsOrEmpty())
             return Task.FromResult(IndexCounts.Empty);
 
-        return Task.FromResult(_searchIndexEngine.GetIndexStatistics());
+        return Task.FromResult(new IndexCounts
+        {
+            TotalFiles = _searchIndexEngine.CountDocuments(null).First().Value,
+            TotalFilesByExtension = _searchIndexEngine.CountDocuments(null), // GetMostFrequentTerms(searcher, nameof(Content.Extension)),
+            TotalHiResFiles = _searchIndexEngine.Search(new SearchRequest
+            {
+                Text = "hr flac",
+                SearchFields = new Dictionary<string, string?> { { nameof(Content.Text), string.Empty } },
+                QueryType = QueryTypesEnum.Text,
+                Pagination = new Pagination(int.MaxValue, 0)
+            }).TotalHits,
+            ReleaseYears = _searchIndexEngine.CountDocuments(null), //GetMostFrequentTermsNumeric(searcher, nameof(Content.Year)),
+            GenreCount = _searchIndexEngine.CountDocuments(null), //GetMostFrequentTerms(searcher, nameof(Content.Genre)),
+            LatestAdditions = null // GetLatestAddedItems(searcher, nameof(Content.ModifiedDate), 500)
+        });
     }
 
-    private Task<SearchResult<Content>> Search(
+    private Task<SearchResult<Content>> PerformSearch(
         string query,
         string[]? terms,
         string[] fields,
         QueryTypesEnum queryType,
-        Dictionary<string, IEnumerable<string?>?>? facets = null)
+        IDictionary<string, IEnumerable<string?>?>? facets = null)
     {
         if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0))
             return Task.FromResult(SearchResult<Content>.Empty());
