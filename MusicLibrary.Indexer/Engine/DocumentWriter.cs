@@ -5,7 +5,6 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using MusicLibrary.Indexer.Facets.Attributes;
-using MusicLibrary.Indexer.Models.Attributes;
 using MusicLibrary.Indexer.Models.Base;
 using System;
 using System.Collections.Generic;
@@ -14,7 +13,7 @@ using System.Reflection;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : MappingDocumentBase<T>, IDocument
+public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : MappingDocumentBase<T>, IDocument, new()
 {
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
     private readonly FacetsConfig _facetsConfig = new();

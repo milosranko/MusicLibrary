@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public interface IDocumentWriter<T> : IDisposable where T : MappingDocumentBase<T>, IDocument
+public interface IDocumentWriter<T> : IDisposable where T : MappingDocumentBase<T>, IDocument, new()
 {
     void Add(T document);
     void AddRange(IEnumerable<T> documents);

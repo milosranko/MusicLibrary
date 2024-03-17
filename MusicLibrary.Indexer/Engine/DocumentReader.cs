@@ -11,7 +11,6 @@ using Lucene.Net.Util;
 using MusicLibrary.Indexer.Facets;
 using MusicLibrary.Indexer.Facets.Attributes;
 using MusicLibrary.Indexer.Models;
-using MusicLibrary.Indexer.Models.Attributes;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Enums;
 using System;

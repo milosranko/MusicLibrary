@@ -451,7 +451,7 @@ public partial class MainForm : Form
         statusStrip1.Items[1].Text = "searching...";
     }
 
-    private void SearchFinished(SearchResult<Content> res)
+    private void SearchFinished(SearchResult<MusicLibraryDocument> res)
     {
         txtSearchField.Text = res.SearchText;
         statusStrip1.Items[1].Text = $"found {res.TotalHits} matches";

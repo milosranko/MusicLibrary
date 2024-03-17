@@ -1,9 +1,9 @@
 ﻿using ATL;
 using MusicLibrary.Business.Extensions;
 using MusicLibrary.Business.Helpers;
+using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
-using MusicLibrary.Indexer.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -35,12 +35,12 @@ public class FileIndexer
         if (!fileList.Any())
             return;
 
-        var engine = new GenericSearchIndexEngine<Content>();
+        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
 
         if (onlyNewFiles)
             fileList = engine.SkipExistingDocuments(fileList.ToArray());
 
-        var contents = new ConcurrentBag<Content>();
+        var contents = new ConcurrentBag<MusicLibraryDocument>();
         var progressArgs = new ProgressArgs();
 
         Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
@@ -52,7 +52,7 @@ public class FileIndexer
                 var track = new Track(file);
                 var metaTags = track.GetMetaTags();
 
-                contents.Add(new Content
+                contents.Add(new MusicLibraryDocument
                 {
                     FileId = RemoveDriveInfo(file),
                     Drive = GetOrSetDriveInfo(file),
@@ -82,19 +82,19 @@ public class FileIndexer
 
     public void ClearIndex()
     {
-        var engine = new GenericSearchIndexEngine<Content>();
+        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
         engine.DeleteAll();
     }
 
     public void RemoveFromIndex(string[] ids)
     {
-        var engine = new GenericSearchIndexEngine<Content>();
+        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
         engine.DeleteById(ids);
     }
 
     public Task Optimize()
     {
-        var engine = new GenericSearchIndexEngine<Content>();
+        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
         var filesToRemoveFromIndex = new ConcurrentBag<string>();
         var ids = engine.GetAllIndexedIds();
 
@@ -111,7 +111,7 @@ public class FileIndexer
 
     public async Task<(bool Success, string FileName)> ShareIndex()
     {
-        var engine = new GenericSearchIndexEngine<Content>();
+        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
 
         if (engine.IndexNotExistsOrEmpty())
             return (false, string.Empty);

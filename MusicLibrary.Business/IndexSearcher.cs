@@ -14,18 +14,18 @@ namespace MusicLibrary.Business;
 
 public class IndexSearcher
 {
-    private readonly ISearchIndexEngine<Content> _searchIndexEngine;
+    private readonly ISearchIndexEngine<MusicLibraryDocument> _searchIndexEngine;
     public IEnumerable<string> SharedIndexes;
 
     public IndexSearcher()
     {
         SharedIndexes = GetSharedIndexes();
-        _searchIndexEngine = new GenericSearchIndexEngine<Content>();
+        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>();
     }
 
     public IndexSearcher(string indexName)
     {
-        _searchIndexEngine = new GenericSearchIndexEngine<Content>();
+        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>();
     }
 
     public bool IndexExists()
@@ -43,54 +43,54 @@ public class IndexSearcher
             .Last());
     }
 
-    public Task<SearchResult<Content>> Search(string query, string[]? terms, SearchFieldsEnum searchField)
+    public Task<SearchResult<MusicLibraryDocument>> Search(string query, string[]? terms, SearchFieldsEnum searchField)
     {
         return searchField switch
         {
             SearchFieldsEnum.Text => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
-                [nameof(Content.Text)],
+                [nameof(MusicLibraryDocument.Text)],
                 QueryTypesEnum.Text),
             SearchFieldsEnum.Genre => PerformSearch(
                 query,
                 [query],
-                [nameof(Content.Genre)],
+                [nameof(MusicLibraryDocument.Genre)],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Artist), [] }, { nameof(Content.Album), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Artist), [] }, { nameof(MusicLibraryDocument.Album), [] } }),
             SearchFieldsEnum.Year => PerformSearch(
                 query,
                 [query],
-                [nameof(Content.Year)],
+                [nameof(MusicLibraryDocument.Year)],
                 QueryTypesEnum.Numeric,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Artist), [] }, { nameof(Content.Album), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Artist), [] }, { nameof(MusicLibraryDocument.Album), [] } }),
             SearchFieldsEnum.Extension => PerformSearch(
                 query,
                 [query],
-                [nameof(Content.Extension)],
+                [nameof(MusicLibraryDocument.Extension)],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Extension), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Extension), [] } }),
             SearchFieldsEnum.Release => PerformSearch(
                 query,
                 terms,
-                [nameof(Content.Artist), nameof(Content.Album)],
+                [nameof(MusicLibraryDocument.Artist), nameof(MusicLibraryDocument.Album)],
                 QueryTypesEnum.MultiTerm,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Year), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Year), [] } }),
             SearchFieldsEnum.Artist => PerformSearch(
                 query,
                 [query],
-                [nameof(Content.Artist)],
+                [nameof(MusicLibraryDocument.Artist)],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(Content.Artist), [query] }, { nameof(Content.Album), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Artist), [query] }, { nameof(MusicLibraryDocument.Album), [] } }),
             _ => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
-                [nameof(Content.Text)],
+                [nameof(MusicLibraryDocument.Text)],
                 QueryTypesEnum.Text),
         };
     }
 
-    public IEnumerable<Content> GetSearchResultByIds(string[] ids)
+    public IEnumerable<MusicLibraryDocument> GetSearchResultByIds(string[] ids)
     {
         if (_searchIndexEngine.IndexNotExistsOrEmpty())
             return [];
@@ -110,7 +110,7 @@ public class IndexSearcher
             TotalHiResFiles = _searchIndexEngine.Search(new SearchRequest
             {
                 Text = "hr flac",
-                SearchFields = new Dictionary<string, string?> { { nameof(Content.Text), string.Empty } },
+                SearchFields = new Dictionary<string, string?> { { nameof(MusicLibraryDocument.Text), string.Empty } },
                 QueryType = QueryTypesEnum.Text,
                 Pagination = new Pagination(int.MaxValue, 0)
             }).TotalHits,
@@ -120,7 +120,7 @@ public class IndexSearcher
         });
     }
 
-    private Task<SearchResult<Content>> PerformSearch(
+    private Task<SearchResult<MusicLibraryDocument>> PerformSearch(
         string query,
         string[]? terms,
         string[] fields,
@@ -128,10 +128,10 @@ public class IndexSearcher
         IDictionary<string, IEnumerable<string?>?>? facets = null)
     {
         if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0))
-            return Task.FromResult(SearchResult<Content>.Empty());
+            return Task.FromResult(SearchResult<MusicLibraryDocument>.Empty());
 
         if (fields == null || fields.Length == 0)
-            return Task.FromResult(SearchResult<Content>.Empty());
+            return Task.FromResult(SearchResult<MusicLibraryDocument>.Empty());
 
         var searchFields = new Dictionary<string, string?>(fields.Length);
 
