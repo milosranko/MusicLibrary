@@ -50,42 +50,42 @@ public class IndexSearcher
             SearchFieldsEnum.Text => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
-                [nameof(MusicLibraryDocument.Text)],
+                ["txt"],
                 QueryTypesEnum.Text),
             SearchFieldsEnum.Genre => PerformSearch(
                 query,
                 [query],
-                [nameof(MusicLibraryDocument.Genre)],
+                ["gnr"],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Artist), [] }, { nameof(MusicLibraryDocument.Album), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { "art", [] }, { "rel", [] } }),
             SearchFieldsEnum.Year => PerformSearch(
                 query,
                 [query],
-                [nameof(MusicLibraryDocument.Year)],
+                ["yer"],
                 QueryTypesEnum.Numeric,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Artist), [] }, { nameof(MusicLibraryDocument.Album), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { "art", [] }, { "rel", [] } }),
             SearchFieldsEnum.Extension => PerformSearch(
                 query,
                 [query],
-                [nameof(MusicLibraryDocument.Extension)],
+                ["ext"],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Extension), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { "ext", [] } }),
             SearchFieldsEnum.Release => PerformSearch(
                 query,
                 terms,
-                [nameof(MusicLibraryDocument.Artist), nameof(MusicLibraryDocument.Album)],
+                ["art", "rel"],
                 QueryTypesEnum.MultiTerm,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Year), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { "yer", [] } }),
             SearchFieldsEnum.Artist => PerformSearch(
                 query,
                 [query],
-                [nameof(MusicLibraryDocument.Artist)],
+                ["art"],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { nameof(MusicLibraryDocument.Artist), [query] }, { nameof(MusicLibraryDocument.Album), [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { "art", [query] }, { "rel", [] } }),
             _ => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
-                [nameof(MusicLibraryDocument.Text)],
+                ["txt"],
                 QueryTypesEnum.Text),
         };
     }
@@ -110,7 +110,7 @@ public class IndexSearcher
             TotalHiResFiles = _searchIndexEngine.Search(new SearchRequest
             {
                 Text = "hr flac",
-                SearchFields = new Dictionary<string, string?> { { nameof(MusicLibraryDocument.Text), string.Empty } },
+                SearchFields = new Dictionary<string, string?> { { "txt", string.Empty } },
                 QueryType = QueryTypesEnum.Text,
                 Pagination = new Pagination(int.MaxValue, 0)
             }).TotalHits,

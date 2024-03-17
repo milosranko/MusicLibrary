@@ -62,7 +62,7 @@ public class FileIndexer
                     Tags = metaTags,
                     Text = GetContentText(file, metaTags),
                     Artist = string.IsNullOrEmpty(track.Artist.Trim()) ? "Unknown" : track.Artist.Trim(),
-                    Album = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
+                    Release = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
                     Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
                     Year = track.Year ?? 0
                 });

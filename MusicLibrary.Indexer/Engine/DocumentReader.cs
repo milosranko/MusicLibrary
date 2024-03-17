@@ -42,7 +42,7 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
 
     public bool DocumentExists(string id)
     {
-        return _reader is null ? false : _reader.DocFreq(new Term(nameof(IDocument.Id), id)) != 0;
+        return _reader is null ? false : _reader.DocFreq(new Term(nameof(IDocument.Id).ToLower(), id)) != 0;
     }
 
     public IEnumerable<T> GetByIds(string[] ids)
@@ -58,7 +58,7 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
 
         foreach (var id in ids)
         {
-            q = new TermQuery(new Term(nameof(IDocument.Id), id));
+            q = new TermQuery(new Term(nameof(IDocument.Id).ToLower(), id));
 
             var res = searcher.Search(q, 1);
             if (res.TotalHits == 0) continue;

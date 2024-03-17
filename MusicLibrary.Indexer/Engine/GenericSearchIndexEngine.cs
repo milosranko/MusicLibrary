@@ -99,7 +99,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
         var res = new Collection<string>();
         var fields = MultiFields.GetFields(_documentReader.Reader);
-        var terms = fields.GetTerms(nameof(IDocument.Id));
+        var terms = fields.GetTerms(nameof(IDocument.Id).ToLower());
         var termsEnum = terms.GetEnumerator(null);
 
         while (termsEnum.MoveNext() == true)

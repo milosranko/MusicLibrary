@@ -108,7 +108,7 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
 
     public void Delete(T document)
     {
-        _writer?.DeleteDocuments(new Term(nameof(IDocument.Id), document.Id));
+        _writer?.DeleteDocuments(new Term(nameof(IDocument.Id).ToLower(), document.Id));
     }
 
     public void DeleteAll()
@@ -127,13 +127,13 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
     {
         if (ids == null || ids.Length == 0) return;
 
-        _writer?.DeleteDocuments(ids.Select(x => new Term(nameof(IDocument.Id), x)).ToArray());
+        _writer?.DeleteDocuments(ids.Select(x => new Term(nameof(IDocument.Id).ToLower(), x)).ToArray());
         _writer?.Commit();
     }
 
     public void Update(T document)
     {
-        var indexTerm = new Term(nameof(IDocument.Id), document.Id);
+        var indexTerm = new Term(nameof(IDocument.Id).ToLower(), document.Id);
 
         if (_hasFacets)
         {
@@ -149,7 +149,7 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
 
     public void Dispose()
     {
-        _indexDirectory?.Dispose();
+        //_indexDirectory?.Dispose();
         _writer?.Dispose();
 
         if (_hasFacets)

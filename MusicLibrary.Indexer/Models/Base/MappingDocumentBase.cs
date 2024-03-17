@@ -1,6 +1,9 @@
 ﻿using Lucene.Net.Documents;
+using Lucene.Net.Documents.Extensions;
 using Lucene.Net.Facet;
+using MusicLibrary.Indexer.Attributes;
 using MusicLibrary.Indexer.Facets.Attributes;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -8,54 +11,114 @@ namespace MusicLibrary.Indexer.Models.Base;
 
 public abstract class MappingDocumentBase<T> where T : IDocument, new()
 {
+    //TODO Reflect T properties and attributes once on init
     public virtual Document MapToLuceneDocument()
     {
-        //TODO Discover model properties
+        var document = new Document();
+        var properties = typeof(T)
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(x => x.GetCustomAttribute<SearchableAttribute>() is not null);
 
-        //var document = new Document
-        //{
-        //    new StringField(nameof(Id), Id, Field.Store.YES),
-        //    new StringField(nameof(FileId), FileId, Field.Store.YES),
-        //    new StringField(nameof(Drive), Drive, Field.Store.YES),
-        //    new StringField(nameof(FileName), FileName, Field.Store.YES),
-        //    new StringField(nameof(Extension), Extension, Field.Store.YES),
-        //    new NumericDocValuesField(nameof(ModifiedDate), ModifiedDate.Ticks),
-        //    new StringField(nameof(Artist), Artist, Field.Store.YES),
-        //    new StringField(nameof(Album), Album, Field.Store.YES),
-        //    new StringField(nameof(Genre), Genre, Field.Store.YES),
-        //    new Int32Field(nameof(Year), Year != 0 ? Year : default, Field.Store.YES),
-        //    new TextField(nameof(Text), Text ?? "", Field.Store.NO),
-        //    //Facet Fields
-        //    new FacetField(nameof(Artist), Artist),
-        //    new FacetField(nameof(Album), Album),
-        //    new FacetField(nameof(Genre), Genre),
-        //    new FacetField(nameof(Year), Year.ToString()),
-        //    new FacetField(nameof(Extension), Extension)
-        //};
+        foreach (var property in properties)
+        {
+            var searchableAttr = property.GetCustomAttribute<SearchableAttribute>();
+            var facetAttr = property.GetCustomAttribute<FacetPropertyAttribute>();
+            var propName = string.IsNullOrEmpty(searchableAttr?.FieldName) ? property.Name : searchableAttr.FieldName;
+            var propValue = property.GetValue(this);
 
-        //foreach (var tag in Tags)
-        //    document.Add(new StringField(nameof(Tags), string.IsNullOrEmpty(tag) ? "" : tag, Field.Store.YES));
+            if (facetAttr is not null && propValue is not null)
+            {
+                document.AddFacetField(propName, propValue.ToString());
+            }
 
-        //return document;
-        return default;
+            if (property.PropertyType.IsArray)
+            {
+                var facetAttribute = property.GetCustomAttribute<FacetPropertyAttribute>();
+                var array = (Array?)propValue;
+
+                if (array is null) continue;
+
+                foreach (var arrayItem in array)
+                {
+                    var arrValue = arrayItem?.ToString() ?? string.Empty;
+
+                    document.Add(new StringField(propName, arrValue, searchableAttr.Stored ? Field.Store.YES : Field.Store.NO));
+
+                    if (facetAttribute != null)
+                    {
+                        document.Add(new FacetField(propName, arrValue));
+                    }
+                }
+            }
+            else
+            {
+                switch (searchableAttr.FieldType)
+                {
+                    case FieldTypeEnum.StringField:
+                        document.AddStringField(
+                            propName,
+                            (string)propValue,
+                            searchableAttr.Stored ? Field.Store.YES : Field.Store.NO);
+                        break;
+                    case FieldTypeEnum.TextField:
+                        document.AddTextField(
+                            propName,
+                            (string)propValue,
+                            searchableAttr.Stored ? Field.Store.YES : Field.Store.NO);
+                        break;
+                    case FieldTypeEnum.Int32Field:
+                        document.AddInt32Field(
+                            propName,
+                            (int)propValue,
+                            searchableAttr.Stored ? Field.Store.YES : Field.Store.NO);
+                        break;
+                    case FieldTypeEnum.NumericDocValuesField:
+                        document.AddNumericDocValuesField(
+                            propName,
+                            ((DateTime)propValue).Ticks);
+
+                        if (searchableAttr.Stored)
+                            document.AddStoredField(propName, ((DateTime)propValue).Ticks);
+                        break;
+                }
+            }
+        }
+
+        return document;
     }
 
     public virtual T MapFromLuceneDocument(Document document)
     {
-        //TODO Add mapping logic
-        //_ = int.TryParse(document.Get(nameof(Year)), out var year);
-        //FileId = document.Get(nameof(FileId));
-        //Artist = document.Get(nameof(Artist));
-        //Album = document.Get(nameof(Album));
-        //Year = year;
-        //Drive = document.Get(nameof(Drive));
-        //Extension = document.Get(nameof(Extension));
-        //FileName = document.Get(nameof(FileName));
-        //Genre = document.Get(nameof(Genre));
-        //Tags = document.GetValues(nameof(Tags));
-        //Text = document.Get(nameof(Text));
+        var instance = new T();
+        var properties = typeof(T)
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(x => x.GetCustomAttribute<SearchableAttribute>() is not null);
 
-        return default;
+        foreach (var property in properties)
+        {
+            if (property.Name.Equals(nameof(IDocument.Id))) continue;
+
+            var searchableAttr = property.GetCustomAttribute<SearchableAttribute>();
+            var propName = string.IsNullOrEmpty(searchableAttr?.FieldName) ? property.Name : searchableAttr.FieldName;
+
+            if (!searchableAttr.Stored) continue;
+
+            if (property.PropertyType.IsArray)
+            {
+                property.SetValue(instance, document.GetFields(propName).Select(x => x.GetStringValue()).ToArray());
+            }
+            else
+            {
+                if (property.PropertyType == typeof(DateTime) && searchableAttr.FieldType == FieldTypeEnum.NumericDocValuesField)
+                    property.SetValue(instance, new DateTime(document.GetField(propName).GetInt64Value().Value));
+                else if (property.PropertyType == typeof(string))
+                    property.SetValue(instance, document.GetField(propName).GetStringValue());
+                else if (property.PropertyType == typeof(int))
+                    property.SetValue(instance, document.GetField(propName).GetInt32Value());
+            }
+        }
+
+        return instance;
     }
 
     public virtual FacetsConfig GetFacetsConfig()

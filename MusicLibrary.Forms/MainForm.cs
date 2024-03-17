@@ -64,30 +64,34 @@ public partial class MainForm : Form
             }
 
             lvExtensionsTotal.Items.Clear();
-            lvExtensionsTotal.Items.AddRange(
-                res.TotalFilesByExtension
-                .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
-                .ToArray());
+            if (res.TotalFilesByExtension is not null)
+                lvExtensionsTotal.Items.AddRange(
+                    res.TotalFilesByExtension
+                    .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
+                    .ToArray());
             if (res.TotalHiResFiles > 0)
                 lvExtensionsTotal.Items.Add(new ListViewItem(new[] { "flac hr", res.TotalHiResFiles.ToString() }));
 
             lvGenres.Items.Clear();
-            lvGenres.Items.AddRange(
-                res.GenreCount
-                .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
-                .ToArray());
+            if (res.GenreCount is not null)
+                lvGenres.Items.AddRange(
+                    res.GenreCount
+                    .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
+                    .ToArray());
 
             lvReleaseYears.Items.Clear();
-            lvReleaseYears.Items.AddRange(
-                res.ReleaseYears
-                .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
-                .ToArray());
+            if (res.ReleaseYears is not null)
+                lvReleaseYears.Items.AddRange(
+                    res.ReleaseYears
+                    .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
+                    .ToArray());
 
             lvLatestAdditions.Items.Clear();
-            lvLatestAdditions.Items.AddRange(
-                res.LatestAdditions
-                .Select(x => new ListViewItem(new[] { x.Item1, x.Item2 }))
-                .ToArray());
+            if (res.LatestAdditions is not null)
+                lvLatestAdditions.Items.AddRange(
+                    res.LatestAdditions
+                    .Select(x => new ListViewItem(new[] { x.Item1, x.Item2 }))
+                    .ToArray());
 
             lblTotalTracksValue.Text = res.TotalFiles.ToString();
         }
@@ -429,7 +433,7 @@ public partial class MainForm : Form
             {
                 Id = x.Id,
                 Artist = x.Artist,
-                Album = x.Album,
+                Album = x.Release,
                 Year = x.Year,
                 TrackName = x.Tags[4],
                 TrackNumber = string.IsNullOrWhiteSpace(x.Tags[5]) || !int.TryParse(x.Tags[5], out int value2) ? default(int?) : value2,
@@ -1014,7 +1018,7 @@ public partial class MainForm : Form
             {
                 Id = x.Id,
                 Artist = x.Artist,
-                Album = x.Album,
+                Album = x.Release,
                 Year = x.Year,
                 TrackName = x.Tags[4],
                 TrackNumber = string.IsNullOrWhiteSpace(x.Tags[5]) || !int.TryParse(x.Tags[5], out int value2) ? default(int?) : value2,
