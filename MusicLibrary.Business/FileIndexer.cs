@@ -18,12 +18,14 @@ namespace MusicLibrary.Business;
 
 public class FileIndexer
 {
+    private readonly ISearchIndexEngine<MusicLibraryDocument> _engine;
     private readonly CancellationToken _ct;
     private readonly object _locker = new();
     private string _drive = string.Empty;
 
     public FileIndexer(CancellationToken ct)
     {
+        _engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
         _ct = ct;
     }
 
@@ -35,10 +37,8 @@ public class FileIndexer
         if (!fileList.Any())
             return;
 
-        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
-
         if (onlyNewFiles)
-            fileList = engine.SkipExistingDocuments(fileList.ToArray());
+            fileList = _engine.SkipExistingDocuments(fileList.ToArray());
 
         var contents = new ConcurrentBag<MusicLibraryDocument>();
         var progressArgs = new ProgressArgs();
@@ -75,28 +75,25 @@ public class FileIndexer
 
         if (!contents.IsEmpty)
         {
-            await Task.Run(() => engine.AddOrUpdateDocuments(contents, _ct));
+            await Task.Run(() => _engine.AddOrUpdateDocuments(contents, _ct));
             contents.Clear();
         }
     }
 
     public void ClearIndex()
     {
-        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
-        engine.DeleteAll();
+        _engine.DeleteAll();
     }
 
     public void RemoveFromIndex(string[] ids)
     {
-        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
-        engine.DeleteById(ids);
+        _engine.DeleteById(ids);
     }
 
     public Task Optimize()
     {
-        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
         var filesToRemoveFromIndex = new ConcurrentBag<string>();
-        var ids = engine.GetAllIndexedIds();
+        var ids = _engine.GetAllIndexedIds();
 
         Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
         {
@@ -104,16 +101,14 @@ public class FileIndexer
                 filesToRemoveFromIndex.Add(file);
         });
 
-        engine.DeleteById(filesToRemoveFromIndex.ToArray());
+        _engine.DeleteById(filesToRemoveFromIndex.ToArray());
 
         return Task.CompletedTask;
     }
 
     public async Task<(bool Success, string FileName)> ShareIndex()
     {
-        var engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
-
-        if (engine.IndexNotExistsOrEmpty())
+        if (_engine.IndexNotExistsOrEmpty())
             return (false, string.Empty);
 
         if (!Directory.Exists(Constants.LocalAppDataShares))
@@ -151,10 +146,8 @@ public class FileIndexer
             return _drive;
 
         lock (_locker)
-        {
             if (string.IsNullOrEmpty(_drive))
                 _drive = path[..2];
-        }
 
         return _drive;
     }

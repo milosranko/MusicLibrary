@@ -1,7 +1,9 @@
 ﻿using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 
 namespace MusicLibrary.Indexer.Engine;
@@ -15,5 +17,8 @@ public interface ISearchIndexEngine<T> where T : IDocument
     bool IndexNotExistsOrEmpty();
     IEnumerable<string> SkipExistingDocuments(string[] ids);
     SearchResult<T> Search(SearchRequest request);
-    IDictionary<string, int> CountDocuments(SearchRequest? request);
+    IDictionary<string, int> CountDocuments(CounterRequest? request);
+    IEnumerable<string> GetAllIndexedIds();
+    string GetFieldName(Expression<Func<T, string>> expr);
+    string GetFieldName(Expression<Func<T, int>> expr);
 }

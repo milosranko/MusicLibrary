@@ -36,7 +36,7 @@ public class IndexSearcher
     private IEnumerable<string> GetSharedIndexes()
     {
         if (!Directory.Exists(Constants.LocalAppDataShares))
-            return Enumerable.Empty<string>();
+            return [];
 
         return Directory.EnumerateDirectories(Constants.LocalAppDataShares)
             .Select(x => x.Split(Path.DirectorySeparatorChar)
@@ -50,42 +50,42 @@ public class IndexSearcher
             SearchFieldsEnum.Text => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
-                ["txt"],
+                [_searchIndexEngine.GetFieldName(x => x.Text)],
                 QueryTypesEnum.Text),
             SearchFieldsEnum.Genre => PerformSearch(
                 query,
                 [query],
-                ["gnr"],
+                [_searchIndexEngine.GetFieldName(x => x.Genre)],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { "art", [] }, { "rel", [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { _searchIndexEngine.GetFieldName(x => x.Artist), [] }, { _searchIndexEngine.GetFieldName(x => x.Release), [] } }),
             SearchFieldsEnum.Year => PerformSearch(
                 query,
                 [query],
-                ["yer"],
+                [_searchIndexEngine.GetFieldName(x => x.Year)],
                 QueryTypesEnum.Numeric,
-                new Dictionary<string, IEnumerable<string?>?> { { "art", [] }, { "rel", [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { _searchIndexEngine.GetFieldName(x => x.Artist), [] }, { _searchIndexEngine.GetFieldName(x => x.Release), [] } }),
             SearchFieldsEnum.Extension => PerformSearch(
                 query,
                 [query],
-                ["ext"],
+                [_searchIndexEngine.GetFieldName(x => x.Extension)],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { "ext", [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { _searchIndexEngine.GetFieldName(x => x.Extension), [] } }),
             SearchFieldsEnum.Release => PerformSearch(
                 query,
                 terms,
-                ["art", "rel"],
+                [_searchIndexEngine.GetFieldName(x => x.Artist), _searchIndexEngine.GetFieldName(x => x.Release)],
                 QueryTypesEnum.MultiTerm,
-                new Dictionary<string, IEnumerable<string?>?> { { "yer", [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { _searchIndexEngine.GetFieldName(x => x.Year), [] } }),
             SearchFieldsEnum.Artist => PerformSearch(
                 query,
                 [query],
-                ["art"],
+                [_searchIndexEngine.GetFieldName(x => x.Artist)],
                 QueryTypesEnum.Term,
-                new Dictionary<string, IEnumerable<string?>?> { { "art", [query] }, { "rel", [] } }),
+                new Dictionary<string, IEnumerable<string?>?> { { _searchIndexEngine.GetFieldName(x => x.Artist), [query] }, { _searchIndexEngine.GetFieldName(x => x.Release), [] } }),
             _ => PerformSearch(
                 query.RemoveSpecialCharacters().ToLower(),
                 terms,
-                ["txt"],
+                [_searchIndexEngine.GetFieldName(x => x.Text)],
                 QueryTypesEnum.Text),
         };
     }
@@ -106,16 +106,16 @@ public class IndexSearcher
         return Task.FromResult(new IndexCounts
         {
             TotalFiles = _searchIndexEngine.CountDocuments(null).First().Value,
-            TotalFilesByExtension = _searchIndexEngine.CountDocuments(null), // GetMostFrequentTerms(searcher, nameof(Content.Extension)),
+            TotalFilesByExtension = _searchIndexEngine.CountDocuments(new CounterRequest { Field = _searchIndexEngine.GetFieldName(x => x.Extension) }),
             TotalHiResFiles = _searchIndexEngine.Search(new SearchRequest
             {
                 Text = "hr flac",
-                SearchFields = new Dictionary<string, string?> { { "txt", string.Empty } },
+                SearchFields = new Dictionary<string, string?> { { _searchIndexEngine.GetFieldName(x => x.Text), string.Empty } },
                 QueryType = QueryTypesEnum.Text,
                 Pagination = new Pagination(int.MaxValue, 0)
             }).TotalHits,
-            ReleaseYears = _searchIndexEngine.CountDocuments(null), //GetMostFrequentTermsNumeric(searcher, nameof(Content.Year)),
-            GenreCount = _searchIndexEngine.CountDocuments(null), //GetMostFrequentTerms(searcher, nameof(Content.Genre)),
+            ReleaseYears = _searchIndexEngine.CountDocuments(new CounterRequest { Field = _searchIndexEngine.GetFieldName(x => x.Year), IsNumeric = true }),
+            GenreCount = _searchIndexEngine.CountDocuments(new CounterRequest { Field = _searchIndexEngine.GetFieldName(x => x.Genre) }),
             LatestAdditions = null // GetLatestAddedItems(searcher, nameof(Content.ModifiedDate), 500)
         });
     }

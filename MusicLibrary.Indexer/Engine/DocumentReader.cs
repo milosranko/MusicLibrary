@@ -45,6 +45,35 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         return _reader is null ? false : _reader.DocFreq(new Term(nameof(IDocument.Id).ToLower(), id)) != 0;
     }
 
+    public IDictionary<string, int> TermsCounter(string field, bool isNumeric = false)
+    {
+        var res = new Dictionary<string, int>();
+        var searcher = new IndexSearcher(_reader);
+        var fields = MultiFields.GetFields(searcher.IndexReader);
+        var terms = fields.GetTerms(field);
+        var termsEnum = terms.GetEnumerator(null);
+
+        while (termsEnum.MoveNext() == true)
+        {
+            var collector = new TotalHitCountCollector();
+            searcher.CollectionStatistics(field);
+            searcher.Search(new TermQuery(new Term(field, termsEnum.Term)), collector);
+
+            if (collector.TotalHits > 0)
+            {
+                if (isNumeric)
+                {
+                    if (!res.ContainsKey(NumericUtils.PrefixCodedToInt32(termsEnum.Term).ToString()) && NumericUtils.PrefixCodedToInt32(termsEnum.Term) > 1920)
+                        res.Add(NumericUtils.PrefixCodedToInt32(termsEnum.Term).ToString(), collector.TotalHits);
+                }
+                else if (!res.ContainsKey(termsEnum.Term.Utf8ToString()))
+                    res.Add(termsEnum.Term.Utf8ToString(), collector.TotalHits);
+            }
+        }
+
+        return res;
+    }
+
     public IEnumerable<T> GetByIds(string[] ids)
     {
         if (ids == null || ids.Length == 0)

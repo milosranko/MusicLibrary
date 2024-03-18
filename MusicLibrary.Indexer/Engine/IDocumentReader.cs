@@ -15,4 +15,5 @@ public interface IDocumentReader<T> : IDisposable where T : IDocument
     void Init();
     void Init(DirectoryReader reader);
     DirectoryReader? Reader { get; }
+    IDictionary<string, int> TermsCounter(string field, bool isNumeric = false);
 }

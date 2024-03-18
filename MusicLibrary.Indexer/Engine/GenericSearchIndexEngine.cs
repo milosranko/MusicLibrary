@@ -1,10 +1,15 @@
 ﻿using Lucene.Net.Index;
+using MusicLibrary.Indexer.Attributes;
+using MusicLibrary.Indexer.Facets.Attributes;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,11 +19,48 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 {
     private readonly IDocumentReader<T> _documentReader;
     private readonly IDocumentWriter<T> _documentWriter;
+    private IDictionary<string, FieldProperties> _fields;
+
+    private struct FieldProperties
+    {
+        public required string FieldName { get; set; }
+        public required FieldTypeEnum FieldType { get; set; }
+        public required bool Stored { get; set; }
+        public required bool IsFacet { get; set; }
+        public required bool IsArray { get; set; }
+    }
 
     public GenericSearchIndexEngine()
     {
+        ReflectDocumentFields();
+
         _documentReader = new DocumentReader<T>();
         _documentWriter = new DocumentWriter<T>();
+    }
+
+    private void ReflectDocumentFields()
+    {
+        var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+        _fields = new Dictionary<string, FieldProperties>(props.Length);
+        SearchableAttribute? searchableAttr;
+        FacetPropertyAttribute? facetAttr;
+
+        foreach (var prop in props)
+        {
+            searchableAttr = prop.GetCustomAttribute<SearchableAttribute>();
+            facetAttr = prop.GetCustomAttribute<FacetPropertyAttribute>();
+
+            if (searchableAttr is null) continue;
+
+            _fields.Add(prop.Name, new FieldProperties
+            {
+                FieldName = string.IsNullOrEmpty(searchableAttr.FieldName) ? prop.Name : searchableAttr.FieldName,
+                FieldType = searchableAttr.FieldType,
+                Stored = searchableAttr.Stored,
+                IsFacet = facetAttr is not null,
+                IsArray = prop.PropertyType.IsArray
+            });
+        }
     }
 
     public void AddOrUpdateDocuments(ConcurrentBag<T> contents, CancellationToken ct = default)
@@ -110,17 +152,15 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         return res;
     }
 
-    public IDictionary<string, int> CountDocuments(SearchRequest? request)
+    public IDictionary<string, int> CountDocuments(CounterRequest? request)
     {
         _documentReader.Init();
 
         if (request is null && _documentReader.Reader is not null)
             return new Dictionary<string, int> { { "Total", _documentReader.Reader.NumDocs } };
 
-        if (request is not null)
-            return new Dictionary<string, int> { { "", _documentReader.Search(request.Value).TotalHits } };
-
-        return new Dictionary<string, int>(0);
+        //Most frequent terms
+        return _documentReader.TermsCounter(request.Value.Field, request.Value.IsNumeric);
     }
 
     //private IDictionary<string, string> GetLatestAddedItems(IndexSearcher searcher, string field, int count)
@@ -150,25 +190,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     //    return res;
     //}
 
-    //private IDictionary<string, int> GetMostFrequentTerms(IndexSearcher searcher, string field)
-    //{
-    //    var res = new Dictionary<string, int>();
-    //    var fields = MultiFields.GetFields(searcher.IndexReader);
-    //    var terms = fields.GetTerms(field);
-    //    var termsEnum = terms.GetEnumerator(null);
-
-    //    while (termsEnum.MoveNext() == true)
-    //    {
-    //        var collector = new TotalHitCountCollector();
-    //        searcher.Search(new TermQuery(new Term(field, termsEnum.Term)), collector);
-
-    //        if (collector.TotalHits > 0)
-    //            res.Add(termsEnum.Term.Utf8ToString(), collector.TotalHits);
-    //    }
-
-    //    return res;
-    //}
-
     //private IDictionary<string, int> GetMostFrequentTermsNumeric(IndexSearcher searcher, string field)
     //{
     //    var res = new Dictionary<string, int>();
@@ -190,4 +211,32 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     //    return res;
     //}
+
+    public string GetFieldName(Expression<Func<T, string>> expr)
+    {
+        if (_fields is null || _fields.Count.Equals(0))
+            ArgumentNullException.ThrowIfNull(_fields);
+
+        if (expr.Body is not MemberExpression memberExpression)
+            throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
+
+        if (!_fields.ContainsKey(memberExpression.Member.Name))
+            throw new ArgumentException($"The provided property doesn't exists: {memberExpression.Member.Name}.");
+
+        return _fields[memberExpression.Member.Name].FieldName;
+    }
+
+    public string GetFieldName(Expression<Func<T, int>> expr)
+    {
+        if (_fields is null || _fields.Count.Equals(0))
+            ArgumentNullException.ThrowIfNull(_fields);
+
+        if (expr.Body is not MemberExpression memberExpression)
+            throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
+
+        if (!_fields.ContainsKey(memberExpression.Member.Name))
+            throw new ArgumentException($"The provided property doesn't exists: {memberExpression.Member.Name}.");
+
+        return _fields[memberExpression.Member.Name].FieldName;
+    }
 }

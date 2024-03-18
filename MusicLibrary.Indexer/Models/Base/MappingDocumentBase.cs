@@ -27,9 +27,7 @@ public abstract class MappingDocumentBase<T> where T : IDocument, new()
             var propValue = property.GetValue(this);
 
             if (facetAttr is not null && propValue is not null)
-            {
                 document.AddFacetField(propName, propValue.ToString());
-            }
 
             if (property.PropertyType.IsArray)
             {
@@ -45,13 +43,10 @@ public abstract class MappingDocumentBase<T> where T : IDocument, new()
                     document.Add(new StringField(propName, arrValue, searchableAttr.Stored ? Field.Store.YES : Field.Store.NO));
 
                     if (facetAttribute != null)
-                    {
                         document.Add(new FacetField(propName, arrValue));
-                    }
                 }
             }
             else
-            {
                 switch (searchableAttr.FieldType)
                 {
                     case FieldTypeEnum.StringField:
@@ -81,7 +76,6 @@ public abstract class MappingDocumentBase<T> where T : IDocument, new()
                             document.AddStoredField(propName, ((DateTime)propValue).Ticks);
                         break;
                 }
-            }
         }
 
         return document;
@@ -104,18 +98,13 @@ public abstract class MappingDocumentBase<T> where T : IDocument, new()
             if (!searchableAttr.Stored) continue;
 
             if (property.PropertyType.IsArray)
-            {
                 property.SetValue(instance, document.GetFields(propName).Select(x => x.GetStringValue()).ToArray());
-            }
-            else
-            {
-                if (property.PropertyType == typeof(DateTime) && searchableAttr.FieldType == FieldTypeEnum.NumericDocValuesField)
-                    property.SetValue(instance, new DateTime(document.GetField(propName).GetInt64Value().Value));
-                else if (property.PropertyType == typeof(string))
-                    property.SetValue(instance, document.GetField(propName).GetStringValue());
-                else if (property.PropertyType == typeof(int))
-                    property.SetValue(instance, document.GetField(propName).GetInt32Value());
-            }
+            else if (property.PropertyType == typeof(DateTime) && searchableAttr.FieldType == FieldTypeEnum.NumericDocValuesField)
+                property.SetValue(instance, new DateTime(document.GetField(propName).GetInt64Value().Value));
+            else if (property.PropertyType == typeof(string))
+                property.SetValue(instance, document.GetField(propName).GetStringValue());
+            else if (property.PropertyType == typeof(int))
+                property.SetValue(instance, document.GetField(propName).GetInt32Value());
         }
 
         return instance;
@@ -129,9 +118,7 @@ public abstract class MappingDocumentBase<T> where T : IDocument, new()
             .Select(p => p.Name);
 
         foreach (var field in facetFields)
-        {
             facetsConfig.SetMultiValued(field, true);
-        }
 
         return facetsConfig;
     }
