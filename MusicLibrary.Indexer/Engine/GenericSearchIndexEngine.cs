@@ -190,28 +190,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     //    return res;
     //}
 
-    //private IDictionary<string, int> GetMostFrequentTermsNumeric(IndexSearcher searcher, string field)
-    //{
-    //    var res = new Dictionary<string, int>();
-    //    var fields = MultiFields.GetFields(searcher.IndexReader);
-    //    var terms = fields.GetTerms(field);
-    //    var termsEnum = terms.GetEnumerator(null);
-    //    int term;
-
-    //    while (termsEnum.MoveNext() == true)
-    //    {
-    //        var collector = new TotalHitCountCollector();
-    //        searcher.Search(new TermQuery(new Term(field, termsEnum.Term)), collector);
-    //        term = NumericUtils.PrefixCodedToInt32(termsEnum.Term);
-
-    //        if (!res.ContainsKey(term.ToString()) &&
-    //            collector.TotalHits > 0)
-    //            res.Add(term.ToString(), collector.TotalHits);
-    //    }
-
-    //    return res;
-    //}
-
     public string GetFieldName(Expression<Func<T, string>> expr)
     {
         if (_fields is null || _fields.Count.Equals(0))
