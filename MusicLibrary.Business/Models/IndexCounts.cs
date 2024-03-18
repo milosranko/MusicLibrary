@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace MusicLibrary.Business.Models;
 
@@ -14,7 +12,7 @@ public struct IndexCounts
             TotalHiResFiles = default,
             GenreCount = new Dictionary<string, int>(),
             ReleaseYears = new Dictionary<string, int>(),
-            LatestAdditions = Enumerable.Empty<ValueTuple<string, string>>()
+            LatestAdditions = new Dictionary<string, string>()
         };
 
     public int? TotalFiles { get; set; }
@@ -22,5 +20,5 @@ public struct IndexCounts
     public int? TotalHiResFiles { get; set; }
     public IDictionary<string, int> GenreCount { get; set; }
     public IDictionary<string, int> ReleaseYears { get; set; }
-    public IEnumerable<ValueTuple<string, string>> LatestAdditions { get; set; }
+    public IDictionary<string, string> LatestAdditions { get; set; }
 }

@@ -29,7 +29,7 @@ public class FileIndexer
         _ct = ct;
     }
 
-    public async void StartIndexing(
+    public void StartIndexing(
         IEnumerable<string> fileList,
         IProgress<ProgressArgs> progress,
         bool onlyNewFiles = false)
@@ -41,41 +41,36 @@ public class FileIndexer
             fileList = _engine.SkipExistingDocuments(fileList.ToArray());
 
         var contents = new ConcurrentBag<MusicLibraryDocument>();
-        var progressArgs = new ProgressArgs();
+        //var progressArgs = new ProgressArgs
+        //{
+        //    Files = contents.Count
+        //};
+        //progress.Report(progressArgs);
 
         Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
         {
-            try
-            {
-                progressArgs.Files = contents.Count;
-                progress.Report(progressArgs);
-                var track = new Track(file);
-                var metaTags = track.GetMetaTags();
+            var track = new Track(file);
+            var metaTags = track.GetMetaTags();
 
-                contents.Add(new MusicLibraryDocument
-                {
-                    FileId = RemoveDriveInfo(file),
-                    Drive = GetOrSetDriveInfo(file),
-                    FileName = Path.GetFileName(file),
-                    Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
-                    ModifiedDate = track.GetModifiedDate(),
-                    Tags = metaTags,
-                    Text = GetContentText(file, metaTags),
-                    Artist = string.IsNullOrEmpty(track.Artist.Trim()) ? "Unknown" : track.Artist.Trim(),
-                    Release = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
-                    Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
-                    Year = track.Year ?? 0
-                });
-            }
-            catch (Exception e)
+            contents.Add(new MusicLibraryDocument
             {
-                throw new Exception($"Error occured on file: {file}", e);
-            }
+                FileId = RemoveDriveInfo(file),
+                Drive = GetOrSetDriveInfo(file),
+                FileName = Path.GetFileName(file),
+                Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
+                ModifiedDate = track.GetModifiedDate(),
+                Tags = metaTags,
+                Text = GetContentText(file, metaTags),
+                Artist = string.IsNullOrEmpty(track.Artist.Trim()) ? "Unknown" : track.Artist.Trim(),
+                Release = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
+                Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
+                Year = track.Year ?? 0
+            });
         });
 
         if (!contents.IsEmpty)
         {
-            await Task.Run(() => _engine.AddOrUpdateDocuments(contents, _ct));
+            _engine.AddOrUpdateDocuments(contents, _ct);
             contents.Clear();
         }
     }

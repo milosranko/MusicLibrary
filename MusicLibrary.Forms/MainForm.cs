@@ -90,7 +90,7 @@ public partial class MainForm : Form
             if (res.LatestAdditions is not null)
                 lvLatestAdditions.Items.AddRange(
                     res.LatestAdditions
-                    .Select(x => new ListViewItem(new[] { x.Item1, x.Item2 }))
+                    .Select(x => new ListViewItem(new[] { x.Value, x.Key }))
                     .ToArray());
 
             lblTotalTracksValue.Text = res.TotalFiles.ToString();
@@ -267,11 +267,6 @@ public partial class MainForm : Form
             _scanningStarted = false;
             MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
         }
-        finally
-        {
-            _cts.Dispose();
-            _cts = null;
-        }
     }
 
     private async void btnIndex_Click_1(object sender, EventArgs e)
@@ -299,7 +294,7 @@ public partial class MainForm : Form
 
             _duration = TimeSpan.Zero;
 
-            await StartIndexing(_cts.Token);
+            await Task.Run(() => StartIndexing(_cts.Token));
 
             _fileList = null;
             _scanningStarted = false;
@@ -328,10 +323,10 @@ public partial class MainForm : Form
 
     private void Progress(ProgressArgs args)
     {
-        if (string.IsNullOrEmpty(args.Folder))
-            WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
-        else
-            WriteTextSafe($"scanning for music... {args.Folder}");
+        //if (string.IsNullOrEmpty(args.Folder))
+        //    WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
+        //else
+        //    WriteTextSafe($"scanning for music... {args.Folder}");
     }
 
     private void IndexingStopped()
@@ -346,7 +341,7 @@ public partial class MainForm : Form
         btnIndex.Text = "Index";
     }
 
-    private async Task StartIndexing(CancellationToken ct, bool onlyNewFiles = false)
+    private void StartIndexing(CancellationToken ct, bool onlyNewFiles = false)
     {
         if (_fileList == null || !_fileList.Any())
             return;
@@ -356,12 +351,10 @@ public partial class MainForm : Form
             var fi = new FileIndexer(ct);
             var stopwatch = Stopwatch.StartNew();
 
-            await Task.Run(() => fi.StartIndexing(_fileList, _progress, onlyNewFiles));
+            fi.StartIndexing(_fileList, _progress, onlyNewFiles);
 
             stopwatch.Stop();
             _duration = stopwatch.Elapsed;
-
-            IndexingFinished();
         }
         catch (Exception e)
         {
@@ -369,8 +362,6 @@ public partial class MainForm : Form
         }
         finally
         {
-            _cts.Dispose();
-            _cts = null;
             _cache.Remove(IndexCountsCacheKey);
         }
     }
@@ -817,7 +808,7 @@ public partial class MainForm : Form
 
             _duration = TimeSpan.Zero;
 
-            await StartIndexing(_cts.Token, true);
+            await Task.Run(() => StartIndexing(_cts.Token, true));
 
             _fileList = null;
             _scanningStarted = false;

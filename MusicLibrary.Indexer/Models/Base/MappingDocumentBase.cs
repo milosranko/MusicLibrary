@@ -11,7 +11,6 @@ namespace MusicLibrary.Indexer.Models.Base;
 
 public abstract class MappingDocumentBase<T> where T : IDocument, new()
 {
-    //TODO Reflect T properties and attributes once on init
     public virtual Document MapToLuceneDocument()
     {
         var document = new Document();

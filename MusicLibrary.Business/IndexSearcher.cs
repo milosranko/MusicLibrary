@@ -106,7 +106,10 @@ public class IndexSearcher
         return Task.FromResult(new IndexCounts
         {
             TotalFiles = _searchIndexEngine.CountDocuments(null).First().Value,
-            TotalFilesByExtension = _searchIndexEngine.CountDocuments(new CounterRequest { Field = _searchIndexEngine.GetFieldName(x => x.Extension) }),
+            TotalFilesByExtension = _searchIndexEngine.CountDocuments(new CounterRequest
+            {
+                Field = _searchIndexEngine.GetFieldName(x => x.Extension)
+            }),
             TotalHiResFiles = _searchIndexEngine.Search(new SearchRequest
             {
                 Text = "hr flac",
@@ -114,9 +117,22 @@ public class IndexSearcher
                 QueryType = QueryTypesEnum.Text,
                 Pagination = new Pagination(int.MaxValue, 0)
             }).TotalHits,
-            ReleaseYears = _searchIndexEngine.CountDocuments(new CounterRequest { Field = _searchIndexEngine.GetFieldName(x => x.Year), IsNumeric = true }),
-            GenreCount = _searchIndexEngine.CountDocuments(new CounterRequest { Field = _searchIndexEngine.GetFieldName(x => x.Genre) }),
-            LatestAdditions = null // GetLatestAddedItems(searcher, nameof(Content.ModifiedDate), 500)
+            ReleaseYears = _searchIndexEngine.CountDocuments(new CounterRequest
+            {
+                Field = _searchIndexEngine.GetFieldName(x => x.Year),
+                IsNumeric = true
+            }),
+            GenreCount = _searchIndexEngine.CountDocuments(new CounterRequest
+            {
+                Field = _searchIndexEngine.GetFieldName(x => x.Genre)
+            }),
+            LatestAdditions = _searchIndexEngine.GetLatestAddedItems(new CounterRequest
+            {
+                Field = _searchIndexEngine.GetFieldName(x => x.Release),
+                SortByField = _searchIndexEngine.GetFieldName(x => x.ModifiedDate),
+                IsNumeric = false,
+                Top = 50
+            })
         });
     }
 

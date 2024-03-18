@@ -6,6 +6,7 @@ using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
+using Lucene.Net.Search.Grouping;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using MusicLibrary.Indexer.Facets;
@@ -16,6 +17,7 @@ using MusicLibrary.Indexer.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
@@ -51,7 +53,7 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         var searcher = new IndexSearcher(_reader);
         var fields = MultiFields.GetFields(searcher.IndexReader);
         var terms = fields.GetTerms(field);
-        var termsEnum = terms.GetEnumerator(null);
+        var termsEnum = terms.GetEnumerator();
 
         while (termsEnum.MoveNext() == true)
         {
@@ -70,6 +72,23 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
                     res.Add(termsEnum.Term.Utf8ToString(), collector.TotalHits);
             }
         }
+
+        return res;
+    }
+
+    public IDictionary<string, string> LatestAdded(string field, string sortBy, ListSortDirection sortDirection, int top)
+    {
+        var sort = new Sort(new SortField(sortBy, SortFieldType.INT64, sortDirection.Equals(ListSortDirection.Ascending)));
+        var res = new Dictionary<string, string>();
+        var searcher = new IndexSearcher(_reader);
+        var query = new MatchAllDocsQuery();
+        var groupingSearch = new GroupingSearch(field);
+        groupingSearch.SetGroupSort(sort);
+        groupingSearch.SetFillSortFields(true);
+        var groupingDocs = groupingSearch.Search(searcher, query, 0, 50);
+
+        foreach (var item in groupingDocs.Groups)
+            res.Add(((BytesRef)item.GroupValue).Utf8ToString(), searcher.Doc(item.ScoreDocs[0].Doc).Get("art"));
 
         return res;
     }

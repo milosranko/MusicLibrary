@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -163,58 +164,47 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         return _documentReader.TermsCounter(request.Value.Field, request.Value.IsNumeric);
     }
 
-    //private IDictionary<string, string> GetLatestAddedItems(IndexSearcher searcher, string field, int count)
-    //{
-    //    var res = new Dictionary<string, string>();
-    //    var query = new MatchAllDocsQuery();
-    //    var sort = new Sort(new SortField(field, SortFieldType.INT64, true));
-    //    var topDocs = searcher.Search(query, count, sort);
-    //    string artist, release, folder, prevFolder = null;
+    public IDictionary<string, string> GetLatestAddedItems(CounterRequest request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
 
-    //    for (int i = 0; i < topDocs.ScoreDocs.Length; i++)
-    //    {
-    //        folder = Path.GetDirectoryName(searcher.Doc(topDocs.ScoreDocs[i].Doc).Get(nameof(IDocument.Id)));
-    //        artist = searcher.Doc(topDocs.ScoreDocs[i].Doc).Get(nameof(Content.Artist));
-    //        release = searcher.Doc(topDocs.ScoreDocs[i].Doc).Get(nameof(Content.Album));
+        _documentReader.Init();
 
-    //        if (!res.Contains(new KeyValuePair<string, string>(artist, release)) && prevFolder != folder)
-    //            res.Add(artist, release);
-
-    //        if (res.Count == 50)
-    //            break;
-
-    //        if (prevFolder != folder)
-    //            prevFolder = folder;
-    //    }
-
-    //    return res;
-    //}
+        return _documentReader.LatestAdded(request.Field, request.SortByField, ListSortDirection.Descending, request.Top.Value);
+    }
 
     public string GetFieldName(Expression<Func<T, string>> expr)
     {
-        if (_fields is null || _fields.Count.Equals(0))
-            ArgumentNullException.ThrowIfNull(_fields);
-
         if (expr.Body is not MemberExpression memberExpression)
             throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
 
-        if (!_fields.ContainsKey(memberExpression.Member.Name))
-            throw new ArgumentException($"The provided property doesn't exists: {memberExpression.Member.Name}.");
-
-        return _fields[memberExpression.Member.Name].FieldName;
+        return GetFieldName(memberExpression.Member.Name);
     }
 
     public string GetFieldName(Expression<Func<T, int>> expr)
     {
-        if (_fields is null || _fields.Count.Equals(0))
-            ArgumentNullException.ThrowIfNull(_fields);
-
         if (expr.Body is not MemberExpression memberExpression)
             throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
 
-        if (!_fields.ContainsKey(memberExpression.Member.Name))
-            throw new ArgumentException($"The provided property doesn't exists: {memberExpression.Member.Name}.");
+        return GetFieldName(memberExpression.Member.Name);
+    }
 
-        return _fields[memberExpression.Member.Name].FieldName;
+    public string GetFieldName(Expression<Func<T, DateTime>> expr)
+    {
+        if (expr.Body is not MemberExpression memberExpression)
+            throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
+
+        return GetFieldName(memberExpression.Member.Name);
+    }
+
+    private string GetFieldName(string fieldName)
+    {
+        if (_fields is null || _fields.Count.Equals(0))
+            ArgumentNullException.ThrowIfNull(_fields);
+
+        if (!_fields.ContainsKey(fieldName))
+            throw new ArgumentException($"The provided property doesn't exists: {fieldName}.");
+
+        return _fields[fieldName].FieldName;
     }
 }
