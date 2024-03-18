@@ -41,14 +41,14 @@ public class FileIndexer
             fileList = _engine.SkipExistingDocuments(fileList.ToArray());
 
         var contents = new ConcurrentBag<MusicLibraryDocument>();
-        //var progressArgs = new ProgressArgs
-        //{
-        //    Files = contents.Count
-        //};
-        //progress.Report(progressArgs);
+        var progressArgs = new ProgressArgs { TotalFiles = fileList.Count() };
 
-        Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
+        //Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
+        //{
+        foreach (var file in fileList)
         {
+            if (_ct.IsCancellationRequested) break;
+
             var track = new Track(file);
             var metaTags = track.GetMetaTags();
 
@@ -66,10 +66,15 @@ public class FileIndexer
                 Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
                 Year = track.Year ?? 0
             });
-        });
+
+            progressArgs.FilesProcessed = contents.Count;
+            progress.Report(progressArgs);
+        }
+        //});
 
         if (!contents.IsEmpty)
         {
+            progress.Report(new ProgressArgs { Message = "committing index changes..." });
             _engine.AddOrUpdateDocuments(contents, _ct);
             contents.Clear();
         }

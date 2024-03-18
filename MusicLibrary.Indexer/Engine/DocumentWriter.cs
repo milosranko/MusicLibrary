@@ -116,11 +116,11 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
         _writer?.DeleteAll();
         _writer?.Commit();
 
-        if (!_hasFacets || _taxoWriter is null)
-            return;
+        //if (!_hasFacets || _taxoWriter is null)
+        //    return;
 
-        foreach (var item in _taxoWriter.Directory.ListAll().Where(x => !x.Equals("write.lock") && !x.StartsWith("segments")))
-            _taxoWriter.Directory.DeleteFile(item);
+        //foreach (var item in _taxoWriter.Directory.ListAll().Where(x => !x.Equals("write.lock") && !x.StartsWith("segments")))
+        //    _taxoWriter.Directory.DeleteFile(item);
     }
 
     public void DeleteById(string[] ids)

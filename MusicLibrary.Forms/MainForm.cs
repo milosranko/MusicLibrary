@@ -294,7 +294,7 @@ public partial class MainForm : Form
 
             _duration = TimeSpan.Zero;
 
-            await Task.Run(() => StartIndexing(_cts.Token));
+            await Task.Run(() => StartIndexing(_cts.Token), _cts.Token);
 
             _fileList = null;
             _scanningStarted = false;
@@ -323,10 +323,15 @@ public partial class MainForm : Form
 
     private void Progress(ProgressArgs args)
     {
-        //if (string.IsNullOrEmpty(args.Folder))
-        //    WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
-        //else
-        //    WriteTextSafe($"scanning for music... {args.Folder}");
+        if (!string.IsNullOrEmpty(args.Folder))
+            statusStrip1.Items[1].Text = $"scanning for music... {args.Folder}";
+        else if (!string.IsNullOrEmpty(args.Message))
+            statusStrip1.Items[1].Text = args.Message;
+        else
+            statusStrip1.Items[1].Text = $"indexing files... {args.FilesProcessed} of {args.TotalFiles}";
+
+        //WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
+        //WriteTextSafe($"scanning for music... {args.Folder}");
     }
 
     private void IndexingStopped()
@@ -808,7 +813,7 @@ public partial class MainForm : Form
 
             _duration = TimeSpan.Zero;
 
-            await Task.Run(() => StartIndexing(_cts.Token, true));
+            await Task.Run(() => StartIndexing(_cts.Token, true), _cts.Token);
 
             _fileList = null;
             _scanningStarted = false;
