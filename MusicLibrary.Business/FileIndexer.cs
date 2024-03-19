@@ -1,9 +1,9 @@
 ﻿using ATL;
 using MusicLibrary.Business.Extensions;
 using MusicLibrary.Business.Helpers;
+using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
-using MusicLibrary.Indexer.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,16 +18,18 @@ namespace MusicLibrary.Business;
 
 public class FileIndexer
 {
+    private readonly ISearchIndexEngine<MusicLibraryDocument> _engine;
     private readonly CancellationToken _ct;
     private readonly object _locker = new();
     private string _drive = string.Empty;
 
     public FileIndexer(CancellationToken ct)
     {
+        _engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
         _ct = ct;
     }
 
-    public async void StartIndexing(
+    public void StartIndexing(
         IEnumerable<string> fileList,
         IProgress<ProgressArgs> progress,
         bool onlyNewFiles = false)
@@ -35,84 +37,73 @@ public class FileIndexer
         if (!fileList.Any())
             return;
 
-        using var engine = new SearchIndexEngine();
-
         if (onlyNewFiles)
-            fileList = engine.DocumentsExists(fileList);
+            fileList = _engine.SkipExistingDocuments(fileList.ToArray());
 
-        var contents = new ConcurrentBag<Content>();
-        var progressArgs = new ProgressArgs();
+        var contents = new ConcurrentBag<MusicLibraryDocument>();
+        var progressArgs = new ProgressArgs { TotalFiles = fileList.Count() };
 
         Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
         {
-            try
-            {
-                progressArgs.Files = contents.Count;
-                progress.Report(progressArgs);
-                var track = new Track(file);
-                var metaTags = track.GetMetaTags();
+            var track = new Track(file);
+            var metaTags = track.GetMetaTags();
 
-                contents.Add(new Content
-                {
-                    FileId = file,
-                    FileName = Path.GetFileName(file),
-                    Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
-                    ModifiedDate = track.GetModifiedDate(),
-                    Tags = metaTags,
-                    Text = GetContentText(file, metaTags),
-                    Artist = track.Artist,
-                    Album = track.Album,
-                    Genre = track.Genre,
-                    Year = track.Year ?? 0
-                });
-            }
-            catch (Exception e)
+            contents.Add(new MusicLibraryDocument
             {
-                throw new Exception($"Error occured on file: {file}", e);
-            }
+                FileId = RemoveDriveInfo(file),
+                Drive = GetOrSetDriveInfo(file),
+                FileName = Path.GetFileName(file),
+                Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
+                ModifiedDate = track.GetModifiedDate(),
+                Tags = metaTags,
+                Text = GetContentText(file, metaTags),
+                Artist = string.IsNullOrEmpty(track.Artist.Trim()) ? "Unknown" : track.Artist.Trim(),
+                Release = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
+                Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
+                Year = track.Year ?? 0
+            });
+
+            progressArgs.FilesProcessed = contents.Count;
+            progress.Report(progressArgs);
         });
 
         if (!contents.IsEmpty)
         {
-            await Task.Run(() => engine.AddOrUpdateDocuments(contents, _ct));
+            progress.Report(new ProgressArgs { Message = "committing index changes..." });
+            _engine.AddOrUpdateDocuments(contents, _ct);
             contents.Clear();
         }
     }
 
     public void ClearIndex()
     {
-        using var engine = new SearchIndexEngine();
-        engine.DeleteAll();
+        _engine.DeleteAll();
     }
 
     public void RemoveFromIndex(string[] ids)
     {
-        using var engine = new SearchIndexEngine();
-        engine.DeleteById(ids);
+        _engine.DeleteById(ids);
     }
 
     public Task Optimize()
     {
-        using var engine = new SearchIndexEngine();
         var filesToRemoveFromIndex = new ConcurrentBag<string>();
-        var ids = engine.GetAllIndexedIds();
+        var ids = _engine.GetAllIndexedIds();
 
-        Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount - 1, CancellationToken = _ct }, file =>
+        Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
         {
             if (!File.Exists(file))
                 filesToRemoveFromIndex.Add(file);
         });
 
-        engine.DeleteById(filesToRemoveFromIndex.ToArray());
+        _engine.DeleteById(filesToRemoveFromIndex.ToArray());
 
         return Task.CompletedTask;
     }
 
     public async Task<(bool Success, string FileName)> ShareIndex()
     {
-        using var engine = new SearchIndexEngine();
-
-        if (engine.IndexNotExistsOrEmpty())
+        if (_engine.IndexNotExistsOrEmpty())
             return (false, string.Empty);
 
         if (!Directory.Exists(Constants.LocalAppDataShares))
@@ -150,10 +141,8 @@ public class FileIndexer
             return _drive;
 
         lock (_locker)
-        {
             if (string.IsNullOrEmpty(_drive))
                 _drive = path[..2];
-        }
 
         return _drive;
     }

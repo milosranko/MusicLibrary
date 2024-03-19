@@ -38,9 +38,7 @@ public class FileConverter
         var tasks = new List<Task>(_filesQueue.Count);
 
         while (_filesQueue.Count > 0)
-        {
             tasks.Add(await Task.Factory.StartNew(async () => await StartConversion(_filesQueue.Dequeue(), bitrateIndex, _filesQueue.Count)));
-        }
 
         Task.WaitAll(tasks.ToArray(), _ct);
     }

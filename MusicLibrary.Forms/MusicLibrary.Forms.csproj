@@ -9,6 +9,7 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <PackageIcon></PackageIcon>
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicLibrary.Business\MusicLibrary.Business.csproj" />
-    <ProjectReference Include="..\MusicLibrary.Common\MusicLibrary.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

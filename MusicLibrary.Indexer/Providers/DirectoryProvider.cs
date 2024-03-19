@@ -1,39 +1,48 @@
-﻿using Lucene.Net.Analysis.Core;
-using Lucene.Net.Index;
-using Lucene.Net.Store;
+﻿using Lucene.Net.Store;
 using MusicLibrary.Common;
-using System.IO;
+using System;
 using Directory = Lucene.Net.Store.Directory;
 
 namespace MusicLibrary.Indexer.Providers;
 
 internal static class DirectoryProvider
 {
-	public static Directory GetOrCreateDocumentIndex(string indexName)
-	{
-		FSDirectory directory = null;
+    public static Directory GetOrCreateDocumentIndex(string? indexName)
+    {
+        FSDirectory directory;
 
-		if (string.IsNullOrEmpty(indexName))
-		{
-			if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
-				System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
+        if (string.IsNullOrEmpty(indexName))
+        {
+            if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
+                System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
 
-			directory = FSDirectory.Open(Constants.LocalAppDataIndex);
-		}
-		else
-		{
-			var path = Path.Combine(Constants.LocalAppDataShares, indexName);
+            directory = FSDirectory.Open(Constants.LocalAppDataIndex);
+        }
+        else
+        {
+            var path = Environment.GetFolderPath(
+                Environment.SpecialFolder.LocalApplicationData,
+                Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{indexName}";
 
-			if (!System.IO.Directory.Exists(path))
-				System.IO.Directory.CreateDirectory(path);
+            directory = FSDirectory.Open(path);
+        }
 
-			directory = FSDirectory.Open(path);
-		}
+        //using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
+        //using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
+        //writer.DeleteUnusedFiles();
 
-		using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
-		using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
-		writer.DeleteUnusedFiles();
+        return directory;
+    }
 
-		return directory;
-	}
+    public static Directory GetOrCreateTaxoIndex()
+    {
+        if (!System.IO.Directory.Exists(Constants.LocalAppDataTaxoIndex))
+            System.IO.Directory.CreateDirectory(Constants.LocalAppDataTaxoIndex);
+
+        return FSDirectory.Open(Constants.LocalAppDataTaxoIndex);
+
+        //using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
+        //using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
+        //writer.DeleteUnusedFiles();
+    }
 }

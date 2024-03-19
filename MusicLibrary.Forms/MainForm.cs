@@ -64,29 +64,34 @@ public partial class MainForm : Form
             }
 
             lvExtensionsTotal.Items.Clear();
-            lvExtensionsTotal.Items.AddRange(
-                res.TotalFilesByExtension
-                .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
-                .ToArray());
-            lvExtensionsTotal.Items.Add(new ListViewItem(new[] { "flac hr", res.TotalHiResFiles.ToString() }));
+            if (res.TotalFilesByExtension is not null)
+                lvExtensionsTotal.Items.AddRange(
+                    res.TotalFilesByExtension
+                    .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
+                    .ToArray());
+            if (res.TotalHiResFiles > 0)
+                lvExtensionsTotal.Items.Add(new ListViewItem(new[] { "flac hr", res.TotalHiResFiles.ToString() }));
 
             lvGenres.Items.Clear();
-            lvGenres.Items.AddRange(
-                res.GenreCount
-                .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
-                .ToArray());
+            if (res.GenreCount is not null)
+                lvGenres.Items.AddRange(
+                    res.GenreCount
+                    .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
+                    .ToArray());
 
             lvReleaseYears.Items.Clear();
-            lvReleaseYears.Items.AddRange(
-                res.ReleaseYears
-                .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
-                .ToArray());
+            if (res.ReleaseYears is not null)
+                lvReleaseYears.Items.AddRange(
+                    res.ReleaseYears
+                    .Select(x => new ListViewItem(new[] { x.Key, x.Value.ToString() }))
+                    .ToArray());
 
             lvLatestAdditions.Items.Clear();
-            lvLatestAdditions.Items.AddRange(
-                res.LatestAdditions
-                .Select(x => new ListViewItem(new[] { x.Item1, x.Item2 }))
-                .ToArray());
+            if (res.LatestAdditions is not null)
+                lvLatestAdditions.Items.AddRange(
+                    res.LatestAdditions
+                    .Select(x => new ListViewItem(new[] { x.Value, x.Key }))
+                    .ToArray());
 
             lblTotalTracksValue.Text = res.TotalFiles.ToString();
         }
@@ -214,6 +219,9 @@ public partial class MainForm : Form
             await StartScanning(_cts.Token);
             _scanningStarted = false;
         }
+
+        if (_cts.IsCancellationRequested)
+            _cts = null;
     }
 
     private void ScanningStarted()
@@ -262,11 +270,6 @@ public partial class MainForm : Form
             _scanningStarted = false;
             MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK);
         }
-        finally
-        {
-            _cts.Dispose();
-            _cts = null;
-        }
     }
 
     private async void btnIndex_Click_1(object sender, EventArgs e)
@@ -294,12 +297,15 @@ public partial class MainForm : Form
 
             _duration = TimeSpan.Zero;
 
-            await StartIndexing(_cts.Token);
+            await Task.Run(() => StartIndexing(_cts.Token), _cts.Token);
 
             _fileList = null;
             _scanningStarted = false;
             IndexingFinished();
         }
+
+        if (_cts.IsCancellationRequested)
+            _cts = null;
     }
 
     private void WriteTextSafe(string text)
@@ -323,10 +329,15 @@ public partial class MainForm : Form
 
     private void Progress(ProgressArgs args)
     {
-        if (string.IsNullOrEmpty(args.Folder))
-            WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
+        if (!string.IsNullOrEmpty(args.Folder))
+            statusStrip1.Items[1].Text = $"scanning for music... {args.Folder}";
+        else if (!string.IsNullOrEmpty(args.Message))
+            statusStrip1.Items[1].Text = args.Message;
         else
-            WriteTextSafe($"scanning for music... {args.Folder}");
+            statusStrip1.Items[1].Text = $"indexing files... {args.FilesProcessed} of {args.TotalFiles}";
+
+        //WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
+        //WriteTextSafe($"scanning for music... {args.Folder}");
     }
 
     private void IndexingStopped()
@@ -341,7 +352,7 @@ public partial class MainForm : Form
         btnIndex.Text = "Index";
     }
 
-    private async Task StartIndexing(CancellationToken ct, bool onlyNewFiles = false)
+    private void StartIndexing(CancellationToken ct, bool onlyNewFiles = false)
     {
         if (_fileList == null || !_fileList.Any())
             return;
@@ -351,12 +362,10 @@ public partial class MainForm : Form
             var fi = new FileIndexer(ct);
             var stopwatch = Stopwatch.StartNew();
 
-            await Task.Run(() => fi.StartIndexing(_fileList, _progress, onlyNewFiles));
+            fi.StartIndexing(_fileList, _progress, onlyNewFiles);
 
             stopwatch.Stop();
             _duration = stopwatch.Elapsed;
-
-            IndexingFinished();
         }
         catch (Exception e)
         {
@@ -364,8 +373,6 @@ public partial class MainForm : Form
         }
         finally
         {
-            _cts.Dispose();
-            _cts = null;
             _cache.Remove(IndexCountsCacheKey);
         }
     }
@@ -408,7 +415,7 @@ public partial class MainForm : Form
         await Search(SearchFieldsEnum.Text, txtSearchField.Text, null);
     }
 
-    private async Task Search(SearchFieldsEnum searchField, string query, string[] terms)
+    private async Task Search(SearchFieldsEnum searchField, string query, string[]? terms)
     {
         var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
             ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
@@ -427,15 +434,15 @@ public partial class MainForm : Form
             .Select(x => new SearchResultModel
             {
                 Id = x.Id,
-                Artist = MetatagsHelpers.GetMetatags(x.Tags)[0],
-                Album = MetatagsHelpers.GetMetatags(x.Tags)[1],
-                Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1,
-                TrackName = MetatagsHelpers.GetMetatags(x.Tags)[4],
-                TrackNumber = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[5]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[5], out int value2) ? default(int?) : value2,
-                Tags = x.Tags,
+                Artist = x.Artist,
+                Album = x.Release,
+                Year = x.Year,
+                TrackName = x.Tags[4],
+                TrackNumber = string.IsNullOrWhiteSpace(x.Tags[5]) || !int.TryParse(x.Tags[5], out int value2) ? default(int?) : value2,
+                Tags = string.Join("|", x.Tags),
                 Path = System.IO.Path.GetDirectoryName(x.Id),
                 FileName = System.IO.Path.GetFileName(x.Id),
-                Genre = MetatagsHelpers.GetMetatags(x.Tags)[3]
+                Genre = x.Genre
             })
             .OrderBy(x => x.Artist)
             .ThenBy(x => x.Year)
@@ -450,7 +457,7 @@ public partial class MainForm : Form
         statusStrip1.Items[1].Text = "searching...";
     }
 
-    private void SearchFinished(SearchResult res)
+    private void SearchFinished(SearchResult<MusicLibraryDocument> res)
     {
         txtSearchField.Text = res.SearchText;
         statusStrip1.Items[1].Text = $"found {res.TotalHits} matches";
@@ -757,7 +764,7 @@ public partial class MainForm : Form
 
         var item = lvLatestAdditions.SelectedItems[0];
 
-        await Search(SearchFieldsEnum.Release, null, new string[2] { item.SubItems[0].Text, item.SubItems[1].Text });
+        await Search(SearchFieldsEnum.Release, null, [item.SubItems[0].Text, item.SubItems[1].Text]);
 
         ShowPanel(PanelEnum.Search);
     }
@@ -812,7 +819,7 @@ public partial class MainForm : Form
 
             _duration = TimeSpan.Zero;
 
-            await StartIndexing(_cts.Token, true);
+            await Task.Run(() => StartIndexing(_cts.Token, true), _cts.Token);
 
             _fileList = null;
             _scanningStarted = false;
@@ -1012,16 +1019,16 @@ public partial class MainForm : Form
             .Select(x => new SearchResultModel
             {
                 Id = x.Id,
-                Artist = MetatagsHelpers.GetMetatags(x.Tags)[0],
-                Album = MetatagsHelpers.GetMetatags(x.Tags)[1],
-                Year = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[2]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[2], out int value1) ? default(int?) : value1,
-                TrackName = MetatagsHelpers.GetMetatags(x.Tags)[4],
-                TrackNumber = string.IsNullOrWhiteSpace(MetatagsHelpers.GetMetatags(x.Tags)[5]) || !int.TryParse(MetatagsHelpers.GetMetatags(x.Tags)[5], out int value2) ? default(int?) : value2,
-                Tags = x.Tags,
+                Artist = x.Artist,
+                Album = x.Release,
+                Year = x.Year,
+                TrackName = x.Tags[4],
+                TrackNumber = string.IsNullOrWhiteSpace(x.Tags[5]) || !int.TryParse(x.Tags[5], out int value2) ? default(int?) : value2,
+                Tags = string.Join("|", x.Tags),
                 Path = System.IO.Path.GetDirectoryName(x.Id),
                 FileName = System.IO.Path.GetFileName(x.Id),
                 Drive = x.Drive,
-                Genre = MetatagsHelpers.GetMetatags(x.Tags)[3]
+                Genre = x.Genre
             })
             .OrderBy(x => x.Artist)
             .ThenBy(x => x.Year)
