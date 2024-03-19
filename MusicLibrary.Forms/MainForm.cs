@@ -219,6 +219,9 @@ public partial class MainForm : Form
             await StartScanning(_cts.Token);
             _scanningStarted = false;
         }
+
+        if (_cts.IsCancellationRequested)
+            _cts = null;
     }
 
     private void ScanningStarted()
@@ -300,6 +303,9 @@ public partial class MainForm : Form
             _scanningStarted = false;
             IndexingFinished();
         }
+
+        if (_cts.IsCancellationRequested)
+            _cts = null;
     }
 
     private void WriteTextSafe(string text)

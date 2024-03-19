@@ -76,19 +76,20 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         return res;
     }
 
-    public IDictionary<string, string> LatestAdded(string field, string sortBy, ListSortDirection sortDirection, int top)
+    public IDictionary<string, string> LatestAdded(string field, string additionalField, string sortBy, ListSortDirection sortDirection, int top)
     {
-        var sort = new Sort(new SortField(sortBy, SortFieldType.INT64, sortDirection.Equals(ListSortDirection.Ascending)));
+        var sort = new Sort(new SortField(sortBy, SortFieldType.INT64, sortDirection.Equals(ListSortDirection.Descending)));
         var res = new Dictionary<string, string>();
         var searcher = new IndexSearcher(_reader);
         var query = new MatchAllDocsQuery();
         var groupingSearch = new GroupingSearch(field);
         groupingSearch.SetGroupSort(sort);
-        groupingSearch.SetFillSortFields(true);
-        var groupingDocs = groupingSearch.Search(searcher, query, 0, 50);
+        //groupingSearch.SetFillSortFields(true);
+        groupingSearch.SetGroupDocsLimit(1);
+        var groupingDocs = groupingSearch.SearchByField(searcher, query, 0, 50);
 
         foreach (var item in groupingDocs.Groups)
-            res.Add(((BytesRef)item.GroupValue).Utf8ToString(), searcher.Doc(item.ScoreDocs[0].Doc).Get("art"));
+            res.Add(item.GroupValue.Utf8ToString(), searcher.Doc(item.ScoreDocs[0].Doc).Get(additionalField));
 
         return res;
     }
@@ -155,7 +156,7 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
                         _ => new TermQuery(new Term(fieldName, value))
                     };
 
-                    ((BooleanQuery)q).Add(searchQuery, Occur.SHOULD);
+                    ((BooleanQuery)q).Add(searchQuery, Occur.MUST);
                 }
                 break;
             case QueryTypesEnum.Numeric:
@@ -187,13 +188,14 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         var hits = new List<T>(topDocs.ScoreDocs.Skip(startIndex).Count());
 
         foreach (var hit in topDocs.ScoreDocs.Skip(startIndex))
-        {
             hits.Add(new T().MapFromLuceneDocument(searcher.Doc(hit.Doc)));
-        }
 
         searchResult.TotalHits = topDocs.TotalHits;
         searchResult.Hits = hits;
-        searchResult.Pagination = new Pagination(request.Pagination.PageSize, request.Pagination.PageIndex) { TotalPages = (int)Math.Ceiling(decimal.Divide(searchResult.TotalHits, request.Pagination.PageSize)) };
+        searchResult.Pagination = new Pagination(request.Pagination.PageSize, request.Pagination.PageIndex)
+        {
+            TotalPages = (int)Math.Ceiling(decimal.Divide(searchResult.TotalHits, request.Pagination.PageSize))
+        };
 
         return searchResult;
     }

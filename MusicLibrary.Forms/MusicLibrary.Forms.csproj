@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicLibrary.Business\MusicLibrary.Business.csproj" />
-    <ProjectReference Include="..\MusicLibrary.Common\MusicLibrary.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,5 +17,5 @@ public interface IDocumentReader<T> : IDisposable where T : IDocument
     void Init(DirectoryReader reader);
     DirectoryReader? Reader { get; }
     IDictionary<string, int> TermsCounter(string field, bool isNumeric = false);
-    IDictionary<string, string> LatestAdded(string field, string sortBy, ListSortDirection sortDirection, int top);
+    IDictionary<string, string> LatestAdded(string field, string additionalField, string sortBy, ListSortDirection sortDirection, int top);
 }

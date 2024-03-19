@@ -129,6 +129,7 @@ public class IndexSearcher
             LatestAdditions = _searchIndexEngine.GetLatestAddedItems(new CounterRequest
             {
                 Field = _searchIndexEngine.GetFieldName(x => x.Release),
+                AdditionalField = _searchIndexEngine.GetFieldName(x => x.Artist),
                 SortByField = _searchIndexEngine.GetFieldName(x => x.ModifiedDate),
                 IsNumeric = false,
                 Top = 50

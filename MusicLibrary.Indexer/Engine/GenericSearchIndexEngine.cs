@@ -142,7 +142,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
         var res = new Collection<string>();
         var fields = MultiFields.GetFields(_documentReader.Reader);
-        var terms = fields.GetTerms(nameof(IDocument.Id).ToLower());
+        var terms = fields.GetTerms(GetFieldName(x => x.Id));
         var termsEnum = terms.GetEnumerator(null);
 
         while (termsEnum.MoveNext() == true)
@@ -160,7 +160,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         if (request is null && _documentReader.Reader is not null)
             return new Dictionary<string, int> { { "Total", _documentReader.Reader.NumDocs } };
 
-        //Most frequent terms
         return _documentReader.TermsCounter(request.Value.Field, request.Value.IsNumeric);
     }
 
@@ -170,7 +169,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
         _documentReader.Init();
 
-        return _documentReader.LatestAdded(request.Field, request.SortByField, ListSortDirection.Descending, request.Top.Value);
+        return _documentReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
     }
 
     public string GetFieldName(Expression<Func<T, string>> expr)

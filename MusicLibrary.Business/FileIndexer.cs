@@ -43,12 +43,8 @@ public class FileIndexer
         var contents = new ConcurrentBag<MusicLibraryDocument>();
         var progressArgs = new ProgressArgs { TotalFiles = fileList.Count() };
 
-        //Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
-        //{
-        foreach (var file in fileList)
+        Parallel.ForEach(fileList, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
         {
-            if (_ct.IsCancellationRequested) break;
-
             var track = new Track(file);
             var metaTags = track.GetMetaTags();
 
@@ -69,8 +65,7 @@ public class FileIndexer
 
             progressArgs.FilesProcessed = contents.Count;
             progress.Report(progressArgs);
-        }
-        //});
+        });
 
         if (!contents.IsEmpty)
         {
