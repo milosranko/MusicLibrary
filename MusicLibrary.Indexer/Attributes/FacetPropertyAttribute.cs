@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MusicLibrary.Indexer.Facets.Attributes;
+namespace MusicLibrary.Indexer.Attributes;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class FacetPropertyAttribute : Attribute

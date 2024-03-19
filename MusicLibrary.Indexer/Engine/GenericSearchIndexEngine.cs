@@ -1,8 +1,10 @@
-﻿using Lucene.Net.Index;
+﻿using Lucene.Net.Facet;
+using Lucene.Net.Index;
 using MusicLibrary.Indexer.Attributes;
-using MusicLibrary.Indexer.Facets.Attributes;
+using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
+using MusicLibrary.Indexer.Models.Dto;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,8 +20,10 @@ namespace MusicLibrary.Indexer.Engine;
 
 public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : MappingDocumentBase<T>, IDocument, new()
 {
-    private readonly IDocumentReader<T> _documentReader;
-    private readonly IDocumentWriter<T> _documentWriter;
+    private readonly IDocumentReader _documentReader;
+    private readonly IDocumentWriter _documentWriter;
+    private readonly string _indexName;
+    private readonly bool _hasFacets;
     private IDictionary<string, FieldProperties> _fields;
 
     private struct FieldProperties
@@ -31,38 +35,24 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         public required bool IsArray { get; set; }
     }
 
+    #region Constructors
+
     public GenericSearchIndexEngine()
     {
+        _indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
+        _hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
+            .Any();
+
         ReflectDocumentFields();
 
-        _documentReader = new DocumentReader<T>();
-        _documentWriter = new DocumentWriter<T>();
+        _documentReader = new DocumentReader(_indexName, GetFacetsConfig(), _hasFacets);
+        _documentWriter = new DocumentWriter(_indexName, _hasFacets, GetFieldName(x => x.Id));
     }
 
-    private void ReflectDocumentFields()
-    {
-        var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
-        _fields = new Dictionary<string, FieldProperties>(props.Length);
-        SearchableAttribute? searchableAttr;
-        FacetPropertyAttribute? facetAttr;
+    #endregion
 
-        foreach (var prop in props)
-        {
-            searchableAttr = prop.GetCustomAttribute<SearchableAttribute>();
-            facetAttr = prop.GetCustomAttribute<FacetPropertyAttribute>();
-
-            if (searchableAttr is null) continue;
-
-            _fields.Add(prop.Name, new FieldProperties
-            {
-                FieldName = string.IsNullOrEmpty(searchableAttr.FieldName) ? prop.Name : searchableAttr.FieldName,
-                FieldType = searchableAttr.FieldType,
-                Stored = searchableAttr.Stored,
-                IsFacet = facetAttr is not null,
-                IsArray = prop.PropertyType.IsArray
-            });
-        }
-    }
+    #region Public methods
 
     public void AddOrUpdateDocuments(ConcurrentBag<T> contents, CancellationToken ct = default)
     {
@@ -74,9 +64,9 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         var tasks = contents.Select(x => Task.Run(() =>
         {
             if (_documentReader.DocumentExists(x.Id))
-                _documentWriter.Update(x);
+                _documentWriter.Update(x.MapToLuceneDocument());
             else
-                _documentWriter.Add(x);
+                _documentWriter.Add(x.MapToLuceneDocument());
         }));
 
         Task.WhenAll(tasks).Wait(ct);
@@ -108,12 +98,8 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         var result = new Collection<string>();
 
         foreach (var id in ids)
-        {
             if (_documentReader.DocumentExists(id))
-            {
                 result.Add(id);
-            }
-        }
 
         return result;
     }
@@ -121,7 +107,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     public IEnumerable<T> GetByIds(string[] ids)
     {
         _documentReader.Init();
-        return _documentReader.GetByIds(ids);
+        return _documentReader.GetByIds(ids).Select(x => new T().MapFromLuceneDocument(x));
     }
 
     public bool IndexNotExistsOrEmpty()
@@ -130,10 +116,10 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         return _documentReader.IndexNotExistsOrEmpty();
     }
 
-    public SearchResult<T> Search(SearchRequest request)
+    public SearchResultDto<T> Search(SearchRequest request)
     {
         _documentReader.Init();
-        return _documentReader.Search(request);
+        return _documentReader.Search(request).ToDto<T>();
     }
 
     public IEnumerable<string> GetAllIndexedIds()
@@ -196,6 +182,48 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         return GetFieldName(memberExpression.Member.Name);
     }
 
+    #endregion
+
+    #region Private methods
+
+    private FacetsConfig GetFacetsConfig()
+    {
+        var facetsConfig = new FacetsConfig();
+        var facetFields = typeof(T).GetProperties()
+            .Where(p => p.GetCustomAttributes().OfType<MultiValueFacetPropertyAttribute>() != null)
+            .Select(p => p.Name);
+
+        foreach (var field in facetFields)
+            facetsConfig.SetMultiValued(field, true);
+
+        return facetsConfig;
+    }
+
+    private void ReflectDocumentFields()
+    {
+        var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
+        _fields = new Dictionary<string, FieldProperties>(props.Length);
+        SearchableAttribute? searchableAttr;
+        FacetPropertyAttribute? facetAttr;
+
+        foreach (var prop in props)
+        {
+            searchableAttr = prop.GetCustomAttribute<SearchableAttribute>();
+            facetAttr = prop.GetCustomAttribute<FacetPropertyAttribute>();
+
+            if (searchableAttr is null) continue;
+
+            _fields.Add(prop.Name, new FieldProperties
+            {
+                FieldName = string.IsNullOrEmpty(searchableAttr.FieldName) ? prop.Name : searchableAttr.FieldName,
+                FieldType = searchableAttr.FieldType,
+                Stored = searchableAttr.Stored,
+                IsFacet = facetAttr is not null,
+                IsArray = prop.PropertyType.IsArray
+            });
+        }
+    }
+
     private string GetFieldName(string fieldName)
     {
         if (_fields is null || _fields.Count.Equals(0))
@@ -206,4 +234,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
         return _fields[fieldName].FieldName;
     }
+
+    #endregion
 }

@@ -1,17 +1,17 @@
-﻿using MusicLibrary.Indexer.Facets;
-using MusicLibrary.Indexer.Models.Base;
+﻿using MusicLibrary.Indexer.Models.Base;
+using MusicLibrary.Indexer.Models.Facets;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MusicLibrary.Indexer.Models;
+namespace MusicLibrary.Indexer.Models.Dto;
 
-public struct SearchResult<T> where T : IDocument
+public struct SearchResultDto<T> where T : IDocument
 {
-    public static SearchResult<T> Empty()
+    public static SearchResultDto<T> Empty()
     {
         return new()
         {
-            Hits = Enumerable.Empty<T>(),
+            Hits = [],
             SearchText = string.Empty,
             TotalHits = 0,
             Pagination = new Pagination(0, 0)

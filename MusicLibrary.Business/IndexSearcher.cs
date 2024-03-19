@@ -4,6 +4,7 @@ using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
 using MusicLibrary.Indexer.Models;
+using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Enums;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +44,7 @@ public class IndexSearcher
             .Last());
     }
 
-    public Task<SearchResult<MusicLibraryDocument>> Search(string query, string[]? terms, SearchFieldsEnum searchField)
+    public Task<SearchResultDto<MusicLibraryDocument>> Search(string query, string[]? terms, SearchFieldsEnum searchField)
     {
         return searchField switch
         {
@@ -137,7 +138,7 @@ public class IndexSearcher
         });
     }
 
-    private Task<SearchResult<MusicLibraryDocument>> PerformSearch(
+    private Task<SearchResultDto<MusicLibraryDocument>> PerformSearch(
         string query,
         string[]? terms,
         string[] fields,
@@ -145,10 +146,10 @@ public class IndexSearcher
         IDictionary<string, IEnumerable<string?>?>? facets = null)
     {
         if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0))
-            return Task.FromResult(SearchResult<MusicLibraryDocument>.Empty());
+            return Task.FromResult(SearchResultDto<MusicLibraryDocument>.Empty());
 
         if (fields == null || fields.Length == 0)
-            return Task.FromResult(SearchResult<MusicLibraryDocument>.Empty());
+            return Task.FromResult(SearchResultDto<MusicLibraryDocument>.Empty());
 
         var searchFields = new Dictionary<string, string?>(fields.Length);
 

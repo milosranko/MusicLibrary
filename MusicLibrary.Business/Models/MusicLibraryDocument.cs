@@ -1,5 +1,4 @@
 ﻿using MusicLibrary.Indexer.Attributes;
-using MusicLibrary.Indexer.Facets.Attributes;
 using MusicLibrary.Indexer.Models.Base;
 using System;
 

@@ -1,19 +1,18 @@
 ﻿using Lucene.Net.Analysis.Core;
+using Lucene.Net.Documents;
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using MusicLibrary.Indexer.Facets.Attributes;
 using MusicLibrary.Indexer.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : MappingDocumentBase<T>, IDocument, new()
+internal class DocumentWriter : IDocumentWriter, IDisposable
 {
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
     private readonly FacetsConfig _facetsConfig = new();
@@ -22,15 +21,15 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
     private Directory? _indexDirectory;
     private Directory? _facetIndexDirectory;
     private readonly string _indexName;
+    private readonly bool _hasFacets = false;
     private bool _isInitialized = false;
-    private bool _hasFacets = false;
+    private readonly string _id;
 
-    public DocumentWriter()
+    public DocumentWriter(string indexName, bool hasFacets = false, string idField = "id")
     {
-        _indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
-        _hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
-            .Any();
+        _indexName = indexName ?? "index";
+        _hasFacets = hasFacets;
+        _id = idField;
     }
 
     public void Init()
@@ -62,27 +61,24 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
         _isInitialized = true;
     }
 
-    public void Add(T document)
+    public void Add(Document document)
     {
         ArgumentNullException.ThrowIfNull(document);
         ArgumentNullException.ThrowIfNull(_writer);
-
-        if (string.IsNullOrEmpty(document.Id))
-            throw new ArgumentNullException(nameof(document.Id));
 
         if (_hasFacets)
         {
             _writer?.AddDocument(_facetsConfig.Build(
                 _taxoWriter,
-                document.MapToLuceneDocument()));
+                document));
         }
         else
         {
-            _writer?.AddDocument(document.MapToLuceneDocument());
+            _writer?.AddDocument(document);
         }
     }
 
-    public void AddRange(IEnumerable<T> documents)
+    public void AddRange(IEnumerable<Document> documents)
     {
         ArgumentNullException.ThrowIfNull(documents);
         ArgumentNullException.ThrowIfNull(_writer);
@@ -90,11 +86,11 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
         if (_hasFacets)
         {
             _writer.AddDocuments(documents.Select(x => _facetsConfig.Build(
-                _taxoWriter, x.MapToLuceneDocument())));
+                _taxoWriter, x)));
         }
         else
         {
-            _writer.AddDocuments(documents.Select(x => x.MapToLuceneDocument()));
+            _writer.AddDocuments(documents);
         }
     }
 
@@ -106,9 +102,9 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
             _taxoWriter?.Commit();
     }
 
-    public void Delete(T document)
+    public void Delete(Document document)
     {
-        _writer?.DeleteDocuments(new Term(nameof(IDocument.Id).ToLower(), document.Id));
+        _writer?.DeleteDocuments(new Term(_id, document.Get(_id)));
     }
 
     public void DeleteAll()
@@ -131,19 +127,19 @@ public class DocumentWriter<T> : IDisposable, IDocumentWriter<T> where T : Mappi
         _writer?.Commit();
     }
 
-    public void Update(T document)
+    public void Update(Document document)
     {
-        var indexTerm = new Term(nameof(IDocument.Id).ToLower(), document.Id);
+        var indexTerm = new Term(_id, document.Get(_id));
 
         if (_hasFacets)
         {
             _writer?.UpdateDocument(indexTerm, _facetsConfig.Build(
                 _taxoWriter,
-                document.MapToLuceneDocument()));
+                document));
         }
         else
         {
-            _writer?.UpdateDocument(indexTerm, document.MapToLuceneDocument());
+            _writer?.UpdateDocument(indexTerm, document);
         }
     }
 

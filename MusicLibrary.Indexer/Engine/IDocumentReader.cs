@@ -1,18 +1,19 @@
-﻿using Lucene.Net.Index;
+﻿using Lucene.Net.Documents;
+using Lucene.Net.Index;
 using MusicLibrary.Indexer.Models;
-using MusicLibrary.Indexer.Models.Base;
+using MusicLibrary.Indexer.Models.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public interface IDocumentReader<T> : IDisposable where T : IDocument
+internal interface IDocumentReader : IDisposable
 {
-    IEnumerable<T> GetByIds(string[] ids);
+    IEnumerable<Document> GetByIds(string[] ids);
     bool DocumentExists(string id);
     bool IndexNotExistsOrEmpty();
-    SearchResult<T> Search(SearchRequest request);
+    SearchResult Search(SearchRequest request);
     void Init();
     void Init(DirectoryReader reader);
     DirectoryReader? Reader { get; }

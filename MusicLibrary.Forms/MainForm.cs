@@ -5,7 +5,7 @@ using MusicLibrary.Business.Enums;
 using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Common.Helpers;
-using MusicLibrary.Indexer.Models;
+using MusicLibrary.Indexer.Models.Dto;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -304,7 +304,7 @@ public partial class MainForm : Form
             IndexingFinished();
         }
 
-        if (_cts.IsCancellationRequested)
+        if (_cts is not null && _cts.IsCancellationRequested)
             _cts = null;
     }
 
@@ -334,7 +334,7 @@ public partial class MainForm : Form
         else if (!string.IsNullOrEmpty(args.Message))
             statusStrip1.Items[1].Text = args.Message;
         else
-            statusStrip1.Items[1].Text = $"indexing files... {args.FilesProcessed} of {args.TotalFiles}";
+            statusStrip1.Items[1].Text = $"collecting files info... {args.FilesProcessed} of {args.TotalFiles}";
 
         //WriteTextSafe($"indexing files... {args.Files} of {_fileList.Count()}");
         //WriteTextSafe($"scanning for music... {args.Folder}");
@@ -457,7 +457,7 @@ public partial class MainForm : Form
         statusStrip1.Items[1].Text = "searching...";
     }
 
-    private void SearchFinished(SearchResult<MusicLibraryDocument> res)
+    private void SearchFinished(SearchResultDto<MusicLibraryDocument> res)
     {
         txtSearchField.Text = res.SearchText;
         statusStrip1.Items[1].Text = $"found {res.TotalHits} matches";

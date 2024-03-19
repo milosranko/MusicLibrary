@@ -2,7 +2,6 @@
 using Lucene.Net.Documents.Extensions;
 using Lucene.Net.Facet;
 using MusicLibrary.Indexer.Attributes;
-using MusicLibrary.Indexer.Facets.Attributes;
 using System;
 using System.Linq;
 using System.Reflection;

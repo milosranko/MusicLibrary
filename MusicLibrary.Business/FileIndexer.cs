@@ -38,7 +38,7 @@ public class FileIndexer
             return;
 
         if (onlyNewFiles)
-            fileList = _engine.SkipExistingDocuments(fileList.ToArray());
+            fileList = _engine.SkipExistingDocuments(fileList.Select(RemoveDriveInfo).ToArray());
 
         var contents = new ConcurrentBag<MusicLibraryDocument>();
         var progressArgs = new ProgressArgs { TotalFiles = fileList.Count() };

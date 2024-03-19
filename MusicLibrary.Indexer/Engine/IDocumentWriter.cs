@@ -1,16 +1,16 @@
-﻿using Lucene.Net.Index;
-using MusicLibrary.Indexer.Models.Base;
+﻿using Lucene.Net.Documents;
+using Lucene.Net.Index;
 using System;
 using System.Collections.Generic;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public interface IDocumentWriter<T> : IDisposable where T : MappingDocumentBase<T>, IDocument, new()
+internal interface IDocumentWriter : IDisposable
 {
-    void Add(T document);
-    void AddRange(IEnumerable<T> documents);
-    void Update(T document);
-    void Delete(T document);
+    void Add(Document document);
+    void AddRange(IEnumerable<Document> documents);
+    void Update(Document document);
+    void Delete(Document document);
     void DeleteAll();
     void DeleteById(string[] ids);
     void Commit();

@@ -1,4 +1,4 @@
-﻿namespace MusicLibrary.Indexer.Facets;
+﻿namespace MusicLibrary.Indexer.Models.Facets;
 
 public class FacetValue
 {

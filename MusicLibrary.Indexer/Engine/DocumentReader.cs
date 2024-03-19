@@ -1,5 +1,6 @@
 ﻿using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
+using Lucene.Net.Documents;
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy;
 using Lucene.Net.Facet.Taxonomy.Directory;
@@ -9,21 +10,19 @@ using Lucene.Net.Search;
 using Lucene.Net.Search.Grouping;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using MusicLibrary.Indexer.Facets;
-using MusicLibrary.Indexer.Facets.Attributes;
 using MusicLibrary.Indexer.Models;
-using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Enums;
+using MusicLibrary.Indexer.Models.Facets;
+using MusicLibrary.Indexer.Models.Internal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : MappingDocumentBase<T>, IDocument, new()
+internal class DocumentReader : IDisposable, IDocumentReader
 {
     public DirectoryReader? Reader => _reader;
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
@@ -33,18 +32,20 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
     private readonly string _indexName;
     private bool _isInitialized = false;
     private bool _hasFacets = false;
+    private readonly FacetsConfig _facetsConfig;
+    private readonly string _id;
 
-    public DocumentReader()
+    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id")
     {
-        _indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
-        _hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
-            .Any();
+        _indexName = indexName ?? "index";
+        _hasFacets = hasFacets;
+        _facetsConfig = facetsConfig;
+        _id = idField;
     }
 
     public bool DocumentExists(string id)
     {
-        return _reader is null ? false : _reader.DocFreq(new Term(nameof(IDocument.Id).ToLower(), id)) != 0;
+        return _reader is null ? false : _reader.DocFreq(new Term(_id, id)) != 0;
     }
 
     public IDictionary<string, int> TermsCounter(string field, bool isNumeric = false)
@@ -94,25 +95,24 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         return res;
     }
 
-    public IEnumerable<T> GetByIds(string[] ids)
+    public IEnumerable<Document> GetByIds(string[] ids)
     {
         if (ids == null || ids.Length == 0)
             return [];
 
-        var hits = new Collection<T>();
+        var hits = new Collection<Document>();
         var searcher = new IndexSearcher(_reader);
 
         TermQuery q;
-        var model = Activator.CreateInstance<T>();
 
         foreach (var id in ids)
         {
-            q = new TermQuery(new Term(nameof(IDocument.Id).ToLower(), id));
+            q = new TermQuery(new Term(_id, id));
 
             var res = searcher.Search(q, 1);
             if (res.TotalHits == 0) continue;
 
-            hits.Add(model.MapFromLuceneDocument(searcher.Doc(res.ScoreDocs[0].Doc)));
+            hits.Add(searcher.Doc(res.ScoreDocs[0].Doc));
         }
 
         return hits;
@@ -123,10 +123,10 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         return _reader is null ? true : _reader.NumDocs == 0;
     }
 
-    public SearchResult<T> Search(SearchRequest request)
+    public SearchResult Search(SearchRequest request)
     {
         var searcher = new IndexSearcher(_reader);
-        var searchResult = new SearchResult<T>
+        var searchResult = new SearchResult
         {
             SearchText = request.Text,
             Hits = []
@@ -175,20 +175,18 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
                 break;
         }
 
-        var model = new T();
-
         if (request.Facets != null && request.Facets.Any())
-            GetFacets(model, searcher, q, searchResult);
+            GetFacets(searcher, q, searchResult);
 
         var startIndex = request.Pagination.PageIndex * request.Pagination.PageSize;
         var topDocs = searcher.Search(q, startIndex + request.Pagination.PageSize);
 
         if (topDocs.TotalHits == 0) return searchResult;
 
-        var hits = new List<T>(topDocs.ScoreDocs.Skip(startIndex).Count());
+        var hits = new List<Document>(topDocs.ScoreDocs.Skip(startIndex).Count());
 
         foreach (var hit in topDocs.ScoreDocs.Skip(startIndex))
-            hits.Add(new T().MapFromLuceneDocument(searcher.Doc(hit.Doc)));
+            hits.Add(searcher.Doc(hit.Doc));
 
         searchResult.TotalHits = topDocs.TotalHits;
         searchResult.Hits = hits;
@@ -230,16 +228,14 @@ public class DocumentReader<T> : IDisposable, IDocumentReader<T> where T : Mappi
         _reader = reader;
     }
 
-    private void GetFacets(T model, IndexSearcher searcher, Query q, SearchResult<T> searchResult)
+    private void GetFacets(IndexSearcher searcher, Query q, SearchResult searchResult)
     {
-        var facetsConfig = model.GetFacetsConfig();
-
-        if (facetsConfig == null)
+        if (_facetsConfig == null)
             return;
 
         var fc = new FacetsCollector();
         FacetsCollector.Search(searcher, q, 100, fc);
-        var facets = new FastTaxonomyFacetCounts(_taxoReader, facetsConfig, fc);
+        var facets = new FastTaxonomyFacetCounts(_taxoReader, _facetsConfig, fc);
         var facetResults = facets.GetAllDims(100).Select(facet => new FacetFilter
         {
             Name = facet.Dim,

@@ -32,11 +32,11 @@ namespace MusicLibrary.Forms
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             pnlTop = new System.Windows.Forms.Panel();
             pbLogo = new System.Windows.Forms.PictureBox();
             btnMinimize = new System.Windows.Forms.Button();
@@ -90,6 +90,17 @@ namespace MusicLibrary.Forms
             pnlSearch = new System.Windows.Forms.Panel();
             btnClearSearch = new System.Windows.Forms.Button();
             dgSearchResult = new System.Windows.Forms.DataGridView();
+            Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Artist = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Track = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            TrackNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Genre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Drive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             btnSearchIndex = new System.Windows.Forms.Button();
             txtSearchField = new System.Windows.Forms.TextBox();
             lblSearchQuery = new System.Windows.Forms.Label();
@@ -136,17 +147,6 @@ namespace MusicLibrary.Forms
             txtListName = new System.Windows.Forms.TextBox();
             cmbLists = new System.Windows.Forms.ComboBox();
             lblLists = new System.Windows.Forms.Label();
-            Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Artist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Track = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            TrackNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Genre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            Drive = new System.Windows.Forms.DataGridViewTextBoxColumn();
             pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbLogo).BeginInit();
             pnlIndex.SuspendLayout();
@@ -547,7 +547,7 @@ namespace MusicLibrary.Forms
             pnlDashboard.Location = new System.Drawing.Point(228, 34);
             pnlDashboard.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pnlDashboard.Name = "pnlDashboard";
-            pnlDashboard.Size = new System.Drawing.Size(892, 548);
+            pnlDashboard.Size = new System.Drawing.Size(892, 544);
             pnlDashboard.TabIndex = 3;
             // 
             // lblLatestAdditions
@@ -751,8 +751,8 @@ namespace MusicLibrary.Forms
             toolStripStatusLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             toolStripStatusLabel1.ForeColor = System.Drawing.Color.WhiteSmoke;
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new System.Drawing.Size(45, 17);
-            toolStripStatusLabel1.Text = "Status:";
+            toolStripStatusLabel1.Size = new System.Drawing.Size(49, 17);
+            toolStripStatusLabel1.Text = "Status |";
             // 
             // toolStripStatusLabel2
             // 
@@ -817,6 +817,117 @@ namespace MusicLibrary.Forms
             dgSearchResult.Visible = false;
             dgSearchResult.CellDoubleClick += dgSearchResult_CellDoubleClick;
             dgSearchResult.RowContextMenuStripNeeded += dgSearchResult_RowContextMenuStripNeeded;
+            // 
+            // Id
+            // 
+            Id.DataPropertyName = "Id";
+            Id.HeaderText = "Id";
+            Id.MinimumWidth = 6;
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            Id.Visible = false;
+            Id.Width = 125;
+            // 
+            // Artist
+            // 
+            Artist.DataPropertyName = "Artist";
+            Artist.FillWeight = 99.49239F;
+            Artist.HeaderText = "Artist";
+            Artist.MinimumWidth = 6;
+            Artist.Name = "Artist";
+            Artist.ReadOnly = true;
+            Artist.Width = 200;
+            // 
+            // Album
+            // 
+            Album.DataPropertyName = "Album";
+            Album.FillWeight = 99.49239F;
+            Album.HeaderText = "Album";
+            Album.MinimumWidth = 6;
+            Album.Name = "Album";
+            Album.ReadOnly = true;
+            Album.Width = 220;
+            // 
+            // Track
+            // 
+            Track.DataPropertyName = "TrackName";
+            Track.FillWeight = 99.49239F;
+            Track.HeaderText = "Track";
+            Track.MinimumWidth = 6;
+            Track.Name = "Track";
+            Track.ReadOnly = true;
+            Track.Width = 270;
+            // 
+            // Year
+            // 
+            Year.DataPropertyName = "Year";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            Year.DefaultCellStyle = dataGridViewCellStyle2;
+            Year.FillWeight = 101.5228F;
+            Year.HeaderText = "Year";
+            Year.MinimumWidth = 6;
+            Year.Name = "Year";
+            Year.ReadOnly = true;
+            Year.Width = 48;
+            // 
+            // TrackNumber
+            // 
+            TrackNumber.DataPropertyName = "TrackNumber";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            TrackNumber.HeaderText = "Track no";
+            TrackNumber.MinimumWidth = 6;
+            TrackNumber.Name = "TrackNumber";
+            TrackNumber.ReadOnly = true;
+            TrackNumber.Width = 45;
+            // 
+            // Tags
+            // 
+            Tags.DataPropertyName = "Tags";
+            Tags.HeaderText = "Tags";
+            Tags.MinimumWidth = 6;
+            Tags.Name = "Tags";
+            Tags.ReadOnly = true;
+            Tags.Visible = false;
+            Tags.Width = 125;
+            // 
+            // Path
+            // 
+            Path.DataPropertyName = "Path";
+            Path.HeaderText = "Path";
+            Path.MinimumWidth = 6;
+            Path.Name = "Path";
+            Path.ReadOnly = true;
+            Path.Visible = false;
+            Path.Width = 125;
+            // 
+            // FileName
+            // 
+            FileName.DataPropertyName = "FileName";
+            FileName.HeaderText = "FileName";
+            FileName.MinimumWidth = 6;
+            FileName.Name = "FileName";
+            FileName.ReadOnly = true;
+            FileName.Visible = false;
+            FileName.Width = 125;
+            // 
+            // Genre
+            // 
+            Genre.DataPropertyName = "Genre";
+            Genre.HeaderText = "Genre";
+            Genre.MinimumWidth = 6;
+            Genre.Name = "Genre";
+            Genre.ReadOnly = true;
+            Genre.Visible = false;
+            Genre.Width = 125;
+            // 
+            // Drive
+            // 
+            Drive.DataPropertyName = "Drive";
+            Drive.HeaderText = "Drive";
+            Drive.Name = "Drive";
+            Drive.ReadOnly = true;
+            Drive.Visible = false;
             // 
             // btnSearchIndex
             // 
@@ -980,7 +1091,7 @@ namespace MusicLibrary.Forms
             pnlLists.Location = new System.Drawing.Point(228, 34);
             pnlLists.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             pnlLists.Name = "pnlLists";
-            pnlLists.Size = new System.Drawing.Size(892, 548);
+            pnlLists.Size = new System.Drawing.Size(892, 544);
             pnlLists.TabIndex = 20;
             // 
             // dgLists
@@ -1208,129 +1319,18 @@ namespace MusicLibrary.Forms
             lblLists.TabIndex = 17;
             lblLists.Text = "Lists";
             // 
-            // Id
-            // 
-            Id.DataPropertyName = "Id";
-            Id.HeaderText = "Id";
-            Id.MinimumWidth = 6;
-            Id.Name = "Id";
-            Id.ReadOnly = true;
-            Id.Visible = false;
-            Id.Width = 125;
-            // 
-            // Artist
-            // 
-            Artist.DataPropertyName = "Artist";
-            Artist.FillWeight = 99.49239F;
-            Artist.HeaderText = "Artist";
-            Artist.MinimumWidth = 6;
-            Artist.Name = "Artist";
-            Artist.ReadOnly = true;
-            Artist.Width = 200;
-            // 
-            // Album
-            // 
-            Album.DataPropertyName = "Album";
-            Album.FillWeight = 99.49239F;
-            Album.HeaderText = "Album";
-            Album.MinimumWidth = 6;
-            Album.Name = "Album";
-            Album.ReadOnly = true;
-            Album.Width = 220;
-            // 
-            // Track
-            // 
-            Track.DataPropertyName = "TrackName";
-            Track.FillWeight = 99.49239F;
-            Track.HeaderText = "Track";
-            Track.MinimumWidth = 6;
-            Track.Name = "Track";
-            Track.ReadOnly = true;
-            Track.Width = 270;
-            // 
-            // Year
-            // 
-            Year.DataPropertyName = "Year";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            Year.DefaultCellStyle = dataGridViewCellStyle2;
-            Year.FillWeight = 101.5228F;
-            Year.HeaderText = "Year";
-            Year.MinimumWidth = 6;
-            Year.Name = "Year";
-            Year.ReadOnly = true;
-            Year.Width = 48;
-            // 
-            // TrackNumber
-            // 
-            TrackNumber.DataPropertyName = "TrackNumber";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            TrackNumber.DefaultCellStyle = dataGridViewCellStyle3;
-            TrackNumber.HeaderText = "Track no";
-            TrackNumber.MinimumWidth = 6;
-            TrackNumber.Name = "TrackNumber";
-            TrackNumber.ReadOnly = true;
-            TrackNumber.Width = 45;
-            // 
-            // Tags
-            // 
-            Tags.DataPropertyName = "Tags";
-            Tags.HeaderText = "Tags";
-            Tags.MinimumWidth = 6;
-            Tags.Name = "Tags";
-            Tags.ReadOnly = true;
-            Tags.Visible = false;
-            Tags.Width = 125;
-            // 
-            // Path
-            // 
-            Path.DataPropertyName = "Path";
-            Path.HeaderText = "Path";
-            Path.MinimumWidth = 6;
-            Path.Name = "Path";
-            Path.ReadOnly = true;
-            Path.Visible = false;
-            Path.Width = 125;
-            // 
-            // FileName
-            // 
-            FileName.DataPropertyName = "FileName";
-            FileName.HeaderText = "FileName";
-            FileName.MinimumWidth = 6;
-            FileName.Name = "FileName";
-            FileName.ReadOnly = true;
-            FileName.Visible = false;
-            FileName.Width = 125;
-            // 
-            // Genre
-            // 
-            Genre.DataPropertyName = "Genre";
-            Genre.HeaderText = "Genre";
-            Genre.MinimumWidth = 6;
-            Genre.Name = "Genre";
-            Genre.ReadOnly = true;
-            Genre.Visible = false;
-            Genre.Width = 125;
-            // 
-            // Drive
-            // 
-            Drive.DataPropertyName = "Drive";
-            Drive.HeaderText = "Drive";
-            Drive.Name = "Drive";
-            Drive.ReadOnly = true;
-            Drive.Visible = false;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.Silver;
             ClientSize = new System.Drawing.Size(1120, 600);
-            Controls.Add(pnlSearch);
-            Controls.Add(pnlDashboard);
             Controls.Add(pnlLists);
+            Controls.Add(pnlSearch);
             Controls.Add(pnlIndex);
-            Controls.Add(pnlTop);
             Controls.Add(statusStrip1);
+            Controls.Add(pnlDashboard);
+            Controls.Add(pnlTop);
             Controls.Add(pnlLeft);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");

@@ -1,5 +1,6 @@
 ﻿using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
+using MusicLibrary.Indexer.Models.Dto;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ public interface ISearchIndexEngine<T> where T : IDocument
     void DeleteById(string[] ids);
     bool IndexNotExistsOrEmpty();
     IEnumerable<string> SkipExistingDocuments(string[] ids);
-    SearchResult<T> Search(SearchRequest request);
+    SearchResultDto<T> Search(SearchRequest request);
     IDictionary<string, int> CountDocuments(CounterRequest? request);
     IDictionary<string, string> GetLatestAddedItems(CounterRequest request);
     IEnumerable<string> GetAllIndexedIds();
