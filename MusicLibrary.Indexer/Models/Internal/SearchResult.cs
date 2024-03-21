@@ -7,16 +7,13 @@ namespace MusicLibrary.Indexer.Models.Internal;
 
 internal struct SearchResult
 {
-    public static SearchResult Empty()
+    public static SearchResult Empty => new()
     {
-        return new()
-        {
-            Hits = [],
-            SearchText = string.Empty,
-            TotalHits = 0,
-            Pagination = new Pagination(0, 0)
-        };
-    }
+        Hits = [],
+        SearchText = string.Empty,
+        TotalHits = 0,
+        Pagination = new Pagination(0, 0)
+    };
 
     public string SearchText { get; set; }
     public int TotalHits { get; set; }

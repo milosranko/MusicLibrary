@@ -19,23 +19,23 @@ public class MusicLibraryDocument : MappingDocumentBase<MusicLibraryDocument>, I
     [Searchable(FieldName = "fnm", FieldType = FieldTypeEnum.StringField, Stored = true)]
     public string FileName { get; set; } //original file name without extension
 
-    [Searchable(FieldName = "ext", FieldType = FieldTypeEnum.StringField, Stored = true)]
     [FacetProperty]
+    [Searchable(FieldName = "ext", FieldType = FieldTypeEnum.StringField, Stored = true)]
     public string Extension { get; set; } //mp3/flac...
 
     [Searchable(FieldName = "mdt", FieldType = FieldTypeEnum.NumericDocValuesField)]
     public DateTime ModifiedDate { get; set; } //file modified dates
 
-    [Searchable(FieldName = "art", FieldType = FieldTypeEnum.StringField, Stored = true)]
     [FacetProperty]
+    [Searchable(FieldName = "art", FieldType = FieldTypeEnum.StringField, Stored = true)]
     public string Artist { get; set; }
 
-    [Searchable(FieldName = "rel", FieldType = FieldTypeEnum.StringField, Stored = true)]
     [FacetProperty]
+    [Searchable(FieldName = "rel", FieldType = FieldTypeEnum.StringField, Stored = true)]
     public string Release { get; set; }
 
-    [Searchable(FieldName = "yer", FieldType = FieldTypeEnum.Int32Field, Stored = true)]
     [FacetProperty]
+    [Searchable(FieldName = "yer", FieldType = FieldTypeEnum.Int32Field, Stored = true)]
     public int Year { get; set; }
 
     [FacetProperty]
@@ -45,7 +45,7 @@ public class MusicLibraryDocument : MappingDocumentBase<MusicLibraryDocument>, I
     [Searchable(FieldName = "txt", FieldType = FieldTypeEnum.TextField, Stored = false)]
     public string Text { get; set; } //Combined file info and meta data + extension, space delimited, split path by segment, remove special characters from file name ?!_-.% and replace with space, artist, album, song, genre, year
 
-    [Searchable(FieldName = "tag", FieldType = FieldTypeEnum.StringField, Stored = true)]
     [MultiValueFacetProperty]
+    [Searchable(FieldName = "tag", FieldType = FieldTypeEnum.StringField, Stored = true)]
     public string[] Tags { get; set; } //Meta tags: Artist/Album/Year/Genre/Title/TrackNo/IsHiRes
 }
