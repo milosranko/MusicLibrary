@@ -90,8 +90,6 @@ public abstract class MappingDocumentBase<T> : IEqualityComparer<IDocument> wher
 
         foreach (var property in properties)
         {
-            if (property.Name.Equals(nameof(IDocument.Id))) continue;
-
             var searchableAttr = property.GetCustomAttribute<SearchableAttribute>();
             var propName = string.IsNullOrEmpty(searchableAttr?.FieldName) ? property.Name : searchableAttr.FieldName;
 

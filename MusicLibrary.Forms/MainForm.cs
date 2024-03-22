@@ -434,6 +434,7 @@ public partial class MainForm : Form
             .Select(x => new SearchResultModel
             {
                 Id = x.Id,
+                Drive = x.Drive,
                 Artist = x.Artist,
                 Album = x.Release,
                 Year = x.Year,
@@ -592,11 +593,11 @@ public partial class MainForm : Form
                 {
                     var item = (SearchResultModel)dgv.SelectedRows[0].DataBoundItem;
 
-                    if (File.Exists(item.Id))
+                    if (File.Exists($"{item.Drive}{item.Id}"))
                     {
                         var psi = new ProcessStartInfo
                         {
-                            Arguments = string.Format("/select, \"{0}\"", item.Id),
+                            Arguments = $"/select, \"{item.Drive}{item.Id}\"",
                             FileName = "explorer.exe",
                             UseShellExecute = true
                         };
@@ -605,7 +606,7 @@ public partial class MainForm : Form
                     }
                     else
                     {
-                        statusStrip1.Items[1].Text = $"file not found: {item.Id}";
+                        statusStrip1.Items[1].Text = $"file not found: {item.Drive}{item.Id}";
                     }
                 }
             }
@@ -617,11 +618,11 @@ public partial class MainForm : Form
                 {
                     var item = (SearchResultModel)dgv.SelectedRows[0].DataBoundItem;
 
-                    if (File.Exists(item.Id))
+                    if (File.Exists($"{item.Drive}{item.Id}"))
                     {
                         var psi = new ProcessStartInfo
                         {
-                            Arguments = item.Id,
+                            Arguments = $"{item.Drive}{item.Id}",
                             FileName = "explorer.exe",
                             UseShellExecute = true
                         };
@@ -630,7 +631,7 @@ public partial class MainForm : Form
                     }
                     else
                     {
-                        statusStrip1.Items[1].Text = $"file not found: {item.Id}";
+                        statusStrip1.Items[1].Text = $"file not found: {item.Drive}{item.Id}";
                     }
                 }
             }

@@ -6,7 +6,6 @@ using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -43,22 +42,20 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     #region Public methods
 
-    public void AddOrUpdateDocuments(ConcurrentBag<T> contents, CancellationToken ct = default)
+    public void AddOrUpdateDocuments(IEnumerable<T> contents, CancellationToken ct = default)
     {
-        if (contents.IsEmpty) return;
+        if (!contents.Any()) return;
 
         _documentWriter.Init();
         _documentReader.Init(_documentWriter.GetDirectoryReader());
 
-        var tasks = contents.Select(x => Task.Run(() =>
+        Parallel.ForEach(contents, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = ct }, x =>
         {
             if (_documentReader.DocumentExists(x.Id))
                 _documentWriter.Update(x.MapToLuceneDocument());
             else
                 _documentWriter.Add(x.MapToLuceneDocument());
-        }));
-
-        Task.WhenAll(tasks).Wait(ct);
+        });
 
         _documentWriter.Commit();
         _documentWriter.Dispose();
