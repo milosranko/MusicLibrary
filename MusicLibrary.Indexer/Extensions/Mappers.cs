@@ -11,6 +11,7 @@ internal static class Mappers
     {
         return new SearchResultDto<T>
         {
+            SearchText = searchResult.SearchText,
             TotalHits = searchResult.TotalHits,
             Pagination = searchResult.Pagination,
             Facets = searchResult.Facets,

@@ -15,10 +15,12 @@ using MusicLibrary.Indexer.Models.Enums;
 using MusicLibrary.Indexer.Models.Facets;
 using MusicLibrary.Indexer.Models.Internal;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MusicLibrary.Indexer.Engine;
 
@@ -63,7 +65,6 @@ internal class DocumentReader : IDisposable, IDocumentReader
             searcher.Search(new TermQuery(new Term(field, termsEnum.Term)), collector);
 
             if (collector.TotalHits > 0)
-            {
                 if (isNumeric)
                 {
                     if (!res.ContainsKey(NumericUtils.PrefixCodedToInt32(termsEnum.Term).ToString()) &&
@@ -72,7 +73,6 @@ internal class DocumentReader : IDisposable, IDocumentReader
                 }
                 else if (!res.ContainsKey(termsEnum.Term.Utf8ToString()))
                     res.Add(termsEnum.Term.Utf8ToString(), collector.TotalHits);
-            }
         }
 
         return res;
@@ -184,10 +184,15 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
         if (topDocs.TotalHits == 0) return searchResult;
 
-        var hits = new List<Document>(topDocs.ScoreDocs.Skip(startIndex).Count());
+        var hits = new ConcurrentBag<Document>();
 
-        foreach (var hit in topDocs.ScoreDocs.Skip(startIndex))
+        Parallel.ForEach(topDocs.ScoreDocs.Skip(startIndex), new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }, hit =>
+        {
             hits.Add(searcher.Doc(hit.Doc));
+        });
+
+        //foreach (var hit in topDocs.ScoreDocs.Skip(startIndex))
+        //    hits.Add(searcher.Doc(hit.Doc));
 
         searchResult.TotalHits = topDocs.TotalHits;
         searchResult.Hits = hits;

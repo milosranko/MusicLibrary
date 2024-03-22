@@ -1,11 +1,10 @@
-﻿using Lucene.Net.Facet;
-using Lucene.Net.Index;
+﻿using Lucene.Net.Index;
 using MusicLibrary.Indexer.Attributes;
 using MusicLibrary.Indexer.Extensions;
+using MusicLibrary.Indexer.Helpers;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
-using MusicLibrary.Indexer.Models.Internal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -34,9 +33,9 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
             .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
             .Any();
 
-        ReflectDocumentFields();
+        DocumentModelHelpers<T>.ReflectDocumentFields();
 
-        _documentReader = new DocumentReader(_indexName, GetFacetsConfig(), _hasFacets);
+        _documentReader = new DocumentReader(_indexName, DocumentModelHelpers<T>.GetFacetsConfig(), _hasFacets);
         _documentWriter = new DocumentWriter(_indexName, _hasFacets, this.GetFieldName(x => x.Id));
     }
 
@@ -122,9 +121,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         var termsEnum = terms.GetEnumerator(null);
 
         while (termsEnum.MoveNext() == true)
-        {
             res.Add(termsEnum.Term.Utf8ToString());
-        }
 
         return res;
     }
@@ -146,50 +143,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         _documentReader.Init();
 
         return _documentReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
-    }
-
-    #endregion
-
-    #region Private methods
-
-    private FacetsConfig GetFacetsConfig()
-    {
-        var facetsConfig = new FacetsConfig();
-        var facetFields = typeof(T).GetProperties()
-            .Where(p => p.GetCustomAttributes().OfType<MultiValueFacetPropertyAttribute>() != null)
-            .Select(p => p.Name);
-
-        foreach (var field in facetFields)
-            facetsConfig.SetMultiValued(field, true);
-
-        return facetsConfig;
-    }
-
-    private void ReflectDocumentFields()
-    {
-        var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
-        var fields = new Dictionary<string, FieldProperties>(props.Length);
-        SearchableAttribute? searchableAttr;
-        FacetPropertyAttribute? facetAttr;
-
-        foreach (var prop in props)
-        {
-            searchableAttr = prop.GetCustomAttribute<SearchableAttribute>();
-            facetAttr = prop.GetCustomAttribute<FacetPropertyAttribute>();
-
-            if (searchableAttr is null) continue;
-
-            fields.Add(prop.Name, new FieldProperties
-            {
-                FieldName = string.IsNullOrEmpty(searchableAttr.FieldName) ? prop.Name : searchableAttr.FieldName,
-                FieldType = searchableAttr.FieldType,
-                Stored = searchableAttr.Stored,
-                IsFacet = facetAttr is not null,
-                IsArray = prop.PropertyType.IsArray
-            });
-        }
-
-        DocumentFields<T>.SetFields(fields);
     }
 
     #endregion
