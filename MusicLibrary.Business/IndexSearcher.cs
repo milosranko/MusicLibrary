@@ -27,7 +27,7 @@ public class IndexSearcher
 
     public IndexSearcher(string indexName)
     {
-        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>();
+        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>(indexName);
     }
 
     public bool IndexExists()

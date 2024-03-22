@@ -15,20 +15,21 @@ namespace MusicLibrary.Indexer.Engine;
 internal class DocumentWriter : IDocumentWriter, IDisposable
 {
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
-    private readonly FacetsConfig _facetsConfig = new();
+    private readonly FacetsConfig _facetsConfig;
+    private readonly string _id;
+    private readonly string _indexName;
+    private readonly bool _hasFacets = false;
     private IndexWriter? _writer;
     private DirectoryTaxonomyWriter? _taxoWriter;
     private Directory? _indexDirectory;
     private Directory? _facetIndexDirectory;
-    private readonly string _indexName;
-    private readonly bool _hasFacets = false;
     private bool _isInitialized = false;
-    private readonly string _id;
 
-    public DocumentWriter(string indexName, bool hasFacets = false, string idField = "id")
+    public DocumentWriter(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id")
     {
         _indexName = indexName ?? "index";
         _hasFacets = hasFacets;
+        _facetsConfig = facetsConfig;
         _id = idField;
     }
 

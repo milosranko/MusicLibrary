@@ -20,22 +20,32 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 {
     private readonly IDocumentReader _documentReader;
     private readonly IDocumentWriter _documentWriter;
-    private readonly string _indexName;
-    private readonly bool _hasFacets;
 
     #region Constructors
 
     public GenericSearchIndexEngine()
     {
-        _indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
-        _hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+        var indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
+        var hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
             .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
             .Any();
 
         DocumentModelHelpers<T>.ReflectDocumentFields();
 
-        _documentReader = new DocumentReader(_indexName, DocumentModelHelpers<T>.GetFacetsConfig(), _hasFacets);
-        _documentWriter = new DocumentWriter(_indexName, _hasFacets, this.GetFieldName(x => x.Id));
+        _documentReader = new DocumentReader(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets);
+        _documentWriter = new DocumentWriter(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets, this.GetFieldName(x => x.Id));
+    }
+
+    public GenericSearchIndexEngine(string indexName)
+    {
+        var hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
+            .Any();
+
+        DocumentModelHelpers<T>.ReflectDocumentFields();
+
+        _documentReader = new DocumentReader(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets, sharedIndex: true);
+        _documentWriter = new DocumentWriter(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets, this.GetFieldName(x => x.Id));
     }
 
     #endregion

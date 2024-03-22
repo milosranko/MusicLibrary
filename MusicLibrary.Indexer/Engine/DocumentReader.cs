@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MusicLibrary.Indexer.Engine;
@@ -36,13 +37,15 @@ internal class DocumentReader : IDisposable, IDocumentReader
     private bool _hasFacets = false;
     private readonly FacetsConfig _facetsConfig;
     private readonly string _id;
+    private readonly bool _sharedIndex;
 
-    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id")
+    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id", bool sharedIndex = false)
     {
         _indexName = indexName ?? "index";
         _hasFacets = hasFacets;
         _facetsConfig = facetsConfig;
         _id = idField;
+        _sharedIndex = sharedIndex;
     }
 
     public bool DocumentExists(string id)
@@ -191,9 +194,6 @@ internal class DocumentReader : IDisposable, IDocumentReader
             hits.Add(searcher.Doc(hit.Doc));
         });
 
-        //foreach (var hit in topDocs.ScoreDocs.Skip(startIndex))
-        //    hits.Add(searcher.Doc(hit.Doc));
-
         searchResult.TotalHits = topDocs.TotalHits;
         searchResult.Hits = hits;
         searchResult.Pagination = new Pagination(request.Pagination.PageSize, request.Pagination.PageIndex)
@@ -209,9 +209,18 @@ internal class DocumentReader : IDisposable, IDocumentReader
         if (_isInitialized)
             return;
 
+        var indexPath = new StringBuilder("\\MusicLibrary\\");
+
+        if (_sharedIndex)
+            indexPath.Append("Shares\\");
+        else
+            indexPath.Append("index\\");
+
+        indexPath.Append(_indexName);
+
         var path = Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{_indexName}";
+            Environment.SpecialFolderOption.Create) + indexPath.ToString();
 
         if (!System.IO.Directory.Exists(path))
             return;
@@ -221,7 +230,7 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
         var pathTaxo = Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{_indexName}-taxo";
+            Environment.SpecialFolderOption.Create) + indexPath.ToString() + "-taxo";
 
         if (_hasFacets && System.IO.Directory.Exists(pathTaxo) && System.IO.Directory.GetFiles(pathTaxo).Length > 0)
             _taxoReader = new DirectoryTaxonomyReader(FSDirectory.Open(pathTaxo));

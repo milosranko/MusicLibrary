@@ -1054,6 +1054,11 @@ public partial class MainForm : Form
 
         ctxFileOptions.Close();
     }
+
+    private void cmbAvailableIndexes_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        _cache.Remove(IndexCountsCacheKey);
+    }
 }
 
 class ListViewItemComparer : IComparer
