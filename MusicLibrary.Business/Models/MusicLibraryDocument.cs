@@ -8,10 +8,7 @@ namespace MusicLibrary.Business.Models;
 public class MusicLibraryDocument : MappingDocumentBase<MusicLibraryDocument>, IDocument
 {
     [Searchable(FieldName = "id", FieldType = FieldTypeEnum.StringField, Stored = true)]
-    public string Id => FileId;
-
-    [Searchable(FieldName = "fid", FieldType = FieldTypeEnum.StringField, Stored = true)]
-    public string FileId { get; set; } //Unique file location eg. root\sub\sub\sub\File.ext
+    public string Id { get; set; } //Unique file location eg. root\sub\sub\sub\File.ext
 
     [Searchable(FieldName = "drv", FieldType = FieldTypeEnum.StringField, Stored = true)]
     public string Drive { get; set; } //Drive name eg. d:\

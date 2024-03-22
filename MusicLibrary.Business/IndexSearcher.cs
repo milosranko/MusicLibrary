@@ -3,6 +3,7 @@ using MusicLibrary.Business.Helpers;
 using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
+using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Enums;

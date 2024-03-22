@@ -3,12 +3,14 @@ using Lucene.Net.Documents.Extensions;
 using Lucene.Net.Facet;
 using MusicLibrary.Indexer.Attributes;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace MusicLibrary.Indexer.Models.Base;
 
-public abstract class MappingDocumentBase<T> where T : IDocument, new()
+public abstract class MappingDocumentBase<T> : IEqualityComparer<IDocument> where T : IDocument, new()
 {
     public virtual Document MapToLuceneDocument()
     {
@@ -119,5 +121,17 @@ public abstract class MappingDocumentBase<T> where T : IDocument, new()
             facetsConfig.SetMultiValued(field, true);
 
         return facetsConfig;
+    }
+
+    public bool Equals(IDocument? x, IDocument? y)
+    {
+        if (x is null || y is null) return false;
+
+        return x.Id == y.Id;
+    }
+
+    public int GetHashCode([DisallowNull] IDocument obj)
+    {
+        return obj.Id.GetHashCode();
     }
 }

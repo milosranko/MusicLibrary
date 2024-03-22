@@ -66,7 +66,8 @@ internal class DocumentReader : IDisposable, IDocumentReader
             {
                 if (isNumeric)
                 {
-                    if (!res.ContainsKey(NumericUtils.PrefixCodedToInt32(termsEnum.Term).ToString()) && NumericUtils.PrefixCodedToInt32(termsEnum.Term) > 1920)
+                    if (!res.ContainsKey(NumericUtils.PrefixCodedToInt32(termsEnum.Term).ToString()) &&
+                        searcher.Search(NumericRangeQuery.NewInt32Range(field, NumericUtils.PrefixCodedToInt32(termsEnum.Term), NumericUtils.PrefixCodedToInt32(termsEnum.Term), true, true), 1).TotalHits > 0)
                         res.Add(NumericUtils.PrefixCodedToInt32(termsEnum.Term).ToString(), collector.TotalHits);
                 }
                 else if (!res.ContainsKey(termsEnum.Term.Utf8ToString()))

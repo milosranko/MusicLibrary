@@ -5,13 +5,13 @@ using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
+using MusicLibrary.Indexer.Models.Internal;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,16 +24,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     private readonly IDocumentWriter _documentWriter;
     private readonly string _indexName;
     private readonly bool _hasFacets;
-    private IDictionary<string, FieldProperties> _fields;
-
-    private struct FieldProperties
-    {
-        public required string FieldName { get; set; }
-        public required FieldTypeEnum FieldType { get; set; }
-        public required bool Stored { get; set; }
-        public required bool IsFacet { get; set; }
-        public required bool IsArray { get; set; }
-    }
 
     #region Constructors
 
@@ -47,7 +37,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         ReflectDocumentFields();
 
         _documentReader = new DocumentReader(_indexName, GetFacetsConfig(), _hasFacets);
-        _documentWriter = new DocumentWriter(_indexName, _hasFacets, GetFieldName(x => x.Id));
+        _documentWriter = new DocumentWriter(_indexName, _hasFacets, this.GetFieldName(x => x.Id));
     }
 
     #endregion
@@ -128,7 +118,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
         var res = new Collection<string>();
         var fields = MultiFields.GetFields(_documentReader.Reader);
-        var terms = fields.GetTerms(GetFieldName(x => x.Id));
+        var terms = fields.GetTerms(this.GetFieldName(x => x.Id));
         var termsEnum = terms.GetEnumerator(null);
 
         while (termsEnum.MoveNext() == true)
@@ -158,30 +148,6 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         return _documentReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
     }
 
-    public string GetFieldName(Expression<Func<T, string>> expr)
-    {
-        if (expr.Body is not MemberExpression memberExpression)
-            throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
-
-        return GetFieldName(memberExpression.Member.Name);
-    }
-
-    public string GetFieldName(Expression<Func<T, int>> expr)
-    {
-        if (expr.Body is not MemberExpression memberExpression)
-            throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
-
-        return GetFieldName(memberExpression.Member.Name);
-    }
-
-    public string GetFieldName(Expression<Func<T, DateTime>> expr)
-    {
-        if (expr.Body is not MemberExpression memberExpression)
-            throw new ArgumentException($"The provided expression contains a {expr.GetType().Name} which is not supported. Only simple member accessors (fields, properties) of an object are supported.");
-
-        return GetFieldName(memberExpression.Member.Name);
-    }
-
     #endregion
 
     #region Private methods
@@ -202,7 +168,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     private void ReflectDocumentFields()
     {
         var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
-        _fields = new Dictionary<string, FieldProperties>(props.Length);
+        var fields = new Dictionary<string, FieldProperties>(props.Length);
         SearchableAttribute? searchableAttr;
         FacetPropertyAttribute? facetAttr;
 
@@ -213,7 +179,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
             if (searchableAttr is null) continue;
 
-            _fields.Add(prop.Name, new FieldProperties
+            fields.Add(prop.Name, new FieldProperties
             {
                 FieldName = string.IsNullOrEmpty(searchableAttr.FieldName) ? prop.Name : searchableAttr.FieldName,
                 FieldType = searchableAttr.FieldType,
@@ -222,17 +188,8 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
                 IsArray = prop.PropertyType.IsArray
             });
         }
-    }
 
-    private string GetFieldName(string fieldName)
-    {
-        if (_fields is null || _fields.Count.Equals(0))
-            ArgumentNullException.ThrowIfNull(_fields);
-
-        if (!_fields.ContainsKey(fieldName))
-            throw new ArgumentException($"The provided property doesn't exists: {fieldName}.");
-
-        return _fields[fieldName].FieldName;
+        DocumentFields<T>.SetFields(fields);
     }
 
     #endregion

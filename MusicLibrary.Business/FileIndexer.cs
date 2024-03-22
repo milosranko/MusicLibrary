@@ -50,7 +50,7 @@ public class FileIndexer
 
             contents.Add(new MusicLibraryDocument
             {
-                FileId = RemoveDriveInfo(file),
+                Id = RemoveDriveInfo(file),
                 Drive = GetOrSetDriveInfo(file),
                 FileName = Path.GetFileName(file),
                 Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
