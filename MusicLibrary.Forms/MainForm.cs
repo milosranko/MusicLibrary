@@ -33,9 +33,10 @@ public partial class MainForm : Form
     private bool _hasFilesToIndex;
     private IProgress<ProgressArgs> _progress;
     private IList<string> _availableIndexes;
-    private SortedList<string, IList<string>> _listsDict = new SortedList<string, IList<string>>();
+    private SortedList<string, IList<string>> _listsDict = [];
     private const string IndexCountsCacheKey = nameof(IndexSearcher.GetIndexCounts);
     private readonly IMemoryCache _cache;
+    private IndexSearcher _indexSearcher = new();
 
     [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
     private extern static void ReleaseCapture();
@@ -51,15 +52,11 @@ public partial class MainForm : Form
 
     private async Task InitializeDashboardAsync()
     {
-        var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
-            ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
-            : new IndexSearcher();
-
-        if (indexSearcher.IndexExists())
+        if (_indexSearcher.IndexExists())
         {
             if (!_cache.TryGetValue(IndexCountsCacheKey, out IndexCounts res))
             {
-                res = await indexSearcher.GetIndexCounts();
+                res = await _indexSearcher.GetIndexCounts();
                 _cache.Set(IndexCountsCacheKey, res);
             }
 
@@ -670,7 +667,6 @@ public partial class MainForm : Form
         cmbAvailableIndexes.DataSource = _availableIndexes;
         LoadExistingLists();
         UpdateListsCollection();
-        //toolStripAddToList.DropDown = ctxLists;
     }
 
     private void LoadExistingLists()
@@ -839,7 +835,7 @@ public partial class MainForm : Form
 
         _cts ??= new CancellationTokenSource();
         var fi = new FileIndexer(_cts.Token);
-        var res = await Task.Run(async () => await fi.ShareIndex());
+        var res = await Task.Run(fi.ShareIndex, _cts.Token);
 
         if (res.Success)
         {
@@ -867,24 +863,24 @@ public partial class MainForm : Form
                 System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
 
             if (Directory.Exists(targetFolder))
-            {
                 foreach (var item in Directory.GetFiles(targetFolder))
                     File.Delete(item);
-            }
             else
-            {
                 Directory.CreateDirectory(targetFolder);
-            }
 
             using var archive = ZipFile.OpenRead(openFileDialog2.FileName);
 
             foreach (var entry in archive.Entries)
             {
                 var destinationPath = System.IO.Path.GetFullPath(System.IO.Path.Combine(targetFolder, entry.FullName));
+                if (!Directory.Exists(System.IO.Path.GetDirectoryName(destinationPath)))
+                    Directory.CreateDirectory(System.IO.Path.GetDirectoryName(destinationPath));
+
                 entry.ExtractToFile(destinationPath, true);
             }
 
-            _availableIndexes.Add(System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
+            if (!_availableIndexes.Contains(System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName)))
+                _availableIndexes.Add(System.IO.Path.GetFileNameWithoutExtension(openFileDialog2.FileName));
             //TODO Set default index folder to a new one or show index selector (drop-down list)
             //it will check Index folder and sub folders under Shares folder if they are not empty
         }
@@ -929,7 +925,6 @@ public partial class MainForm : Form
     private void AddToListAndPersist(string name, IList<string> items)
     {
         if (_listsDict.ContainsKey(name))
-        {
             foreach (var item in items)
             {
                 if (_listsDict[name].Contains(item))
@@ -937,11 +932,8 @@ public partial class MainForm : Form
 
                 _listsDict[name].Add(item);
             }
-        }
         else
-        {
             _listsDict.Add(name, items);
-        }
 
         PersistLists();
     }
@@ -1058,6 +1050,11 @@ public partial class MainForm : Form
     private void cmbAvailableIndexes_SelectedIndexChanged(object sender, EventArgs e)
     {
         _cache.Remove(IndexCountsCacheKey);
+
+        if (cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem))
+            _indexSearcher = new IndexSearcher((string)cmbAvailableIndexes.SelectedItem);
+        else
+            _indexSearcher = new IndexSearcher();
     }
 }
 

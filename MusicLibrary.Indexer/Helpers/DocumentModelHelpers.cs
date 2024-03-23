@@ -10,43 +10,49 @@ namespace MusicLibrary.Indexer.Helpers;
 
 internal static class DocumentModelHelpers<T> where T : IDocument
 {
-    public static FacetsConfig GetFacetsConfig()
-    {
-        var facetsConfig = new FacetsConfig();
-        var facetFields = typeof(T).GetProperties()
-            .Where(p => p.GetCustomAttributes().OfType<MultiValueFacetPropertyAttribute>() != null)
-            .Select(p => p.Name);
-
-        foreach (var field in facetFields)
-            facetsConfig.SetMultiValued(field, true);
-
-        return facetsConfig;
-    }
-
     public static void ReflectDocumentFields()
     {
+        if (!string.IsNullOrEmpty(DocumentFields<T>.IndexName) && DocumentFields<T>.Fields.Any())
+            return;
+
+        var indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
         var props = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public);
         var fields = new Dictionary<string, FieldProperties>(props.Length);
+        var facetsConfig = new FacetsConfig();
         SearchableAttribute? searchableAttr;
         FacetPropertyAttribute? facetAttr;
+        MultiValueFacetPropertyAttribute? multiValueFacetAttr;
 
         foreach (var prop in props)
         {
             searchableAttr = prop.GetCustomAttribute<SearchableAttribute>();
             facetAttr = prop.GetCustomAttribute<FacetPropertyAttribute>();
+            multiValueFacetAttr = prop.GetCustomAttribute<MultiValueFacetPropertyAttribute>();
 
             if (searchableAttr is null) continue;
 
+            var fieldName = GetFieldName(searchableAttr, prop);
+
             fields.Add(prop.Name, new FieldProperties
             {
-                FieldName = string.IsNullOrEmpty(searchableAttr.FieldName) ? prop.Name : searchableAttr.FieldName,
+                FieldName = fieldName,
                 FieldType = searchableAttr.FieldType,
                 Stored = searchableAttr.Stored,
                 IsFacet = facetAttr is not null,
                 IsArray = prop.PropertyType.IsArray
             });
+
+            if (multiValueFacetAttr is not null)
+                facetsConfig.SetMultiValued(fieldName, true);
         }
 
-        DocumentFields<T>.SetFields(fields);
+        DocumentFields<T>.SetFields(indexName, fields, facetsConfig);
+    }
+
+    private static string GetFieldName(SearchableAttribute? searchableAttr, PropertyInfo prop)
+    {
+        return string.IsNullOrEmpty(searchableAttr?.FieldName)
+            ? prop.Name
+            : searchableAttr.FieldName;
     }
 }

@@ -11,20 +11,15 @@ public static class Constants
     public static readonly string LocalAppDataShares =
         Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\Shares";
+            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\shares";
 
     public static readonly string LocalAppDataIndex =
         Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\Index";
-
-    public static readonly string LocalAppDataTaxoIndex =
-        Environment.GetFolderPath(
-            Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\TaxoIndex";
+            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\index";
 
     public static readonly string LocalAppDataLists =
         Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\Lists";
+            Environment.SpecialFolderOption.Create) + "\\MusicLibrary\\lists";
 }

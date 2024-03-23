@@ -37,15 +37,15 @@ internal class DocumentReader : IDisposable, IDocumentReader
     private bool _hasFacets = false;
     private readonly FacetsConfig _facetsConfig;
     private readonly string _id;
-    private readonly bool _sharedIndex;
+    private readonly string _sharedIndexName;
 
-    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id", bool sharedIndex = false)
+    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id", string sharedIndexName = "")
     {
         _indexName = indexName ?? "index";
         _hasFacets = hasFacets;
         _facetsConfig = facetsConfig;
         _id = idField;
-        _sharedIndex = sharedIndex;
+        _sharedIndexName = sharedIndexName;
     }
 
     public bool DocumentExists(string id)
@@ -180,7 +180,7 @@ internal class DocumentReader : IDisposable, IDocumentReader
         }
 
         if (request.Facets != null && request.Facets.Any())
-            GetFacets(searcher, q, searchResult);
+            searchResult.Facets = GetFacets(searcher, q);
 
         var startIndex = request.Pagination.PageIndex * request.Pagination.PageSize;
         var topDocs = searcher.Search(q, startIndex + request.Pagination.PageSize);
@@ -211,10 +211,15 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
         var indexPath = new StringBuilder("\\MusicLibrary\\");
 
-        if (_sharedIndex)
-            indexPath.Append("Shares\\");
+        if (!string.IsNullOrEmpty(_sharedIndexName))
+        {
+            indexPath.Append("shares\\");
+            indexPath.Append($"{_sharedIndexName}\\");
+        }
         else
+        {
             indexPath.Append("index\\");
+        }
 
         indexPath.Append(_indexName);
 
@@ -243,10 +248,10 @@ internal class DocumentReader : IDisposable, IDocumentReader
         _reader = reader;
     }
 
-    private void GetFacets(IndexSearcher searcher, Query q, SearchResult searchResult)
+    private IEnumerable<FacetFilter> GetFacets(IndexSearcher searcher, Query q)
     {
         if (_facetsConfig == null)
-            return;
+            return Enumerable.Empty<FacetFilter>();
 
         var fc = new FacetsCollector();
         FacetsCollector.Search(searcher, q, 100, fc);
@@ -257,7 +262,7 @@ internal class DocumentReader : IDisposable, IDocumentReader
             Values = facet.LabelValues.Select(p => new FacetValue { Value = p.Label, Count = (int)p.Value, })
         });
 
-        searchResult.Facets = facetResults;
+        return facetResults;
     }
 
     public void Dispose()

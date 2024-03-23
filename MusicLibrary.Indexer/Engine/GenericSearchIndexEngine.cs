@@ -1,16 +1,15 @@
 ﻿using Lucene.Net.Index;
-using MusicLibrary.Indexer.Attributes;
 using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Helpers;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
+using MusicLibrary.Indexer.Models.Internal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,27 +24,17 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     public GenericSearchIndexEngine()
     {
-        var indexName = typeof(T).GetCustomAttribute<IndexConfigAttribute>()?.IndexName ?? "index";
-        var hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
-            .Any();
-
         DocumentModelHelpers<T>.ReflectDocumentFields();
 
-        _documentReader = new DocumentReader(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets);
-        _documentWriter = new DocumentWriter(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets, this.GetFieldName(x => x.Id));
+        _documentReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets);
+        _documentWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
     }
 
     public GenericSearchIndexEngine(string indexName)
     {
-        var hasFacets = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-            .Where(p => p.GetCustomAttribute<FacetPropertyAttribute>() != null || p.GetCustomAttribute<MultiValueFacetPropertyAttribute>() != null)
-            .Any();
-
         DocumentModelHelpers<T>.ReflectDocumentFields();
 
-        _documentReader = new DocumentReader(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets, sharedIndex: true);
-        _documentWriter = new DocumentWriter(indexName, DocumentModelHelpers<T>.GetFacetsConfig(), hasFacets, this.GetFieldName(x => x.Id));
+        _documentReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, sharedIndexName: indexName);
     }
 
     #endregion
