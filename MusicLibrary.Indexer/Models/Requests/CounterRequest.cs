@@ -1,4 +1,4 @@
-﻿namespace MusicLibrary.Indexer.Models;
+﻿namespace MusicLibrary.Indexer.Models.Requests;
 
 public struct CounterRequest
 {

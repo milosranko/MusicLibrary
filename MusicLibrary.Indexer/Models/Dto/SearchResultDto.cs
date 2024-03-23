@@ -14,7 +14,7 @@ public struct SearchResultDto<T> where T : IDocument
             Hits = [],
             SearchText = string.Empty,
             TotalHits = 0,
-            Pagination = new Pagination(0, 0)
+            Pagination = new PaginationDto(0, 0, 0)
         };
     }
 
@@ -22,6 +22,6 @@ public struct SearchResultDto<T> where T : IDocument
     public int TotalHits { get; set; }
     public IEnumerable<T> Hits { get; set; }
     public readonly bool HasHits => Hits != null && Hits.Any();
-    public Pagination Pagination { get; set; }
+    public PaginationDto Pagination { get; set; }
     public IEnumerable<FacetFilter> Facets { get; set; }
 }

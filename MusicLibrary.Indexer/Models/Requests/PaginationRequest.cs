@@ -1,8 +1,8 @@
 ﻿namespace MusicLibrary.Indexer.Models;
 
-public struct Pagination
+public struct PaginationRequest
 {
-    public Pagination(int pageSize, int pageIndex)
+    public PaginationRequest(int pageSize, int pageIndex)
     {
         PageSize = pageSize;
         PageIndex = pageIndex;
@@ -10,5 +10,4 @@ public struct Pagination
 
     public int PageSize { get; private set; }
     public int PageIndex { get; private set; }
-    public int TotalPages { get; set; }
 }

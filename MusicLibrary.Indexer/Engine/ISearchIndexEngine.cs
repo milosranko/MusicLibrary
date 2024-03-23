@@ -1,6 +1,6 @@
-﻿using MusicLibrary.Indexer.Models;
-using MusicLibrary.Indexer.Models.Base;
+﻿using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
+using MusicLibrary.Indexer.Models.Requests;
 using System.Collections.Generic;
 using System.Threading;
 

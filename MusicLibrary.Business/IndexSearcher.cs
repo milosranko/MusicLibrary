@@ -7,6 +7,7 @@ using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Enums;
+using MusicLibrary.Indexer.Models.Requests;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -100,12 +101,12 @@ public class IndexSearcher
         return _searchIndexEngine.GetByIds(ids);
     }
 
-    public Task<IndexCounts> GetIndexCounts()
+    public IndexCounts GetIndexCounts()
     {
         if (_searchIndexEngine.IndexNotExistsOrEmpty())
-            return Task.FromResult(IndexCounts.Empty);
+            return IndexCounts.Empty;
 
-        return Task.FromResult(new IndexCounts
+        return new IndexCounts
         {
             TotalFiles = _searchIndexEngine.CountDocuments(null).First().Value,
             TotalFilesByExtension = _searchIndexEngine.CountDocuments(new CounterRequest
@@ -117,7 +118,7 @@ public class IndexSearcher
                 Text = "hr flac",
                 SearchFields = new Dictionary<string, string?> { { _searchIndexEngine.GetFieldName(x => x.Text), string.Empty } },
                 QueryType = QueryTypesEnum.Text,
-                Pagination = new Pagination(int.MaxValue, 0)
+                Pagination = new PaginationRequest(int.MaxValue, 0)
             }).TotalHits,
             ReleaseYears = _searchIndexEngine.CountDocuments(new CounterRequest
             {
@@ -136,7 +137,7 @@ public class IndexSearcher
                 IsNumeric = false,
                 Top = 50
             })
-        });
+        };
     }
 
     private Task<SearchResultDto<MusicLibraryDocument>> PerformSearch(
@@ -164,7 +165,7 @@ public class IndexSearcher
             Text = query,
             SearchFields = searchFields,
             QueryType = queryType,
-            Pagination = new Pagination(int.MaxValue, 0),
+            Pagination = new PaginationRequest(int.MaxValue, 0),
             Facets = facets,
             SearchType = SearchType.ExactMatch
         };

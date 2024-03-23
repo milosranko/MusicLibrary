@@ -1,7 +1,7 @@
 ﻿using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Internal;
+using MusicLibrary.Indexer.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

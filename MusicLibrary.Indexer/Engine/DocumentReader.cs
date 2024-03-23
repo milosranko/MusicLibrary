@@ -10,10 +10,11 @@ using Lucene.Net.Search;
 using Lucene.Net.Search.Grouping;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using MusicLibrary.Indexer.Models;
+using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Enums;
 using MusicLibrary.Indexer.Models.Facets;
 using MusicLibrary.Indexer.Models.Internal;
+using MusicLibrary.Indexer.Models.Requests;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -196,10 +197,10 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
         searchResult.TotalHits = topDocs.TotalHits;
         searchResult.Hits = hits;
-        searchResult.Pagination = new Pagination(request.Pagination.PageSize, request.Pagination.PageIndex)
-        {
-            TotalPages = (int)Math.Ceiling(decimal.Divide(searchResult.TotalHits, request.Pagination.PageSize))
-        };
+        searchResult.Pagination = new PaginationDto(
+            request.Pagination.PageSize,
+            request.Pagination.PageIndex,
+            (int)Math.Ceiling(decimal.Divide(searchResult.TotalHits, request.Pagination.PageSize)));
 
         return searchResult;
     }

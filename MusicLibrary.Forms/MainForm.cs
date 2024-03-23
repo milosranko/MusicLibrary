@@ -50,15 +50,11 @@ public partial class MainForm : Form
         InitializeComponent();
     }
 
-    private async Task InitializeDashboardAsync()
+    private void InitializeDashboard()
     {
         if (_indexSearcher.IndexExists())
         {
-            if (!_cache.TryGetValue(IndexCountsCacheKey, out IndexCounts res))
-            {
-                res = await _indexSearcher.GetIndexCounts();
-                _cache.Set(IndexCountsCacheKey, res);
-            }
+            var res = _cache.GetOrCreate(IndexCountsCacheKey, x => _indexSearcher.GetIndexCounts());
 
             lvExtensionsTotal.Items.Clear();
             if (res.TotalFilesByExtension is not null)
@@ -122,7 +118,7 @@ public partial class MainForm : Form
 
     private async void btnDashboard_Click(object sender, EventArgs e)
     {
-        await InitializeDashboardAsync();
+        InitializeDashboard();
         ShowPanel(PanelEnum.Dashboard);
     }
 
@@ -652,9 +648,9 @@ public partial class MainForm : Form
         }
     }
 
-    private async void MainForm_Load(object sender, EventArgs e)
+    private void MainForm_Load(object sender, EventArgs e)
     {
-        await InitializeDashboardAsync();
+        InitializeDashboard();
 
         var searcher = new IndexSearcher();
         _availableIndexes = searcher.SharedIndexes.ToList();

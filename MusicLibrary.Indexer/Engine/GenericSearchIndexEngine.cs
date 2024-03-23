@@ -1,10 +1,10 @@
 ﻿using Lucene.Net.Index;
 using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Helpers;
-using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Internal;
+using MusicLibrary.Indexer.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
