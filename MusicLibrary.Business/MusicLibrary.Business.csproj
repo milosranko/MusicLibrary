@@ -12,9 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MetaBrainz.MusicBrainz" Version="5.0.1" />
+    <PackageReference Include="MetaBrainz.MusicBrainz" Version="6.1.0" />
     <PackageReference Include="Xabe.FFmpeg" Version="5.2.6" />
-    <PackageReference Include="z440.atl.core" Version="4.33.0" />
+    <PackageReference Include="z440.atl.core" Version="5.20.0" />
   </ItemGroup>
 
   <ItemGroup>
