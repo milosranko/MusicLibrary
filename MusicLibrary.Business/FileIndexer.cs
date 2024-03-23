@@ -4,15 +4,9 @@ using MusicLibrary.Business.Helpers;
 using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Indexer.Engine;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MusicLibrary.Business;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MusicLibrary.Common;
+﻿namespace MusicLibrary.Common;
 
 public static class Constants
 {

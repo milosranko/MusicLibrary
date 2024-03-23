@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MusicLibrary.Indexer.Queries;
+﻿namespace MusicLibrary.Indexer.Queries;
 
 public class FieldsSearchQuery : SearchQueryBase
 {

@@ -2,10 +2,7 @@
 using Lucene.Net.Documents.Extensions;
 using Lucene.Net.Facet;
 using MusicLibrary.Indexer.Attributes;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 
 namespace MusicLibrary.Indexer.Models.Base;

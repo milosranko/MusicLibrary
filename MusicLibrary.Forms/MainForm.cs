@@ -7,19 +7,12 @@ using MusicLibrary.Common;
 using MusicLibrary.Common.Helpers;
 using MusicLibrary.Indexer.Models.Dto;
 using Newtonsoft.Json;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace MusicLibrary.Forms;
 

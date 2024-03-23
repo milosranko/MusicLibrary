@@ -5,13 +5,8 @@ using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Internal;
 using MusicLibrary.Indexer.Models.Requests;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MusicLibrary.Indexer.Engine;
 

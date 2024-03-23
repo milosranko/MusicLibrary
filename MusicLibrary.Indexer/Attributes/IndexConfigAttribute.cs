@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MusicLibrary.Indexer.Attributes;
+﻿namespace MusicLibrary.Indexer.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class IndexConfigAttribute : Attribute

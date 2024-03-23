@@ -1,7 +1,5 @@
 ﻿using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using System;
-using System.Collections.Generic;
 
 namespace MusicLibrary.Indexer.Engine;
 

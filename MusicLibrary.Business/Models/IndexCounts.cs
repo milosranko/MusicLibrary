@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MusicLibrary.Business.Models;
+﻿namespace MusicLibrary.Business.Models;
 
 public struct IndexCounts
 {

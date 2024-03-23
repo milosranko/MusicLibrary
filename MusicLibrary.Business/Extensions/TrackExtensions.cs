@@ -1,7 +1,5 @@
 ﻿using ATL;
 using MusicLibrary.Common;
-using System;
-using System.IO;
 
 namespace MusicLibrary.Business.Extensions;
 

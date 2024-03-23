@@ -1,6 +1,5 @@
 ﻿using MusicLibrary.Indexer.Attributes;
 using MusicLibrary.Indexer.Models.Base;
-using System;
 
 namespace MusicLibrary.Business.Models;
 

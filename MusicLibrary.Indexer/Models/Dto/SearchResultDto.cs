@@ -1,7 +1,5 @@
 ﻿using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Facets;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MusicLibrary.Indexer.Models.Dto;
 

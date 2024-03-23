@@ -8,10 +8,6 @@ using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Enums;
 using MusicLibrary.Indexer.Models.Requests;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MusicLibrary.Business;
 

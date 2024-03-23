@@ -1,7 +1,6 @@
 ﻿using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Internal;
-using System.Linq;
 
 namespace MusicLibrary.Indexer.Extensions;
 

@@ -1,6 +1,5 @@
 ﻿using MusicLibrary.Indexer.Models;
 using MusicLibrary.Indexer.Models.Enums;
-using System.Collections.Generic;
 
 namespace MusicLibrary.Indexer.Queries;
 

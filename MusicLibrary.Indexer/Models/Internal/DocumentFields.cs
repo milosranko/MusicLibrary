@@ -1,7 +1,5 @@
 ﻿using Lucene.Net.Facet;
 using MusicLibrary.Indexer.Models.Base;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MusicLibrary.Indexer.Models.Internal;
 

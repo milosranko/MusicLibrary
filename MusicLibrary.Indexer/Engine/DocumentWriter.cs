@@ -6,9 +6,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using MusicLibrary.Indexer.Models.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Directory = Lucene.Net.Store.Directory;
 
 namespace MusicLibrary.Indexer.Engine;
 
