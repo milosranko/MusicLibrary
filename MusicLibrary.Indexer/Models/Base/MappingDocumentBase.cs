@@ -108,19 +108,6 @@ public abstract class MappingDocumentBase<T> : IEqualityComparer<IDocument> wher
         return instance;
     }
 
-    public virtual FacetsConfig GetFacetsConfig()
-    {
-        var facetsConfig = new FacetsConfig();
-        var facetFields = typeof(T).GetProperties()
-            .Where(p => p.GetCustomAttributes().OfType<MultiValueFacetPropertyAttribute>() != null)
-            .Select(p => p.Name);
-
-        foreach (var field in facetFields)
-            facetsConfig.SetMultiValued(field, true);
-
-        return facetsConfig;
-    }
-
     public bool Equals(IDocument? x, IDocument? y)
     {
         if (x is null || y is null) return false;
