@@ -42,7 +42,7 @@ public class IndexSearcher
             .Last());
     }
 
-    public Task<SearchResultDto<MusicLibraryDocument>> Search(string query, string[]? terms, SearchFieldsEnum searchField)
+    public SearchResultDto<MusicLibraryDocument> Search(string query, string[]? terms, SearchFieldsEnum searchField)
     {
         return searchField switch
         {
@@ -136,7 +136,7 @@ public class IndexSearcher
         };
     }
 
-    private Task<SearchResultDto<MusicLibraryDocument>> PerformSearch(
+    private SearchResultDto<MusicLibraryDocument> PerformSearch(
         string query,
         string[]? terms,
         string[] fields,
@@ -144,17 +144,15 @@ public class IndexSearcher
         IDictionary<string, IEnumerable<string?>?>? facets = null)
     {
         if (string.IsNullOrEmpty(query) && (terms == null || terms.Length == 0))
-            return Task.FromResult(SearchResultDto<MusicLibraryDocument>.Empty());
+            return SearchResultDto<MusicLibraryDocument>.Empty();
 
         if (fields == null || fields.Length == 0)
-            return Task.FromResult(SearchResultDto<MusicLibraryDocument>.Empty());
+            return SearchResultDto<MusicLibraryDocument>.Empty();
 
         var searchFields = new Dictionary<string, string?>(fields.Length);
 
         for (var i = 0; i < fields.Length; i++)
-        {
             searchFields.Add(fields[i], terms is not null && i < terms.Length ? terms[i] : string.Empty);
-        }
 
         var searchRequest = new SearchRequest
         {
@@ -166,6 +164,6 @@ public class IndexSearcher
             SearchType = SearchType.ExactMatch
         };
 
-        return Task.FromResult(_searchIndexEngine.Search(searchRequest));
+        return _searchIndexEngine.Search(searchRequest);
     }
 }
