@@ -3,6 +3,7 @@ using MusicLibrary.Business.Extensions;
 using MusicLibrary.Business.Helpers;
 using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
+using MusicLibrary.Common.Extensions;
 using MusicLibrary.Indexer.Engine;
 using System.Collections.Concurrent;
 using System.IO.Compression;
@@ -32,7 +33,7 @@ public class FileIndexer
             return;
 
         if (onlyNewFiles)
-            fileList = _engine.SkipExistingDocuments(fileList.Select(RemoveDriveInfo).ToArray());
+            fileList = _engine.SkipExistingDocuments(fileList);
 
         var contents = new ConcurrentBag<MusicLibraryDocument>();
         var progressArgs = new ProgressArgs { TotalFiles = fileList.Count() };
@@ -44,7 +45,7 @@ public class FileIndexer
 
             contents.Add(new MusicLibraryDocument
             {
-                Id = RemoveDriveInfo(file),
+                Id = file.RemoveDriveInfo(),
                 Drive = GetOrSetDriveInfo(file),
                 FileName = Path.GetFileName(file),
                 Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
@@ -122,11 +123,6 @@ public class FileIndexer
         sb.AppendLine(string.Join(" ", tags));
 
         return ContentHelpers.CleanContent(sb);
-    }
-
-    private string RemoveDriveInfo(string path)
-    {
-        return path.Remove(0, 2);
     }
 
     private string GetOrSetDriveInfo(string path)

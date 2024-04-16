@@ -102,37 +102,54 @@ public class IndexSearcher
         if (_searchIndexEngine.IndexNotExistsOrEmpty())
             return IndexCounts.Empty;
 
+        var totalFilesTask = Task.Run(() => _searchIndexEngine.CountDocuments(null));
+        var totalFilesByExtensionTask = Task.Run(() => _searchIndexEngine.CountDocuments(new CounterRequest
+        {
+            Field = _searchIndexEngine.GetFieldName(x => x.Extension)
+        }));
+        var totalHiResFilesTask = Task.Run(() => _searchIndexEngine.Search(new SearchRequest
+        {
+            Text = "hr flac",
+            SearchFields = new Dictionary<string, string?> { { _searchIndexEngine.GetFieldName(x => x.Text), string.Empty } },
+            QueryType = QueryTypesEnum.Text,
+            Pagination = new PaginationRequest(int.MaxValue, 0)
+        }));
+        var releaseYearsTask = Task.Run(() => _searchIndexEngine.CountDocuments(new CounterRequest
+        {
+            Field = _searchIndexEngine.GetFieldName(x => x.Year),
+            IsNumeric = true
+        }));
+        var genreCountTask = Task.Run(() => _searchIndexEngine.CountDocuments(new CounterRequest
+        {
+            Field = _searchIndexEngine.GetFieldName(x => x.Genre)
+        }));
+        var latestAdditionsTask = Task.Run(() => _searchIndexEngine.GetLatestAddedItems(new CounterRequest
+        {
+            Field = _searchIndexEngine.GetFieldName(x => x.Release),
+            AdditionalField = _searchIndexEngine.GetFieldName(x => x.Artist),
+            SortByField = _searchIndexEngine.GetFieldName(x => x.ModifiedDate),
+            IsNumeric = false,
+            Top = 50
+        }));
+
+        Task.WhenAll(
+            totalFilesTask,
+            totalFilesByExtensionTask,
+            totalHiResFilesTask,
+            releaseYearsTask,
+            genreCountTask,
+            latestAdditionsTask)
+            .GetAwaiter()
+            .GetResult();
+
         return new IndexCounts
         {
-            TotalFiles = _searchIndexEngine.CountDocuments(null).First().Value,
-            TotalFilesByExtension = _searchIndexEngine.CountDocuments(new CounterRequest
-            {
-                Field = _searchIndexEngine.GetFieldName(x => x.Extension)
-            }),
-            TotalHiResFiles = _searchIndexEngine.Search(new SearchRequest
-            {
-                Text = "hr flac",
-                SearchFields = new Dictionary<string, string?> { { _searchIndexEngine.GetFieldName(x => x.Text), string.Empty } },
-                QueryType = QueryTypesEnum.Text,
-                Pagination = new PaginationRequest(int.MaxValue, 0)
-            }).TotalHits,
-            ReleaseYears = _searchIndexEngine.CountDocuments(new CounterRequest
-            {
-                Field = _searchIndexEngine.GetFieldName(x => x.Year),
-                IsNumeric = true
-            }),
-            GenreCount = _searchIndexEngine.CountDocuments(new CounterRequest
-            {
-                Field = _searchIndexEngine.GetFieldName(x => x.Genre)
-            }),
-            LatestAdditions = _searchIndexEngine.GetLatestAddedItems(new CounterRequest
-            {
-                Field = _searchIndexEngine.GetFieldName(x => x.Release),
-                AdditionalField = _searchIndexEngine.GetFieldName(x => x.Artist),
-                SortByField = _searchIndexEngine.GetFieldName(x => x.ModifiedDate),
-                IsNumeric = false,
-                Top = 50
-            })
+            TotalFiles = totalFilesTask.Result.First().Value,
+            TotalFilesByExtension = totalFilesByExtensionTask.Result,
+            TotalHiResFiles = totalHiResFilesTask.Result.TotalHits,
+            ReleaseYears = releaseYearsTask.Result,
+            GenreCount = genreCountTask.Result,
+            LatestAdditions = latestAdditionsTask.Result
         };
     }
 

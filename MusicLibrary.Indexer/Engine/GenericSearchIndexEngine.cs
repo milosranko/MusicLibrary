@@ -1,4 +1,5 @@
 ﻿using Lucene.Net.Index;
+using MusicLibrary.Common.Extensions;
 using MusicLibrary.Indexer.Extensions;
 using MusicLibrary.Indexer.Helpers;
 using MusicLibrary.Indexer.Models.Base;
@@ -70,15 +71,16 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         _documentWriter.Dispose();
     }
 
-    public IEnumerable<string> SkipExistingDocuments(string[] ids)
+    public IEnumerable<string> SkipExistingDocuments(IEnumerable<string> ids)
     {
-        if (ids.Length == 0)
+        if (!ids.Any())
             return [];
 
         var result = new Collection<string>();
+        _documentReader.Init();
 
         foreach (var id in ids)
-            if (_documentReader.DocumentExists(id))
+            if (!_documentReader.DocumentExists(id.RemoveDriveInfo()))
                 result.Add(id);
 
         return result;

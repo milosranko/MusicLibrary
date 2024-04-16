@@ -29,7 +29,7 @@ public partial class MainForm : Form
     private SortedList<string, IList<string>> _listsDict = [];
     private const string IndexCountsCacheKey = nameof(IndexSearcher.GetIndexCounts);
     private readonly IMemoryCache _cache;
-    private IndexSearcher _indexSearcher = new();
+    private IndexSearcher _indexSearcher;
 
     [DllImport("user32.dll", EntryPoint = "ReleaseCapture")]
     private extern static void ReleaseCapture();
@@ -40,6 +40,7 @@ public partial class MainForm : Form
     {
         _cache = Program.ServiceProvider.GetRequiredService<IMemoryCache>();
         _progress = new Progress<ProgressArgs>(Progress);
+        _indexSearcher = new();
         InitializeComponent();
     }
 
@@ -309,6 +310,8 @@ public partial class MainForm : Form
 
     private void IndexingStarted()
     {
+        _cache.Remove(IndexCountsCacheKey);
+
         btnIndex.Text = "Stop indexing";
         statusStrip1.Items[1].Text = "indexing files...";
     }
@@ -403,16 +406,12 @@ public partial class MainForm : Form
 
     private async Task Search(SearchFieldsEnum searchField, string query, string[]? terms)
     {
-        var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
-            ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
-            : new IndexSearcher();
-
-        if (!indexSearcher.IndexExists())
+        if (!_indexSearcher.IndexExists())
             return;
 
         SearchStarted();
 
-        var res = await Task.Run(() => indexSearcher.Search(query, terms, searchField));
+        var res = await Task.Run(() => _indexSearcher.Search(query, terms, searchField));
 
         SearchFinished(res);
 
@@ -645,15 +644,10 @@ public partial class MainForm : Form
     {
         InitializeDashboard();
 
-        var searcher = new IndexSearcher();
-        _availableIndexes = searcher.SharedIndexes.ToList();
-
-        if (searcher.IndexExists())
-            _availableIndexes.Insert(0, "Local");
-        else
-            _availableIndexes.Insert(0, string.Empty);
-
+        _availableIndexes = _indexSearcher.SharedIndexes.ToList();
+        _availableIndexes.Insert(0, _indexSearcher.IndexExists() ? "Local" : string.Empty);
         cmbAvailableIndexes.DataSource = _availableIndexes;
+
         LoadExistingLists();
         UpdateListsCollection();
     }
@@ -988,14 +982,10 @@ public partial class MainForm : Form
         if (cmbLists.SelectedIndex < 0 || string.IsNullOrEmpty((string)cmbLists.SelectedItem))
             return;
 
-        var indexSearcher = cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem)
-            ? new IndexSearcher((string)cmbAvailableIndexes.SelectedItem)
-            : new IndexSearcher();
-
-        if (!indexSearcher.IndexExists())
+        if (!_indexSearcher.IndexExists())
             return;
 
-        var res = indexSearcher.GetSearchResultByIds(_listsDict[(string)cmbLists.SelectedItem].ToArray());
+        var res = _indexSearcher.GetSearchResultByIds(_listsDict[(string)cmbLists.SelectedItem].ToArray());
 
         dgLists.DataSource = res
             .Select(x => new SearchResultModel

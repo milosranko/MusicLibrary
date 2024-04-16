@@ -47,7 +47,9 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
     public bool DocumentExists(string id)
     {
-        return _reader is null ? false : _reader.DocFreq(new Term(_id, id)) != 0;
+        ArgumentNullException.ThrowIfNull(_reader);
+
+        return _reader.DocFreq(new Term(_id, id)) != 0;
     }
 
     public IDictionary<string, int> TermsCounter(string field, bool isNumeric = false)
@@ -203,8 +205,8 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
     public void Init()
     {
-        if (_isInitialized)
-            return;
+        //if (_isInitialized)
+        //    return;
 
         var indexPath = new StringBuilder("\\MusicLibrary\\");
 
