@@ -42,11 +42,10 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         if (!contents.Any()) return;
 
         _documentWriter.Init();
-        _documentReader.Init(_documentWriter.GetDirectoryReader());
 
         Parallel.ForEach(contents, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = ct }, x =>
         {
-            if (_documentReader.DocumentExists(x.Id))
+            if (_documentWriter.GetDirectoryReader().DocFreq(new Term(this.GetFieldName(x => x.Id), x.Id)) != 0)
                 _documentWriter.Update(x.MapToLuceneDocument());
             else
                 _documentWriter.Add(x.MapToLuceneDocument());
@@ -71,42 +70,32 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         _documentWriter.Dispose();
     }
 
-    public IEnumerable<string> SkipExistingDocuments(IEnumerable<string> ids)
-    {
-        if (!ids.Any())
-            return [];
-
-        var result = new Collection<string>();
-        _documentReader.Init();
-
-        foreach (var id in ids)
-            if (!_documentReader.DocumentExists(id.RemoveDriveInfo()))
-                result.Add(id);
-
-        return result;
-    }
-
     public IEnumerable<T> GetByIds(string[] ids)
     {
-        _documentReader.Init();
+        //_documentReader.Init();
         return _documentReader.GetByIds(ids).Select(x => new T().MapFromLuceneDocument(x));
     }
 
     public bool IndexNotExistsOrEmpty()
     {
-        _documentReader.Init();
+        //_documentReader.Init();
         return _documentReader.IndexNotExistsOrEmpty();
+    }
+
+    public bool DocumentExists(string id)
+    {
+        return _documentReader.DocumentExists(id.RemoveDriveInfo());
     }
 
     public SearchResultDto<T> Search(SearchRequest request)
     {
-        _documentReader.Init();
+        //_documentReader.Init();
         return _documentReader.Search(request).ToDto<T>();
     }
 
     public IEnumerable<string> GetAllIndexedIds()
     {
-        _documentReader.Init();
+        //_documentReader.Init();
 
         var res = new Collection<string>();
         var fields = MultiFields.GetFields(_documentReader.Reader);
@@ -121,7 +110,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     public IDictionary<string, int> CountDocuments(CounterRequest? request)
     {
-        _documentReader.Init();
+        //_documentReader.Init();
 
         if (request is null && _documentReader.Reader is not null)
             return new Dictionary<string, int> { { "Total", _documentReader.Reader.NumDocs } };
@@ -133,7 +122,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        _documentReader.Init();
+        //_documentReader.Init();
 
         return _documentReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
     }

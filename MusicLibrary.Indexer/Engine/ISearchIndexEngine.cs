@@ -11,7 +11,7 @@ public interface ISearchIndexEngine<T> where T : IDocument
     void DeleteAll();
     void DeleteById(string[] ids);
     bool IndexNotExistsOrEmpty();
-    IEnumerable<string> SkipExistingDocuments(IEnumerable<string> ids);
+    bool DocumentExists(string id);
     SearchResultDto<T> Search(SearchRequest request);
     IDictionary<string, int> CountDocuments(CounterRequest? request);
     IDictionary<string, string> GetLatestAddedItems(CounterRequest request);

@@ -12,8 +12,6 @@ internal interface IDocumentReader : IDisposable
     bool DocumentExists(string id);
     bool IndexNotExistsOrEmpty();
     SearchResult Search(SearchRequest request);
-    void Init();
-    void Init(DirectoryReader reader);
     DirectoryReader? Reader { get; }
     IDictionary<string, int> TermsCounter(string field, bool isNumeric = false);
     IDictionary<string, string> LatestAdded(string field, string additionalField, string sortBy, ListSortDirection sortDirection, int top);

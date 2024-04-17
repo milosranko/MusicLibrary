@@ -43,6 +43,7 @@ internal class DocumentReader : IDisposable, IDocumentReader
         _facetsConfig = facetsConfig;
         _id = idField;
         _sharedIndexName = sharedIndexName;
+        Init();
     }
 
     public bool DocumentExists(string id)
@@ -203,7 +204,7 @@ internal class DocumentReader : IDisposable, IDocumentReader
         return searchResult;
     }
 
-    public void Init()
+    private void Init()
     {
         //if (_isInitialized)
         //    return;
@@ -240,11 +241,6 @@ internal class DocumentReader : IDisposable, IDocumentReader
             _taxoReader = new DirectoryTaxonomyReader(FSDirectory.Open(pathTaxo));
 
         _isInitialized = true;
-    }
-
-    public void Init(DirectoryReader reader)
-    {
-        _reader = reader;
     }
 
     private IEnumerable<FacetFilter> GetFacets(IndexSearcher searcher, Query q)

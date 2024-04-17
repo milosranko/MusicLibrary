@@ -4,7 +4,7 @@ public static class Constants
 {
     public const string MultipleValues = "< keep >";
     public static readonly string[] MusicFileExtensions = { "mp3", "flac" };
-    public static int[] Bitrates = [128, 192, 256, 320];
+    public static readonly int[] Bitrates = [128, 192, 256, 320];
 
     public static readonly string LocalAppDataShares =
         Environment.GetFolderPath(

@@ -5,6 +5,7 @@ using MusicLibrary.Business.Models;
 using MusicLibrary.Common;
 using MusicLibrary.Common.Extensions;
 using MusicLibrary.Indexer.Engine;
+using MusicLibrary.Indexer.Extensions;
 using System.Collections.Concurrent;
 using System.IO.Compression;
 using System.Text;
@@ -51,7 +52,7 @@ public class FileIndexer
                 Extension = Path.GetExtension(file).Remove(0, 1).ToLower(),
                 ModifiedDate = track.GetModifiedDate(),
                 Tags = metaTags,
-                Text = GetContentText(file, metaTags),
+                Text = ContentHelpers.GetContentText(file, metaTags),
                 Artist = string.IsNullOrEmpty(track.Artist.Trim()) ? "Unknown" : track.Artist.Trim(),
                 Release = string.IsNullOrEmpty(track.Album.Trim()) ? "Unknown" : track.Album.Trim(),
                 Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
@@ -113,16 +114,6 @@ public class FileIndexer
         await Task.Run(() => ZipFile.CreateFromDirectory(Constants.LocalAppDataIndex, path, CompressionLevel.SmallestSize, false, Encoding.ASCII));
 
         return (true, fileName);
-    }
-
-    private string GetContentText(string file, string[] tags)
-    {
-        var sb = new StringBuilder();
-
-        sb.AppendLine(file.Remove(0, 3).Replace("\\", " ").Replace(".", " "));
-        sb.AppendLine(string.Join(" ", tags));
-
-        return ContentHelpers.CleanContent(sb);
     }
 
     private string GetOrSetDriveInfo(string path)

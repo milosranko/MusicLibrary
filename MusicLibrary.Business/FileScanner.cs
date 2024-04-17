@@ -33,8 +33,6 @@ public class FileScanner
             output.AddRange(Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly));
         }
 
-        return output
-            .Where(x => Path.GetExtension(x).EndsWith(Constants.MusicFileExtensions[0]) ||
-                        Path.GetExtension(x).EndsWith(Constants.MusicFileExtensions[1]));
+        return output.Where(x => Constants.MusicFileExtensions.Any(y => Path.GetExtension(x).EndsWith(y)));
     }
 }
