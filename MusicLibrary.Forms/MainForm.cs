@@ -758,7 +758,7 @@ public partial class MainForm : Form
         _cts ??= new CancellationTokenSource();
 
         var fi = new FileIndexer(_cts.Token);
-        await Task.Run(async () => await fi.Optimize());
+        await Task.Run(fi.Optimize);
 
         _cache.Remove(IndexCountsCacheKey);
         statusStrip1.Items[1].Text = "index optimization finished.";

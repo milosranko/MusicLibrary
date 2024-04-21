@@ -83,16 +83,21 @@ public class FileIndexer
 
     public Task Optimize()
     {
-        var filesToRemoveFromIndex = new ConcurrentBag<string>();
+        var idsToRemoveFromIndex = new ConcurrentBag<string>();
         var ids = _engine.GetAllIndexedIds();
 
-        Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, file =>
+        if (!ids.Any())
+            return Task.CompletedTask;
+
+        var drive = _engine.GetByIds([ids.First()]).Single().Drive;
+
+        Parallel.ForEach(ids, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = _ct }, id =>
         {
-            if (!File.Exists(file))
-                filesToRemoveFromIndex.Add(file);
+            if (!File.Exists($"{drive}{id}"))
+                idsToRemoveFromIndex.Add(id);
         });
 
-        _engine.DeleteById(filesToRemoveFromIndex.ToArray());
+        _engine.DeleteById(idsToRemoveFromIndex.ToArray());
 
         return Task.CompletedTask;
     }

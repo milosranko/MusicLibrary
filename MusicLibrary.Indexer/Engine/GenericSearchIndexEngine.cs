@@ -61,12 +61,16 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     public void DeleteById(string[] ids)
     {
+        if (ids.Length == 0) return;
+
         using var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
         docWriter.DeleteById(ids);
     }
 
     public IEnumerable<T> GetByIds(string[] ids)
     {
+        if (ids.Length == 0) return [];
+
         using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
         return docReader.GetByIds(ids).Select(x => new T().MapFromLuceneDocument(x));
     }
