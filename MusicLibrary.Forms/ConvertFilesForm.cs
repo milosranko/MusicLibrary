@@ -25,7 +25,7 @@ public partial class ConvertFilesForm : Form
                 new Queue<string>(
                     Files
                     .Where(x => Path.GetExtension(x.FileName).EndsWith("flac"))
-                    .Select(x => x.Id)),
+                    .Select(x => x.FullFilePath)),
                 cbBitRate.SelectedIndex);
         }
         catch (Exception ex)
