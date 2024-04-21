@@ -1,5 +1,4 @@
-﻿using MusicLibrary.Common.Extensions;
-using MusicLibrary.Indexer.Engine;
+﻿using MusicLibrary.Indexer.Engine;
 using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Internal;
 using System.Linq.Expressions;
@@ -11,11 +10,9 @@ public static class SearchIndexEngineExtensions
     public static IEnumerable<string> SkipExistingDocuments<T>(this ISearchIndexEngine<T> engine, IEnumerable<string> ids) where T : IDocument
     {
         if (!ids.Any())
-            yield return string.Empty;
+            return [];
 
-        foreach (var id in ids)
-            if (!engine.DocumentExists(id.RemoveDriveInfo()))
-                yield return id;
+        return engine.FilterExistingDocuments(ids);
     }
 
     public static string GetFieldName<T>(this ISearchIndexEngine<T> engine, Expression<Func<T, string>> expr) where T : IDocument

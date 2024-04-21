@@ -11,6 +11,13 @@
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Copyright>Milos Rankovic</Copyright>
+    <PackageProjectUrl>https://github.com/milosranko/MusicLibrary</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/milosranko/MusicLibrary</RepositoryUrl>
+    <Authors>Milos Rankovic</Authors>
+    <Company>MDR Solutions DOO</Company>
+    <Product>Music Library</Product>
+    <Description>Music Library Manager</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,9 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="ConvertFilesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="ConvertFilesForm.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -37,7 +37,8 @@ internal static class DocumentModelHelpers<T> where T : IDocument
                 FieldType = searchableAttr.FieldType,
                 Stored = searchableAttr.Stored,
                 IsFacet = facetAttr is not null,
-                IsArray = prop.PropertyType.IsArray
+                IsArray = prop.PropertyType.IsArray,
+                PropertyInfo = prop
             });
 
             if (multiValueFacetAttr is not null)

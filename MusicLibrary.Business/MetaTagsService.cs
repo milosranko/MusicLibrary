@@ -7,25 +7,24 @@ namespace MusicLibrary.Business;
 
 public class MetaTagsService
 {
-    public Task SetMetaTags(SearchResultModel[] files)
+    public void SetAndSaveMetaTags(SearchResultModel[] files)
     {
-        if (files.Length == 0) return Task.CompletedTask;
+        if (files.Length == 0) return;
 
         try
         {
-            Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount - 1 }, file =>
+            Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }, file =>
             {
-                var track = new Track(file.Id);
+                var track = new Track(file.FullFilePath);
 
                 if (file == null) return;
 
                 track.SetMetaTags(MetatagsHelpers.GetMetatags(file.Tags));
+                _ = track.Save();
             });
         }
         catch (Exception)
         {
         }
-
-        return Task.CompletedTask;
     }
 }

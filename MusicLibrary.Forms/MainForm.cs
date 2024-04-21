@@ -478,17 +478,17 @@ public partial class MainForm : Form
             //Edit meta tags
             if (e.ClickedItem.Name.Equals(toolStripEditMetaTags.Name))
             {
-                var metaTagsDialog = new MetaTagsForm
-                {
-                    Files = dgv.SelectedRows
+                var metaTagsDialog = new MetaTagsForm(dgv.SelectedRows
                         .Cast<DataGridViewRow>()
                         .Select(x => (SearchResultModel)x.DataBoundItem)
                         .OrderBy(x => x.Path)
                         .ThenBy(x => x.FileName)
-                        .ToArray()
-                };
+                        .ToArray());
 
                 metaTagsDialog.ShowDialog(this);
+
+                if (metaTagsDialog.MetaTagsUpdated)
+                    _cache.Remove(IndexCountsCacheKey);
             }
 
             //Convert files

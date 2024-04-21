@@ -7,18 +7,20 @@ namespace MusicLibrary.Forms;
 
 public partial class MetaTagsForm : Form
 {
-    public SearchResultModel[] Files { get; set; }
+    private readonly SearchResultModel[] _files;
+    public bool MetaTagsUpdated { get; private set; } = false;
 
-    public MetaTagsForm()
+    public MetaTagsForm(SearchResultModel[] files)
     {
+        _files = files;
         InitializeComponent();
     }
 
     private void MetaTagsForm_Load(object sender, EventArgs e)
     {
-        if (Files == null || Files.Count() == 0) return;
+        if (_files == null || _files.Length == 0) return;
 
-        dgFilesSelected.DataSource = Files;
+        dgFilesSelected.DataSource = _files;
         dgFilesSelected.ClearSelection();
     }
 
@@ -36,15 +38,16 @@ public partial class MetaTagsForm : Form
         gbMetaTags.Enabled = false;
 
         var metaTagsService = new MetaTagsService();
-        await metaTagsService.SetMetaTags(Files);
+        await Task.Run(() => metaTagsService.SetAndSaveMetaTags(_files));
 
         var cts = new CancellationTokenSource();
         var fi = new FileIndexer(cts.Token);
 
-        await Task.Run(() => fi.StartIndexing(Files.Select(x => x.Id), null), cts.Token);
+        await Task.Run(() => fi.StartIndexing(_files.Select(x => x.FullFilePath), null), cts.Token);
 
         this.Enabled = true;
         gbMetaTags.Enabled = true;
+        MetaTagsUpdated = true;
         MessageBox.Show(this, "Saved succesfully!", "Meta tags saved", MessageBoxButtons.OK);
     }
 
@@ -201,33 +204,33 @@ public partial class MetaTagsForm : Form
     {
         if (musicBrainz.Tracks == null || !musicBrainz.Tracks.Any()) return;
 
-        for (int i = 0; i < Files.Length; i++)
+        for (int i = 0; i < _files.Length; i++)
         {
             if (!string.IsNullOrEmpty(musicBrainz.Artist))
-                Files[i].Artist = musicBrainz.Artist;
+                _files[i].Artist = musicBrainz.Artist;
 
             if (!string.IsNullOrEmpty(musicBrainz.Release))
-                Files[i].Album = musicBrainz.Release;
+                _files[i].Album = musicBrainz.Release;
 
             if (!string.IsNullOrEmpty(musicBrainz.Year))
-                Files[i].Year = string.IsNullOrEmpty(musicBrainz.Year) ? 0 : int.Parse(musicBrainz.Year);
+                _files[i].Year = string.IsNullOrEmpty(musicBrainz.Year) ? 0 : int.Parse(musicBrainz.Year);
 
             if (!string.IsNullOrEmpty(musicBrainz.Genre))
-                Files[i].Genre = musicBrainz.Genre;
+                _files[i].Genre = musicBrainz.Genre;
 
             if (!string.IsNullOrEmpty(musicBrainz.Tracks.ElementAtOrDefault(i)))
             {
-                Files[i].TrackName = musicBrainz.Tracks.ElementAt(i);
-                Files[i].TrackNumber = i + 1;
+                _files[i].TrackName = musicBrainz.Tracks.ElementAt(i);
+                _files[i].TrackNumber = i + 1;
             }
 
-            Files[i].Tags = MetatagsHelpers.CreateMetatags(
-                Files[i].Artist,
-                Files[i].Album,
-                Files[i].Year.HasValue ? Files[i].Year.ToString() : string.Empty,
-                Files[i].Genre,
-                Files[i].TrackName,
-                Files[i].TrackNumber.HasValue ? Files[i].TrackNumber.ToString() : string.Empty);
+            _files[i].Tags = MetatagsHelpers.CreateMetatags(
+                _files[i].Artist,
+                _files[i].Album,
+                _files[i].Year.HasValue ? _files[i].Year.ToString() : string.Empty,
+                _files[i].Genre,
+                _files[i].TrackName,
+                _files[i].TrackNumber.HasValue ? _files[i].TrackNumber.ToString() : string.Empty);
         }
 
         dgFilesSelected.Refresh();
@@ -238,17 +241,17 @@ public partial class MetaTagsForm : Form
         //Title
         if (e.ColumnIndex == 4)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[e.RowIndex].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[e.RowIndex].Tags);
             tags[4] = (string)dgFilesSelected[e.ColumnIndex, e.RowIndex].Value;
-            Files[e.RowIndex].Tags = string.Join("|", tags);
+            _files[e.RowIndex].Tags = string.Join("|", tags);
         }
 
         //Track no
         if (e.ColumnIndex == 5)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[e.RowIndex].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[e.RowIndex].Tags);
             tags[5] = ((int)dgFilesSelected[e.ColumnIndex, e.RowIndex].Value).ToString();
-            Files[e.RowIndex].Tags = string.Join("|", tags);
+            _files[e.RowIndex].Tags = string.Join("|", tags);
         }
     }
 
@@ -258,10 +261,10 @@ public partial class MetaTagsForm : Form
 
         foreach (DataGridViewRow row in dgFilesSelected.SelectedRows)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[row.Index].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[row.Index].Tags);
             tags[0] = txtArtist.Text;
-            Files[row.Index].Artist = txtArtist.Text;
-            Files[row.Index].Tags = string.Join("|", tags);
+            _files[row.Index].Artist = txtArtist.Text;
+            _files[row.Index].Tags = string.Join("|", tags);
         }
     }
 
@@ -271,10 +274,10 @@ public partial class MetaTagsForm : Form
 
         foreach (DataGridViewRow row in dgFilesSelected.SelectedRows)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[row.Index].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[row.Index].Tags);
             tags[1] = txtAlbum.Text;
-            Files[row.Index].Album = txtAlbum.Text;
-            Files[row.Index].Tags = string.Join("|", tags);
+            _files[row.Index].Album = txtAlbum.Text;
+            _files[row.Index].Tags = string.Join("|", tags);
         }
     }
 
@@ -284,10 +287,10 @@ public partial class MetaTagsForm : Form
 
         foreach (DataGridViewRow row in dgFilesSelected.SelectedRows)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[row.Index].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[row.Index].Tags);
             tags[4] = txtTrackTitle.Text;
-            Files[row.Index].TrackName = txtTrackTitle.Text;
-            Files[row.Index].Tags = string.Join("|", tags);
+            _files[row.Index].TrackName = txtTrackTitle.Text;
+            _files[row.Index].Tags = string.Join("|", tags);
         }
 
         dgFilesSelected.Refresh();
@@ -299,10 +302,10 @@ public partial class MetaTagsForm : Form
 
         foreach (DataGridViewRow row in dgFilesSelected.SelectedRows)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[row.Index].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[row.Index].Tags);
             tags[2] = txtYear.Text;
-            Files[row.Index].Year = int.Parse(txtYear.Text);
-            Files[row.Index].Tags = string.Join("|", tags);
+            _files[row.Index].Year = int.Parse(txtYear.Text);
+            _files[row.Index].Tags = string.Join("|", tags);
         }
     }
 
@@ -312,10 +315,10 @@ public partial class MetaTagsForm : Form
 
         foreach (DataGridViewRow row in dgFilesSelected.SelectedRows)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[row.Index].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[row.Index].Tags);
             tags[5] = txtTrackNumber.Text;
-            Files[row.Index].TrackNumber = int.Parse(txtTrackNumber.Text);
-            Files[row.Index].Tags = string.Join("|", tags);
+            _files[row.Index].TrackNumber = int.Parse(txtTrackNumber.Text);
+            _files[row.Index].Tags = string.Join("|", tags);
         }
 
         dgFilesSelected.Refresh();
@@ -327,10 +330,10 @@ public partial class MetaTagsForm : Form
 
         foreach (DataGridViewRow row in dgFilesSelected.SelectedRows)
         {
-            var tags = MetatagsHelpers.GetMetatags(Files[row.Index].Tags);
+            var tags = MetatagsHelpers.GetMetatags(_files[row.Index].Tags);
             tags[3] = txtGenre.Text;
-            Files[row.Index].Genre = txtGenre.Text;
-            Files[row.Index].Tags = string.Join("|", tags);
+            _files[row.Index].Genre = txtGenre.Text;
+            _files[row.Index].Tags = string.Join("|", tags);
         }
     }
 

@@ -27,7 +27,7 @@ public class FileIndexer
 
     public void StartIndexing(
         IEnumerable<string> fileList,
-        IProgress<ProgressArgs> progress,
+        IProgress<ProgressArgs>? progress,
         bool onlyNewFiles = false)
     {
         if (!fileList.Any())
@@ -60,12 +60,12 @@ public class FileIndexer
             });
 
             progressArgs.FilesProcessed = contents.Count;
-            progress.Report(progressArgs);
+            progress?.Report(progressArgs);
         });
 
         if (!contents.IsEmpty)
         {
-            progress.Report(new ProgressArgs { Message = "committing index changes..." });
+            progress?.Report(new ProgressArgs { Message = "committing index changes..." });
             _engine.AddOrUpdateDocuments(contents, _ct);
             contents.Clear();
         }

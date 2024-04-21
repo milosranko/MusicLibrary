@@ -22,7 +22,7 @@ using System.Text;
 
 namespace MusicLibrary.Indexer.Engine;
 
-internal class DocumentReader : IDisposable, IDocumentReader
+internal class DocumentReader : IDocumentReader
 {
     public DirectoryReader? Reader => _reader;
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
@@ -30,13 +30,12 @@ internal class DocumentReader : IDisposable, IDocumentReader
     private DirectoryTaxonomyReader? _taxoReader;
     private Analyzer? _analyzer;
     private readonly string _indexName;
-    private bool _isInitialized = false;
     private bool _hasFacets = false;
     private readonly FacetsConfig _facetsConfig;
     private readonly string _id;
     private readonly string _sharedIndexName;
 
-    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id", string sharedIndexName = "")
+    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string sharedIndexName = "", string idField = "id")
     {
         _indexName = indexName ?? "index";
         _hasFacets = hasFacets;
@@ -206,9 +205,6 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
     private void Init()
     {
-        //if (_isInitialized)
-        //    return;
-
         var indexPath = new StringBuilder("\\MusicLibrary\\");
 
         if (!string.IsNullOrEmpty(_sharedIndexName))
@@ -239,8 +235,6 @@ internal class DocumentReader : IDisposable, IDocumentReader
 
         if (_hasFacets && System.IO.Directory.Exists(pathTaxo) && System.IO.Directory.GetFiles(pathTaxo).Length > 0)
             _taxoReader = new DirectoryTaxonomyReader(FSDirectory.Open(pathTaxo));
-
-        _isInitialized = true;
     }
 
     private IEnumerable<FacetFilter> GetFacets(IndexSearcher searcher, Query q)

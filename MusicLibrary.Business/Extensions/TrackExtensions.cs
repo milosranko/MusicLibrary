@@ -22,9 +22,9 @@ internal static class TrackExtensions
         return tags;
     }
 
-    public static bool SetMetaTags(this Track track, string[] tags)
+    public static void SetMetaTags(this Track track, string[] tags)
     {
-        if (track == null || tags.Length < 6) return false;
+        if (track == null || tags.Length < 6) return;
 
         if (!tags[0].Equals(Constants.MultipleValues))
             track.Artist = tags[0];
@@ -40,8 +40,6 @@ internal static class TrackExtensions
             track.TrackNumber = int.Parse(tags[5]);
 
         track.Comment = string.Empty;
-
-        return track.Save();
     }
 
     public static DateTime GetModifiedDate(this Track track)

@@ -12,6 +12,5 @@ internal interface IDocumentWriter : IDisposable
     void DeleteAll();
     void DeleteById(string[] ids);
     void Commit();
-    void Init();
     DirectoryReader GetDirectoryReader();
 }

@@ -13,24 +13,20 @@ namespace MusicLibrary.Indexer.Engine;
 
 public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : MappingDocumentBase<T>, IDocument, new()
 {
-    private readonly IDocumentReader _documentReader;
-    private readonly IDocumentWriter _documentWriter;
+    private readonly string _sharedIndexName;
 
     #region Constructors
 
     public GenericSearchIndexEngine()
     {
+        _sharedIndexName = string.Empty;
         DocumentModelHelpers<T>.ReflectDocumentFields();
-
-        _documentReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets);
-        _documentWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
     }
 
     public GenericSearchIndexEngine(string indexName)
     {
+        _sharedIndexName = indexName;
         DocumentModelHelpers<T>.ReflectDocumentFields();
-
-        _documentReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, sharedIndexName: indexName);
     }
 
     #endregion
@@ -41,68 +37,77 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     {
         if (!contents.Any()) return;
 
-        _documentWriter.Init();
+        var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
+        var docReader = docWriter.GetDirectoryReader();
 
         Parallel.ForEach(contents, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = ct }, x =>
         {
-            if (_documentWriter.GetDirectoryReader().DocFreq(new Term(this.GetFieldName(x => x.Id), x.Id)) != 0)
-                _documentWriter.Update(x.MapToLuceneDocument());
+            if (docReader.DocFreq(new Term(this.GetFieldName(x => x.Id), x.Id)) != 0)
+                docWriter.Update(x.MapToLuceneDocument());
             else
-                _documentWriter.Add(x.MapToLuceneDocument());
+                docWriter.Add(x.MapToLuceneDocument());
         });
 
-        _documentWriter.Commit();
-        _documentWriter.Dispose();
-        _documentReader.Dispose();
+        docWriter.Commit();
+        docWriter.Dispose();
+        docReader.Dispose();
     }
 
     public void DeleteAll()
     {
-        _documentWriter.Init();
-        _documentWriter.DeleteAll();
-        _documentWriter.Dispose();
+        using var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
+        docWriter.DeleteAll();
     }
 
     public void DeleteById(string[] ids)
     {
-        _documentWriter.Init();
-        _documentWriter.DeleteById(ids);
-        _documentWriter.Dispose();
+        using var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
+        docWriter.DeleteById(ids);
     }
 
     public IEnumerable<T> GetByIds(string[] ids)
     {
-        //_documentReader.Init();
-        return _documentReader.GetByIds(ids).Select(x => new T().MapFromLuceneDocument(x));
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        return docReader.GetByIds(ids).Select(x => new T().MapFromLuceneDocument(x));
     }
 
     public bool IndexNotExistsOrEmpty()
     {
-        //_documentReader.Init();
-        return _documentReader.IndexNotExistsOrEmpty();
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        return docReader.IndexNotExistsOrEmpty();
     }
 
     public bool DocumentExists(string id)
     {
-        return _documentReader.DocumentExists(id.RemoveDriveInfo());
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        return docReader.DocumentExists(id);
+    }
+
+    public IEnumerable<string> FilterExistingDocuments(IEnumerable<string> ids)
+    {
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+
+        foreach (var id in ids)
+            if (!docReader.DocumentExists(id.RemoveDriveInfo()))
+                yield return id;
     }
 
     public SearchResultDto<T> Search(SearchRequest request)
     {
-        //_documentReader.Init();
-        return _documentReader.Search(request).ToDto<T>();
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        return docReader.Search(request).ToDto<T>();
     }
 
     public IEnumerable<string> GetAllIndexedIds()
     {
-        //_documentReader.Init();
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
 
         var res = new Collection<string>();
-        var fields = MultiFields.GetFields(_documentReader.Reader);
+        var fields = MultiFields.GetFields(docReader.Reader);
         var terms = fields.GetTerms(this.GetFieldName(x => x.Id));
         var termsEnum = terms.GetEnumerator(null);
 
-        while (termsEnum.MoveNext() == true)
+        while (termsEnum.MoveNext())
             res.Add(termsEnum.Term.Utf8ToString());
 
         return res;
@@ -110,21 +115,20 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     public IDictionary<string, int> CountDocuments(CounterRequest? request)
     {
-        //_documentReader.Init();
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
 
-        if (request is null && _documentReader.Reader is not null)
-            return new Dictionary<string, int> { { "Total", _documentReader.Reader.NumDocs } };
+        if (request is null && docReader.Reader is not null)
+            return new Dictionary<string, int> { { "Total", docReader.Reader.NumDocs } };
 
-        return _documentReader.TermsCounter(request.Value.Field, request.Value.IsNumeric);
+        return docReader.TermsCounter(request.Value.Field, request.Value.IsNumeric);
     }
 
     public IDictionary<string, string> GetLatestAddedItems(CounterRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        //_documentReader.Init();
-
-        return _documentReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
+        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        return docReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
     }
 
     #endregion

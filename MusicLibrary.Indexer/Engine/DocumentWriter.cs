@@ -10,7 +10,7 @@ using Directory = Lucene.Net.Store.Directory;
 
 namespace MusicLibrary.Indexer.Engine;
 
-internal class DocumentWriter : IDocumentWriter, IDisposable
+internal class DocumentWriter : IDocumentWriter
 {
     private const LuceneVersion AppLuceneVersion = LuceneVersion.LUCENE_48;
     private readonly FacetsConfig _facetsConfig;
@@ -21,7 +21,6 @@ internal class DocumentWriter : IDocumentWriter, IDisposable
     private DirectoryTaxonomyWriter? _taxoWriter;
     private Directory? _indexDirectory;
     private Directory? _facetIndexDirectory;
-    private bool _isInitialized = false;
 
     public DocumentWriter(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id")
     {
@@ -29,13 +28,11 @@ internal class DocumentWriter : IDocumentWriter, IDisposable
         _hasFacets = hasFacets;
         _facetsConfig = facetsConfig;
         _id = idField;
+        Init();
     }
 
-    public void Init()
+    private void Init()
     {
-        if (_isInitialized)
-            return;
-
         var path = Environment.GetFolderPath(
             Environment.SpecialFolder.LocalApplicationData,
             Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{_indexName}";
@@ -56,8 +53,6 @@ internal class DocumentWriter : IDocumentWriter, IDisposable
                 _facetIndexDirectory,
                 OpenMode.CREATE_OR_APPEND);
         }
-
-        _isInitialized = true;
     }
 
     public void Add(Document document)

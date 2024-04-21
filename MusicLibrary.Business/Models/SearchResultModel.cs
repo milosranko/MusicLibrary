@@ -13,4 +13,6 @@ public class SearchResultModel
     public string FileName { get; set; }
     public string Drive { get; set; }
     public string Genre { get; set; }
+
+    public string FullFilePath => Drive + Id;
 }
