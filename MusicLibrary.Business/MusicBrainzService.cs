@@ -30,7 +30,7 @@ public class MusicBrainzService
     public async Task<IEnumerable<MusicBrainzSearchResult>> Search(string artist, string release, string year)
     {
         if (string.IsNullOrWhiteSpace(artist) && string.IsNullOrWhiteSpace(release) && string.IsNullOrWhiteSpace(year))
-            return Enumerable.Empty<MusicBrainzSearchResult>();
+            return [];
 
         var sb = new StringBuilder();
 
@@ -49,7 +49,8 @@ public class MusicBrainzService
         {
             var res = await _query.FindReleasesAsync(sb.ToString(), 10);
 
-            if (res == null || res.TotalResults == 0) return Enumerable.Empty<MusicBrainzSearchResult>();
+            if (res == null || res.TotalResults == 0)
+                return [];
 
             var searchRes = new List<MusicBrainzSearchResult>(res.Results.Count);
 
@@ -69,7 +70,7 @@ public class MusicBrainzService
         }
         catch
         {
-            return Enumerable.Empty<MusicBrainzSearchResult>();
+            return [];
         }
     }
 
@@ -82,11 +83,13 @@ public class MusicBrainzService
         {
             var res = await _query.LookupReleaseAsync(release.Id, Include.Genres | Include.Media | Include.Recordings);
 
-            if (res == null || !res.Media.Any())
+            if (res == null || res.Media == null || !res.Media.Any())
                 return MusicBrainzSearchResult.Empty;
 
             release.Genre = res.Media[0].Tracks?[0].Recording.Genres?.FirstOrDefault()?.Name;
-            release.Tracks = res.Media[0].Tracks?.Count > 0 ? res.Media[0].Tracks.Select(x => x.Title) : Enumerable.Empty<string>();
+            release.Tracks = res.Media[0].Tracks?.Count > 0
+                ? res.Media[0].Tracks.Select(x => x.Title)
+                : Enumerable.Empty<string>();
 
             return release;
         }
