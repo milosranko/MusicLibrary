@@ -29,433 +29,418 @@ namespace MusicLibrary.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgFilesSelected = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Artist = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Path = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrackName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TrackNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Year = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Genre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnGetMetadata = new System.Windows.Forms.Button();
-            this.gbMetadataOnline = new System.Windows.Forms.GroupBox();
-            this.btnUseCurrent = new System.Windows.Forms.Button();
-            this.txtReleaseYear = new System.Windows.Forms.TextBox();
-            this.txtArtistName = new System.Windows.Forms.TextBox();
-            this.txtAlbumName = new System.Windows.Forms.TextBox();
-            this.gbMetaTags = new System.Windows.Forms.GroupBox();
-            this.lblArtist = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.txtGenre = new System.Windows.Forms.TextBox();
-            this.lblGenre = new System.Windows.Forms.Label();
-            this.txtTrackNumber = new System.Windows.Forms.TextBox();
-            this.lblTrackNumber = new System.Windows.Forms.Label();
-            this.txtTrackTitle = new System.Windows.Forms.TextBox();
-            this.lblTrackTitle = new System.Windows.Forms.Label();
-            this.txtYear = new System.Windows.Forms.TextBox();
-            this.lblYear = new System.Windows.Forms.Label();
-            this.txtAlbum = new System.Windows.Forms.TextBox();
-            this.lblAlbum = new System.Windows.Forms.Label();
-            this.txtArtist = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dgFilesSelected)).BeginInit();
-            this.gbMetadataOnline.SuspendLayout();
-            this.gbMetaTags.SuspendLayout();
-            this.SuspendLayout();
+            dgFilesSelected = new DataGridView();
+            btnGetMetadata = new Button();
+            gbMetadataOnline = new GroupBox();
+            btnUseCurrent = new Button();
+            txtReleaseYear = new TextBox();
+            txtArtistName = new TextBox();
+            txtAlbumName = new TextBox();
+            gbMetaTags = new GroupBox();
+            lblArtist = new Label();
+            btnCancel = new Button();
+            btnSave = new Button();
+            txtGenre = new TextBox();
+            lblGenre = new Label();
+            txtTrackNumber = new TextBox();
+            lblTrackNumber = new Label();
+            txtTrackTitle = new TextBox();
+            lblTrackTitle = new Label();
+            txtYear = new TextBox();
+            lblYear = new Label();
+            txtAlbum = new TextBox();
+            lblAlbum = new Label();
+            txtArtist = new TextBox();
+            Id = new DataGridViewTextBoxColumn();
+            Drive = new DataGridViewTextBoxColumn();
+            FullFilePath = new DataGridViewTextBoxColumn();
+            Artist = new DataGridViewTextBoxColumn();
+            Path = new DataGridViewTextBoxColumn();
+            FileName = new DataGridViewTextBoxColumn();
+            TrackName = new DataGridViewTextBoxColumn();
+            Album = new DataGridViewTextBoxColumn();
+            TrackNumber = new DataGridViewTextBoxColumn();
+            Tags = new DataGridViewTextBoxColumn();
+            Year = new DataGridViewTextBoxColumn();
+            Genre = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dgFilesSelected).BeginInit();
+            gbMetadataOnline.SuspendLayout();
+            gbMetaTags.SuspendLayout();
+            SuspendLayout();
             // 
             // dgFilesSelected
             // 
-            this.dgFilesSelected.AllowUserToAddRows = false;
-            this.dgFilesSelected.AllowUserToDeleteRows = false;
-            this.dgFilesSelected.AllowUserToResizeColumns = false;
-            this.dgFilesSelected.AllowUserToResizeRows = false;
-            this.dgFilesSelected.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgFilesSelected.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dgFilesSelected.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgFilesSelected.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.Artist,
-            this.Path,
-            this.FileName,
-            this.TrackName,
-            this.Album,
-            this.TrackNumber,
-            this.Tags,
-            this.Year,
-            this.Genre});
-            this.dgFilesSelected.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dgFilesSelected.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgFilesSelected.Location = new System.Drawing.Point(235, 17);
-            this.dgFilesSelected.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dgFilesSelected.Name = "dgFilesSelected";
-            this.dgFilesSelected.RowHeadersWidth = 51;
-            this.dgFilesSelected.RowTemplate.Height = 25;
-            this.dgFilesSelected.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgFilesSelected.Size = new System.Drawing.Size(557, 533);
-            this.dgFilesSelected.TabIndex = 12;
-            this.dgFilesSelected.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgFilesSelected_CellDoubleClick);
-            this.dgFilesSelected.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgFilesSelected_CellEndEdit);
-            this.dgFilesSelected.SelectionChanged += new System.EventHandler(this.dgFilesSelected_SelectionChanged);
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.MinimumWidth = 6;
-            this.Id.Name = "Id";
-            this.Id.ReadOnly = true;
-            this.Id.Visible = false;
-            // 
-            // Artist
-            // 
-            this.Artist.DataPropertyName = "Artist";
-            this.Artist.HeaderText = "Artist";
-            this.Artist.MinimumWidth = 6;
-            this.Artist.Name = "Artist";
-            this.Artist.Visible = false;
-            // 
-            // Path
-            // 
-            this.Path.DataPropertyName = "Path";
-            this.Path.HeaderText = "Path";
-            this.Path.MinimumWidth = 6;
-            this.Path.Name = "Path";
-            this.Path.Visible = false;
-            // 
-            // FileName
-            // 
-            this.FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FileName.DataPropertyName = "FileName";
-            this.FileName.FillWeight = 86.85168F;
-            this.FileName.HeaderText = "File name";
-            this.FileName.MinimumWidth = 6;
-            this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
-            // 
-            // TrackName
-            // 
-            this.TrackName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.TrackName.DataPropertyName = "TrackName";
-            this.TrackName.HeaderText = "Title";
-            this.TrackName.MinimumWidth = 6;
-            this.TrackName.Name = "TrackName";
-            // 
-            // Album
-            // 
-            this.Album.DataPropertyName = "Album";
-            this.Album.HeaderText = "Album";
-            this.Album.MinimumWidth = 6;
-            this.Album.Name = "Album";
-            this.Album.Visible = false;
-            // 
-            // TrackNumber
-            // 
-            this.TrackNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.TrackNumber.DataPropertyName = "TrackNumber";
-            this.TrackNumber.FillWeight = 60.9137F;
-            this.TrackNumber.HeaderText = "Track no";
-            this.TrackNumber.MinimumWidth = 6;
-            this.TrackNumber.Name = "TrackNumber";
-            this.TrackNumber.Width = 93;
-            // 
-            // Tags
-            // 
-            this.Tags.DataPropertyName = "Tags";
-            this.Tags.HeaderText = "Tags";
-            this.Tags.MinimumWidth = 6;
-            this.Tags.Name = "Tags";
-            this.Tags.Visible = false;
-            // 
-            // Year
-            // 
-            this.Year.DataPropertyName = "Year";
-            this.Year.HeaderText = "Year";
-            this.Year.MinimumWidth = 6;
-            this.Year.Name = "Year";
-            this.Year.Visible = false;
-            // 
-            // Genre
-            // 
-            this.Genre.DataPropertyName = "Genre";
-            this.Genre.HeaderText = "Genre";
-            this.Genre.MinimumWidth = 6;
-            this.Genre.Name = "Genre";
-            this.Genre.Visible = false;
+            dgFilesSelected.AllowUserToAddRows = false;
+            dgFilesSelected.AllowUserToDeleteRows = false;
+            dgFilesSelected.AllowUserToResizeColumns = false;
+            dgFilesSelected.AllowUserToResizeRows = false;
+            dgFilesSelected.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgFilesSelected.BackgroundColor = SystemColors.Control;
+            dgFilesSelected.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgFilesSelected.Columns.AddRange(new DataGridViewColumn[] { Id, Drive, FullFilePath, Artist, Path, FileName, TrackName, Album, TrackNumber, Tags, Year, Genre });
+            dgFilesSelected.Cursor = Cursors.Hand;
+            dgFilesSelected.EditMode = DataGridViewEditMode.EditProgrammatically;
+            dgFilesSelected.Location = new Point(206, 13);
+            dgFilesSelected.Name = "dgFilesSelected";
+            dgFilesSelected.RowHeadersWidth = 51;
+            dgFilesSelected.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgFilesSelected.Size = new Size(487, 400);
+            dgFilesSelected.TabIndex = 12;
+            dgFilesSelected.CellDoubleClick += dgFilesSelected_CellDoubleClick;
+            dgFilesSelected.CellEndEdit += dgFilesSelected_CellEndEdit;
+            dgFilesSelected.SelectionChanged += dgFilesSelected_SelectionChanged;
             // 
             // btnGetMetadata
             // 
-            this.btnGetMetadata.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGetMetadata.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGetMetadata.Location = new System.Drawing.Point(121, 131);
-            this.btnGetMetadata.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnGetMetadata.Name = "btnGetMetadata";
-            this.btnGetMetadata.Size = new System.Drawing.Size(86, 31);
-            this.btnGetMetadata.TabIndex = 16;
-            this.btnGetMetadata.Text = "Get";
-            this.btnGetMetadata.UseVisualStyleBackColor = true;
-            this.btnGetMetadata.Click += new System.EventHandler(this.btnGetMetadata_Click);
+            btnGetMetadata.Cursor = Cursors.Hand;
+            btnGetMetadata.FlatStyle = FlatStyle.Flat;
+            btnGetMetadata.Location = new Point(106, 98);
+            btnGetMetadata.Name = "btnGetMetadata";
+            btnGetMetadata.Size = new Size(75, 23);
+            btnGetMetadata.TabIndex = 16;
+            btnGetMetadata.Text = "Get";
+            btnGetMetadata.UseVisualStyleBackColor = true;
+            btnGetMetadata.Click += btnGetMetadata_Click;
             // 
             // gbMetadataOnline
             // 
-            this.gbMetadataOnline.Controls.Add(this.btnUseCurrent);
-            this.gbMetadataOnline.Controls.Add(this.txtReleaseYear);
-            this.gbMetadataOnline.Controls.Add(this.txtArtistName);
-            this.gbMetadataOnline.Controls.Add(this.txtAlbumName);
-            this.gbMetadataOnline.Controls.Add(this.btnGetMetadata);
-            this.gbMetadataOnline.Location = new System.Drawing.Point(14, 377);
-            this.gbMetadataOnline.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbMetadataOnline.Name = "gbMetadataOnline";
-            this.gbMetadataOnline.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbMetadataOnline.Size = new System.Drawing.Size(215, 173);
-            this.gbMetadataOnline.TabIndex = 17;
-            this.gbMetadataOnline.TabStop = false;
-            this.gbMetadataOnline.Text = "Get metadata online";
+            gbMetadataOnline.Controls.Add(btnUseCurrent);
+            gbMetadataOnline.Controls.Add(txtReleaseYear);
+            gbMetadataOnline.Controls.Add(txtArtistName);
+            gbMetadataOnline.Controls.Add(txtAlbumName);
+            gbMetadataOnline.Controls.Add(btnGetMetadata);
+            gbMetadataOnline.Location = new Point(12, 283);
+            gbMetadataOnline.Name = "gbMetadataOnline";
+            gbMetadataOnline.Size = new Size(188, 130);
+            gbMetadataOnline.TabIndex = 17;
+            gbMetadataOnline.TabStop = false;
+            gbMetadataOnline.Text = "Get metadata online";
             // 
             // btnUseCurrent
             // 
-            this.btnUseCurrent.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnUseCurrent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUseCurrent.Location = new System.Drawing.Point(7, 131);
-            this.btnUseCurrent.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnUseCurrent.Name = "btnUseCurrent";
-            this.btnUseCurrent.Size = new System.Drawing.Size(86, 31);
-            this.btnUseCurrent.TabIndex = 20;
-            this.btnUseCurrent.Text = "Use";
-            this.btnUseCurrent.UseVisualStyleBackColor = true;
-            this.btnUseCurrent.Click += new System.EventHandler(this.btnUseCurrent_Click);
+            btnUseCurrent.Cursor = Cursors.Hand;
+            btnUseCurrent.FlatStyle = FlatStyle.Flat;
+            btnUseCurrent.Location = new Point(6, 98);
+            btnUseCurrent.Name = "btnUseCurrent";
+            btnUseCurrent.Size = new Size(75, 23);
+            btnUseCurrent.TabIndex = 20;
+            btnUseCurrent.Text = "Use";
+            btnUseCurrent.UseVisualStyleBackColor = true;
+            btnUseCurrent.Click += btnUseCurrent_Click;
             // 
             // txtReleaseYear
             // 
-            this.txtReleaseYear.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtReleaseYear.Location = new System.Drawing.Point(8, 91);
-            this.txtReleaseYear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtReleaseYear.Name = "txtReleaseYear";
-            this.txtReleaseYear.PlaceholderText = "Release year";
-            this.txtReleaseYear.Size = new System.Drawing.Size(199, 20);
-            this.txtReleaseYear.TabIndex = 19;
+            txtReleaseYear.BorderStyle = BorderStyle.None;
+            txtReleaseYear.Location = new Point(7, 68);
+            txtReleaseYear.Name = "txtReleaseYear";
+            txtReleaseYear.PlaceholderText = "Release year";
+            txtReleaseYear.Size = new Size(174, 16);
+            txtReleaseYear.TabIndex = 19;
             // 
             // txtArtistName
             // 
-            this.txtArtistName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtArtistName.Location = new System.Drawing.Point(8, 31);
-            this.txtArtistName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtArtistName.Name = "txtArtistName";
-            this.txtArtistName.PlaceholderText = "Artist name";
-            this.txtArtistName.Size = new System.Drawing.Size(199, 20);
-            this.txtArtistName.TabIndex = 18;
+            txtArtistName.BorderStyle = BorderStyle.None;
+            txtArtistName.Location = new Point(7, 23);
+            txtArtistName.Name = "txtArtistName";
+            txtArtistName.PlaceholderText = "Artist name";
+            txtArtistName.Size = new Size(174, 16);
+            txtArtistName.TabIndex = 18;
             // 
             // txtAlbumName
             // 
-            this.txtAlbumName.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtAlbumName.Location = new System.Drawing.Point(7, 60);
-            this.txtAlbumName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtAlbumName.Name = "txtAlbumName";
-            this.txtAlbumName.PlaceholderText = "Album name";
-            this.txtAlbumName.Size = new System.Drawing.Size(200, 20);
-            this.txtAlbumName.TabIndex = 17;
+            txtAlbumName.BorderStyle = BorderStyle.None;
+            txtAlbumName.Location = new Point(6, 45);
+            txtAlbumName.Name = "txtAlbumName";
+            txtAlbumName.PlaceholderText = "Album name";
+            txtAlbumName.Size = new Size(175, 16);
+            txtAlbumName.TabIndex = 17;
             // 
             // gbMetaTags
             // 
-            this.gbMetaTags.Controls.Add(this.lblArtist);
-            this.gbMetaTags.Controls.Add(this.btnCancel);
-            this.gbMetaTags.Controls.Add(this.btnSave);
-            this.gbMetaTags.Controls.Add(this.txtGenre);
-            this.gbMetaTags.Controls.Add(this.lblGenre);
-            this.gbMetaTags.Controls.Add(this.txtTrackNumber);
-            this.gbMetaTags.Controls.Add(this.lblTrackNumber);
-            this.gbMetaTags.Controls.Add(this.txtTrackTitle);
-            this.gbMetaTags.Controls.Add(this.lblTrackTitle);
-            this.gbMetaTags.Controls.Add(this.txtYear);
-            this.gbMetaTags.Controls.Add(this.lblYear);
-            this.gbMetaTags.Controls.Add(this.txtAlbum);
-            this.gbMetaTags.Controls.Add(this.lblAlbum);
-            this.gbMetaTags.Controls.Add(this.txtArtist);
-            this.gbMetaTags.Location = new System.Drawing.Point(14, 17);
-            this.gbMetaTags.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbMetaTags.Name = "gbMetaTags";
-            this.gbMetaTags.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gbMetaTags.Size = new System.Drawing.Size(215, 352);
-            this.gbMetaTags.TabIndex = 18;
-            this.gbMetaTags.TabStop = false;
-            this.gbMetaTags.Text = "Meta tags";
+            gbMetaTags.Controls.Add(lblArtist);
+            gbMetaTags.Controls.Add(btnCancel);
+            gbMetaTags.Controls.Add(btnSave);
+            gbMetaTags.Controls.Add(txtGenre);
+            gbMetaTags.Controls.Add(lblGenre);
+            gbMetaTags.Controls.Add(txtTrackNumber);
+            gbMetaTags.Controls.Add(lblTrackNumber);
+            gbMetaTags.Controls.Add(txtTrackTitle);
+            gbMetaTags.Controls.Add(lblTrackTitle);
+            gbMetaTags.Controls.Add(txtYear);
+            gbMetaTags.Controls.Add(lblYear);
+            gbMetaTags.Controls.Add(txtAlbum);
+            gbMetaTags.Controls.Add(lblAlbum);
+            gbMetaTags.Controls.Add(txtArtist);
+            gbMetaTags.Location = new Point(12, 13);
+            gbMetaTags.Name = "gbMetaTags";
+            gbMetaTags.Size = new Size(188, 264);
+            gbMetaTags.TabIndex = 18;
+            gbMetaTags.TabStop = false;
+            gbMetaTags.Text = "Meta tags";
             // 
             // lblArtist
             // 
-            this.lblArtist.AutoSize = true;
-            this.lblArtist.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblArtist.Location = new System.Drawing.Point(7, 25);
-            this.lblArtist.Name = "lblArtist";
-            this.lblArtist.Size = new System.Drawing.Size(44, 20);
-            this.lblArtist.TabIndex = 1;
-            this.lblArtist.Text = "Artist";
+            lblArtist.AutoSize = true;
+            lblArtist.Font = new Font("Segoe UI", 9F);
+            lblArtist.Location = new Point(6, 19);
+            lblArtist.Name = "lblArtist";
+            lblArtist.Size = new Size(35, 15);
+            lblArtist.TabIndex = 1;
+            lblArtist.Text = "Artist";
             // 
             // btnCancel
             // 
-            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(127, 308);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(80, 31);
-            this.btnCancel.TabIndex = 16;
-            this.btnCancel.Text = "Clear";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            btnCancel.Cursor = Cursors.Hand;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(111, 231);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(70, 23);
+            btnCancel.TabIndex = 16;
+            btnCancel.Text = "Clear";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnSave
             // 
-            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Enabled = false;
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Location = new System.Drawing.Point(7, 308);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(80, 31);
-            this.btnSave.TabIndex = 15;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            btnSave.Cursor = Cursors.Hand;
+            btnSave.Enabled = false;
+            btnSave.FlatStyle = FlatStyle.Flat;
+            btnSave.Location = new Point(6, 231);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(70, 23);
+            btnSave.TabIndex = 15;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // txtGenre
             // 
-            this.txtGenre.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtGenre.Location = new System.Drawing.Point(7, 247);
-            this.txtGenre.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtGenre.Name = "txtGenre";
-            this.txtGenre.Size = new System.Drawing.Size(168, 20);
-            this.txtGenre.TabIndex = 14;
-            this.txtGenre.TextChanged += new System.EventHandler(this.txtGenre_TextChanged);
+            txtGenre.BorderStyle = BorderStyle.None;
+            txtGenre.Location = new Point(6, 185);
+            txtGenre.Name = "txtGenre";
+            txtGenre.Size = new Size(147, 16);
+            txtGenre.TabIndex = 14;
+            txtGenre.TextChanged += txtGenre_TextChanged;
             // 
             // lblGenre
             // 
-            this.lblGenre.AutoSize = true;
-            this.lblGenre.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblGenre.Location = new System.Drawing.Point(7, 223);
-            this.lblGenre.Name = "lblGenre";
-            this.lblGenre.Size = new System.Drawing.Size(48, 20);
-            this.lblGenre.TabIndex = 13;
-            this.lblGenre.Text = "Genre";
+            lblGenre.AutoSize = true;
+            lblGenre.Font = new Font("Segoe UI", 9F);
+            lblGenre.Location = new Point(6, 167);
+            lblGenre.Name = "lblGenre";
+            lblGenre.Size = new Size(38, 15);
+            lblGenre.TabIndex = 13;
+            lblGenre.Text = "Genre";
             // 
             // txtTrackNumber
             // 
-            this.txtTrackNumber.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTrackNumber.Location = new System.Drawing.Point(94, 197);
-            this.txtTrackNumber.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtTrackNumber.Name = "txtTrackNumber";
-            this.txtTrackNumber.Size = new System.Drawing.Size(81, 20);
-            this.txtTrackNumber.TabIndex = 12;
-            this.txtTrackNumber.TextChanged += new System.EventHandler(this.txtTrackNumber_TextChanged);
+            txtTrackNumber.BorderStyle = BorderStyle.None;
+            txtTrackNumber.Location = new Point(82, 148);
+            txtTrackNumber.Name = "txtTrackNumber";
+            txtTrackNumber.Size = new Size(71, 16);
+            txtTrackNumber.TabIndex = 12;
+            txtTrackNumber.TextChanged += txtTrackNumber_TextChanged;
             // 
             // lblTrackNumber
             // 
-            this.lblTrackNumber.AutoSize = true;
-            this.lblTrackNumber.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTrackNumber.Location = new System.Drawing.Point(94, 173);
-            this.lblTrackNumber.Name = "lblTrackNumber";
-            this.lblTrackNumber.Size = new System.Drawing.Size(64, 20);
-            this.lblTrackNumber.TabIndex = 11;
-            this.lblTrackNumber.Text = "Track no";
+            lblTrackNumber.AutoSize = true;
+            lblTrackNumber.Font = new Font("Segoe UI", 9F);
+            lblTrackNumber.Location = new Point(82, 130);
+            lblTrackNumber.Name = "lblTrackNumber";
+            lblTrackNumber.Size = new Size(51, 15);
+            lblTrackNumber.TabIndex = 11;
+            lblTrackNumber.Text = "Track no";
             // 
             // txtTrackTitle
             // 
-            this.txtTrackTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtTrackTitle.Location = new System.Drawing.Point(7, 148);
-            this.txtTrackTitle.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtTrackTitle.Name = "txtTrackTitle";
-            this.txtTrackTitle.Size = new System.Drawing.Size(201, 20);
-            this.txtTrackTitle.TabIndex = 8;
-            this.txtTrackTitle.TextChanged += new System.EventHandler(this.txtTrackTitle_TextChanged);
+            txtTrackTitle.BorderStyle = BorderStyle.None;
+            txtTrackTitle.Location = new Point(6, 111);
+            txtTrackTitle.Name = "txtTrackTitle";
+            txtTrackTitle.Size = new Size(176, 16);
+            txtTrackTitle.TabIndex = 8;
+            txtTrackTitle.TextChanged += txtTrackTitle_TextChanged;
             // 
             // lblTrackTitle
             // 
-            this.lblTrackTitle.AutoSize = true;
-            this.lblTrackTitle.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTrackTitle.Location = new System.Drawing.Point(7, 124);
-            this.lblTrackTitle.Name = "lblTrackTitle";
-            this.lblTrackTitle.Size = new System.Drawing.Size(38, 20);
-            this.lblTrackTitle.TabIndex = 7;
-            this.lblTrackTitle.Text = "Title";
+            lblTrackTitle.AutoSize = true;
+            lblTrackTitle.Font = new Font("Segoe UI", 9F);
+            lblTrackTitle.Location = new Point(6, 93);
+            lblTrackTitle.Name = "lblTrackTitle";
+            lblTrackTitle.Size = new Size(29, 15);
+            lblTrackTitle.TabIndex = 7;
+            lblTrackTitle.Text = "Title";
             // 
             // txtYear
             // 
-            this.txtYear.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtYear.Location = new System.Drawing.Point(7, 197);
-            this.txtYear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtYear.Name = "txtYear";
-            this.txtYear.Size = new System.Drawing.Size(80, 20);
-            this.txtYear.TabIndex = 6;
-            this.txtYear.TextChanged += new System.EventHandler(this.txtYear_TextChanged);
+            txtYear.BorderStyle = BorderStyle.None;
+            txtYear.Location = new Point(6, 148);
+            txtYear.Name = "txtYear";
+            txtYear.Size = new Size(70, 16);
+            txtYear.TabIndex = 6;
+            txtYear.TextChanged += txtYear_TextChanged;
             // 
             // lblYear
             // 
-            this.lblYear.AutoSize = true;
-            this.lblYear.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblYear.Location = new System.Drawing.Point(7, 173);
-            this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(37, 20);
-            this.lblYear.TabIndex = 5;
-            this.lblYear.Text = "Year";
+            lblYear.AutoSize = true;
+            lblYear.Font = new Font("Segoe UI", 9F);
+            lblYear.Location = new Point(6, 130);
+            lblYear.Name = "lblYear";
+            lblYear.Size = new Size(29, 15);
+            lblYear.TabIndex = 5;
+            lblYear.Text = "Year";
             // 
             // txtAlbum
             // 
-            this.txtAlbum.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtAlbum.Location = new System.Drawing.Point(7, 99);
-            this.txtAlbum.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtAlbum.Name = "txtAlbum";
-            this.txtAlbum.Size = new System.Drawing.Size(201, 20);
-            this.txtAlbum.TabIndex = 4;
-            this.txtAlbum.TextChanged += new System.EventHandler(this.txtAlbum_TextChanged);
+            txtAlbum.BorderStyle = BorderStyle.None;
+            txtAlbum.Location = new Point(6, 74);
+            txtAlbum.Name = "txtAlbum";
+            txtAlbum.Size = new Size(176, 16);
+            txtAlbum.TabIndex = 4;
+            txtAlbum.TextChanged += txtAlbum_TextChanged;
             // 
             // lblAlbum
             // 
-            this.lblAlbum.AutoSize = true;
-            this.lblAlbum.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblAlbum.Location = new System.Drawing.Point(7, 75);
-            this.lblAlbum.Name = "lblAlbum";
-            this.lblAlbum.Size = new System.Drawing.Size(53, 20);
-            this.lblAlbum.TabIndex = 3;
-            this.lblAlbum.Text = "Album";
+            lblAlbum.AutoSize = true;
+            lblAlbum.Font = new Font("Segoe UI", 9F);
+            lblAlbum.Location = new Point(6, 56);
+            lblAlbum.Name = "lblAlbum";
+            lblAlbum.Size = new Size(43, 15);
+            lblAlbum.TabIndex = 3;
+            lblAlbum.Text = "Album";
             // 
             // txtArtist
             // 
-            this.txtArtist.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtArtist.Location = new System.Drawing.Point(7, 49);
-            this.txtArtist.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtArtist.Name = "txtArtist";
-            this.txtArtist.Size = new System.Drawing.Size(201, 20);
-            this.txtArtist.TabIndex = 2;
-            this.txtArtist.TextChanged += new System.EventHandler(this.txtArtist_TextChanged);
+            txtArtist.BorderStyle = BorderStyle.None;
+            txtArtist.Location = new Point(6, 37);
+            txtArtist.Name = "txtArtist";
+            txtArtist.Size = new Size(176, 16);
+            txtArtist.TabIndex = 2;
+            txtArtist.TextChanged += txtArtist_TextChanged;
+            // 
+            // Id
+            // 
+            Id.DataPropertyName = "Id";
+            Id.HeaderText = "Id";
+            Id.MinimumWidth = 6;
+            Id.Name = "Id";
+            Id.ReadOnly = true;
+            Id.Visible = false;
+            // 
+            // Drive
+            // 
+            Drive.DataPropertyName = "Drive";
+            Drive.HeaderText = "Drive";
+            Drive.Name = "Drive";
+            Drive.Visible = false;
+            // 
+            // FullFilePath
+            // 
+            FullFilePath.DataPropertyName = "FullFilePath";
+            FullFilePath.HeaderText = "FullFilePath";
+            FullFilePath.Name = "FullFilePath";
+            FullFilePath.Visible = false;
+            // 
+            // Artist
+            // 
+            Artist.DataPropertyName = "Artist";
+            Artist.HeaderText = "Artist";
+            Artist.MinimumWidth = 6;
+            Artist.Name = "Artist";
+            Artist.Visible = false;
+            // 
+            // Path
+            // 
+            Path.DataPropertyName = "Path";
+            Path.HeaderText = "Path";
+            Path.MinimumWidth = 6;
+            Path.Name = "Path";
+            Path.Visible = false;
+            // 
+            // FileName
+            // 
+            FileName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            FileName.DataPropertyName = "FileName";
+            FileName.FillWeight = 86.85168F;
+            FileName.HeaderText = "File name";
+            FileName.MinimumWidth = 6;
+            FileName.Name = "FileName";
+            FileName.ReadOnly = true;
+            // 
+            // TrackName
+            // 
+            TrackName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            TrackName.DataPropertyName = "TrackName";
+            TrackName.HeaderText = "Title";
+            TrackName.MinimumWidth = 6;
+            TrackName.Name = "TrackName";
+            // 
+            // Album
+            // 
+            Album.DataPropertyName = "Album";
+            Album.HeaderText = "Album";
+            Album.MinimumWidth = 6;
+            Album.Name = "Album";
+            Album.Visible = false;
+            // 
+            // TrackNumber
+            // 
+            TrackNumber.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            TrackNumber.DataPropertyName = "TrackNumber";
+            TrackNumber.FillWeight = 60.9137F;
+            TrackNumber.HeaderText = "Track no";
+            TrackNumber.MinimumWidth = 6;
+            TrackNumber.Name = "TrackNumber";
+            TrackNumber.Width = 76;
+            // 
+            // Tags
+            // 
+            Tags.DataPropertyName = "Tags";
+            Tags.HeaderText = "Tags";
+            Tags.MinimumWidth = 6;
+            Tags.Name = "Tags";
+            Tags.Visible = false;
+            // 
+            // Year
+            // 
+            Year.DataPropertyName = "Year";
+            Year.HeaderText = "Year";
+            Year.MinimumWidth = 6;
+            Year.Name = "Year";
+            Year.Visible = false;
+            // 
+            // Genre
+            // 
+            Genre.DataPropertyName = "Genre";
+            Genre.HeaderText = "Genre";
+            Genre.MinimumWidth = 6;
+            Genre.Name = "Genre";
+            Genre.Visible = false;
             // 
             // MetaTagsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightBlue;
-            this.ClientSize = new System.Drawing.Size(806, 567);
-            this.Controls.Add(this.gbMetaTags);
-            this.Controls.Add(this.gbMetadataOnline);
-            this.Controls.Add(this.dgFilesSelected);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "MetaTagsForm";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Edit meta tags";
-            this.Load += new System.EventHandler(this.MetaTagsForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgFilesSelected)).EndInit();
-            this.gbMetadataOnline.ResumeLayout(false);
-            this.gbMetadataOnline.PerformLayout();
-            this.gbMetaTags.ResumeLayout(false);
-            this.gbMetaTags.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.LightBlue;
+            ClientSize = new Size(705, 425);
+            Controls.Add(gbMetaTags);
+            Controls.Add(gbMetadataOnline);
+            Controls.Add(dgFilesSelected);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "MetaTagsForm";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            SizeGripStyle = SizeGripStyle.Hide;
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Edit meta tags";
+            Load += MetaTagsForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dgFilesSelected).EndInit();
+            gbMetadataOnline.ResumeLayout(false);
+            gbMetadataOnline.PerformLayout();
+            gbMetaTags.ResumeLayout(false);
+            gbMetaTags.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -481,15 +466,17 @@ namespace MusicLibrary.Forms
         private System.Windows.Forms.TextBox txtArtist;
         private System.Windows.Forms.TextBox txtReleaseYear;
         private System.Windows.Forms.Button btnUseCurrent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Artist;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Path;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TrackName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Album;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TrackNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tags;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Year;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Genre;
+        private DataGridViewTextBoxColumn Id;
+        private DataGridViewTextBoxColumn Drive;
+        private DataGridViewTextBoxColumn FullFilePath;
+        private DataGridViewTextBoxColumn Artist;
+        private DataGridViewTextBoxColumn Path;
+        private DataGridViewTextBoxColumn FileName;
+        private DataGridViewTextBoxColumn TrackName;
+        private DataGridViewTextBoxColumn Album;
+        private DataGridViewTextBoxColumn TrackNumber;
+        private DataGridViewTextBoxColumn Tags;
+        private DataGridViewTextBoxColumn Year;
+        private DataGridViewTextBoxColumn Genre;
     }
 }

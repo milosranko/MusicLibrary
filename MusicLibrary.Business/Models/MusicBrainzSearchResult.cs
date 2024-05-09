@@ -10,7 +10,7 @@ public struct MusicBrainzSearchResult
         Genre = string.Empty,
         Year = string.Empty,
         NumberOfTracks = 0,
-        Tracks = Enumerable.Empty<string>()
+        Tracks = []
     };
 
     public Guid Id { get; set; }

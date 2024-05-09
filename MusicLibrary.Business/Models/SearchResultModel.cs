@@ -1,6 +1,6 @@
 ﻿namespace MusicLibrary.Business.Models;
 
-public class SearchResultModel
+public record SearchResultModel
 {
     public string Id { get; set; }
     public string Artist { get; set; }
