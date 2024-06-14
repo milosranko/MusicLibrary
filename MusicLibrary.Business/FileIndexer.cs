@@ -6,6 +6,7 @@ using MusicLibrary.Common;
 using MusicLibrary.Common.Extensions;
 using MusicLibrary.Indexer.Engine;
 using MusicLibrary.Indexer.Extensions;
+using MusicLibrary.Indexer.Models;
 using System.Collections.Concurrent;
 using System.IO.Compression;
 using System.Text;
@@ -19,9 +20,9 @@ public class FileIndexer
     private readonly object _locker = new();
     private string _drive = string.Empty;
 
-    public FileIndexer(CancellationToken ct)
+    public FileIndexer(IndexOptions options, CancellationToken ct)
     {
-        _engine = new GenericSearchIndexEngine<MusicLibraryDocument>();
+        _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(options);
         _ct = ct;
     }
 
@@ -58,6 +59,18 @@ public class FileIndexer
                 Genre = string.IsNullOrEmpty(track.Genre.Trim()) ? "Unknown" : track.Genre.Trim(),
                 Year = track.Year ?? 0
             });
+
+            string GetOrSetDriveInfo(string path)
+            {
+                if (!string.IsNullOrEmpty(_drive))
+                    return _drive;
+
+                lock (_locker)
+                    if (string.IsNullOrEmpty(_drive))
+                        _drive = path[..2];
+
+                return _drive;
+            }
 
             progressArgs.FilesProcessed = contents.Count;
             progress?.Report(progressArgs);
@@ -119,17 +132,5 @@ public class FileIndexer
         await Task.Run(() => ZipFile.CreateFromDirectory(Constants.LocalAppDataIndex, path, CompressionLevel.SmallestSize, false, Encoding.ASCII));
 
         return (true, fileName);
-    }
-
-    private string GetOrSetDriveInfo(string path)
-    {
-        if (!string.IsNullOrEmpty(_drive))
-            return _drive;
-
-        lock (_locker)
-            if (string.IsNullOrEmpty(_drive))
-                _drive = path[..2];
-
-        return _drive;
     }
 }

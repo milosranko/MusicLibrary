@@ -31,10 +31,10 @@ public class FileConverter
 
         var tasks = new List<Task>(_filesQueue.Count);
 
-        while (_filesQueue.Count > 0)
-            tasks.Add(await Task.Factory.StartNew(async () => await StartConversion(_filesQueue.Dequeue(), bitrateIndex, _filesQueue.Count)));
+        foreach (var file in _filesQueue)
+            tasks.Add(Task.Run(async () => await StartConversion(_filesQueue.Dequeue(), bitrateIndex, _filesQueue.Count)));
 
-        Task.WaitAll(tasks.ToArray(), _ct);
+        await Task.WhenAll([.. tasks]);
     }
 
     private async Task StartConversion(string file, int bitrateIndex, int index)
@@ -45,8 +45,7 @@ public class FileConverter
         {
             var outputPath = GetOutputPath(file);
             var mediaInfo = await FFmpeg.GetMediaInfo(file);
-            var audioStream = mediaInfo.AudioStreams.FirstOrDefault()
-                ?.SetCodec(AudioCodec.mp3);
+            var audioStream = mediaInfo.AudioStreams.FirstOrDefault()?.SetCodec(AudioCodec.mp3);
 
             _statusProgress?.Invoke(index);
 
@@ -66,7 +65,8 @@ public class FileConverter
 
     private string GetOutputPath(string file)
     {
-        if (string.IsNullOrEmpty(_outputPath)) return Path.ChangeExtension(file, ".mp3");
+        if (string.IsNullOrEmpty(_outputPath))
+            return Path.ChangeExtension(file, ".mp3");
 
         return Path.ChangeExtension($"{_outputPath}\\{Path.GetFileName(file)}", ".mp3");
     }

@@ -1,43 +1,56 @@
-﻿namespace MusicLibrary.Indexer.Providers;
+﻿using Lucene.Net.Store;
+using Lucene.Net.Store.Azure;
+using MusicLibrary.Indexer.Models;
+using MusicLibrary.Indexer.Models.Enums;
+using Directory = Lucene.Net.Store.Directory;
+
+namespace MusicLibrary.Indexer.Providers;
 
 internal static class DirectoryProvider
 {
-    //public static Directory GetOrCreateDocumentIndex(string? indexName)
-    //{
-    //    FSDirectory directory;
+    private const string FACETS_INDEX_FOLDER_SUFFIX = "taxo";
 
-    //    if (string.IsNullOrEmpty(indexName))
-    //    {
-    //        if (!System.IO.Directory.Exists(Constants.LocalAppDataIndex))
-    //            System.IO.Directory.CreateDirectory(Constants.LocalAppDataIndex);
+    public static Directory CreateDocumentIndex(IndexOptions options)
+    {
+        switch (options.StorageType)
+        {
+            case IndexDirectory.FileSystem:
+                var path = Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.LocalApplicationData,
+                    Environment.SpecialFolderOption.Create), options.IndexDirectory);
 
-    //        directory = FSDirectory.Open(Constants.LocalAppDataIndex);
-    //    }
-    //    else
-    //    {
-    //        var path = Environment.GetFolderPath(
-    //            Environment.SpecialFolder.LocalApplicationData,
-    //            Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{indexName}";
+                if (!System.IO.Directory.Exists(path))
+                    System.IO.Directory.CreateDirectory(path);
 
-    //        directory = FSDirectory.Open(path);
-    //    }
+                return FSDirectory.Open(path);
+            case IndexDirectory.Memory:
+                return new RAMDirectory();
+            case IndexDirectory.Azure:
+                return new AzureDirectory(options.AzureStorageCredentials, options.IndexDirectory);
+            default:
+                return new RAMDirectory();
+        }
+    }
 
-    //    //using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
-    //    //using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
-    //    //writer.DeleteUnusedFiles();
+    public static Directory CreateFacetIndex(IndexOptions options)
+    {
+        switch (options.StorageType)
+        {
+            case IndexDirectory.FileSystem:
+                var path = Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.LocalApplicationData,
+                    Environment.SpecialFolderOption.Create), $"{options.IndexDirectory}-{FACETS_INDEX_FOLDER_SUFFIX}");
 
-    //    return directory;
-    //}
+                if (!System.IO.Directory.Exists(path))
+                    System.IO.Directory.CreateDirectory(path);
 
-    //public static Directory GetOrCreateTaxoIndex()
-    //{
-    //    if (!System.IO.Directory.Exists(Constants.LocalAppDataTaxoIndex))
-    //        System.IO.Directory.CreateDirectory(Constants.LocalAppDataTaxoIndex);
-
-    //    return FSDirectory.Open(Constants.LocalAppDataTaxoIndex);
-
-    //    //using var analyzer = new WhitespaceAnalyzer(Lucene.Net.Util.LuceneVersion.LUCENE_48);
-    //    //using var writer = new IndexWriter(directory, new IndexWriterConfig(Lucene.Net.Util.LuceneVersion.LUCENE_48, analyzer));
-    //    //writer.DeleteUnusedFiles();
-    //}
+                return FSDirectory.Open(path);
+            case IndexDirectory.Memory:
+                return new RAMDirectory();
+            case IndexDirectory.Azure:
+                return new AzureDirectory(options.AzureStorageCredentials, $"{options.IndexDirectory}-{FACETS_INDEX_FOLDER_SUFFIX}");
+            default:
+                return new RAMDirectory();
+        }
+    }
 }

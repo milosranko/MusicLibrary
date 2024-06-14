@@ -3,7 +3,6 @@ using Lucene.Net.Documents;
 using Lucene.Net.Facet;
 using Lucene.Net.Facet.Taxonomy.Directory;
 using Lucene.Net.Index;
-using Lucene.Net.Store;
 using Lucene.Net.Util;
 using MusicLibrary.Indexer.Models.Base;
 using Directory = Lucene.Net.Store.Directory;
@@ -19,38 +18,34 @@ internal class DocumentWriter : IDocumentWriter
     private readonly bool _hasFacets = false;
     private IndexWriter? _writer;
     private DirectoryTaxonomyWriter? _taxoWriter;
-    private Directory? _indexDirectory;
-    private Directory? _facetIndexDirectory;
+    //private Directory? _indexDirectory;
+    //private Directory? _facetIndexDirectory;
 
-    public DocumentWriter(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string idField = "id")
+    public DocumentWriter(
+        Directory directory,
+        Directory taxoDirectory,
+        string indexName,
+        FacetsConfig facetsConfig,
+        bool hasFacets = false,
+        string idField = "id")
     {
         _indexName = indexName ?? "index";
         _hasFacets = hasFacets;
         _facetsConfig = facetsConfig;
         _id = idField;
-        Init();
+        Init(directory, taxoDirectory);
     }
 
-    private void Init()
+    private void Init(Directory directory, Directory taxoDirectory)
     {
-        var path = Environment.GetFolderPath(
-            Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{_indexName}";
-
-        _indexDirectory = FSDirectory.Open(path);
         _writer = new IndexWriter(
-            _indexDirectory,
+            directory,
             new IndexWriterConfig(AppLuceneVersion, new WhitespaceAnalyzer(AppLuceneVersion)) { OpenMode = OpenMode.CREATE_OR_APPEND });
 
         if (_hasFacets)
         {
-            var pathTaxo = Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData,
-                Environment.SpecialFolderOption.Create) + $"\\MusicLibrary\\index\\{_indexName}-taxo";
-
-            _facetIndexDirectory = FSDirectory.Open(pathTaxo);
             _taxoWriter = new DirectoryTaxonomyWriter(
-                _facetIndexDirectory,
+                taxoDirectory,
                 OpenMode.CREATE_OR_APPEND);
         }
     }
@@ -144,7 +139,7 @@ internal class DocumentWriter : IDocumentWriter
 
         if (_hasFacets)
         {
-            _facetIndexDirectory?.Dispose();
+            //_facetIndexDirectory?.Dispose();
             _taxoWriter?.Dispose();
         }
     }

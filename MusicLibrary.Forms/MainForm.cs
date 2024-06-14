@@ -40,7 +40,7 @@ public partial class MainForm : Form
     {
         _cache = Program.ServiceProvider.GetRequiredService<IMemoryCache>();
         _progress = new Progress<ProgressArgs>(Progress);
-        _indexSearcher = new();
+        _indexSearcher = new(Globals.IndexOptions);
         InitializeComponent();
     }
 
@@ -348,7 +348,7 @@ public partial class MainForm : Form
 
         try
         {
-            var fi = new FileIndexer(ct);
+            var fi = new FileIndexer(Globals.IndexOptions, ct);
             var stopwatch = Stopwatch.StartNew();
 
             fi.StartIndexing(_fileList, _progress, onlyNewFiles);
@@ -564,7 +564,7 @@ public partial class MainForm : Form
 
                 if (MessageBox.Show(sb.ToString(), "Remove from index", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    var fi = new FileIndexer(CancellationToken.None);
+                    var fi = new FileIndexer(Globals.IndexOptions, CancellationToken.None);
                     fi.RemoveFromIndex(files);
 
                     btnSearchIndex.PerformClick();
@@ -633,7 +633,7 @@ public partial class MainForm : Form
     {
         if (MessageBox.Show("Really want to clear index?", "Clear index", MessageBoxButtons.YesNo) == DialogResult.Yes)
         {
-            var fi = new FileIndexer(CancellationToken.None);
+            var fi = new FileIndexer(Globals.IndexOptions, CancellationToken.None);
             fi.ClearIndex();
 
             _cache.Remove(IndexCountsCacheKey);
@@ -757,7 +757,7 @@ public partial class MainForm : Form
 
         _cts ??= new CancellationTokenSource();
 
-        var fi = new FileIndexer(_cts.Token);
+        var fi = new FileIndexer(Globals.IndexOptions, _cts.Token);
         await Task.Run(fi.Optimize);
 
         _cache.Remove(IndexCountsCacheKey);
@@ -817,7 +817,7 @@ public partial class MainForm : Form
         statusStrip1.Items[1].Text = "sharing index...";
 
         _cts ??= new CancellationTokenSource();
-        var fi = new FileIndexer(_cts.Token);
+        var fi = new FileIndexer(Globals.IndexOptions, _cts.Token);
         var res = await Task.Run(fi.ShareIndex, _cts.Token);
 
         if (res.Success)
@@ -1031,9 +1031,9 @@ public partial class MainForm : Form
         _cache.Remove(IndexCountsCacheKey);
 
         if (cmbAvailableIndexes.SelectedIndex > 0 && !string.IsNullOrEmpty((string)cmbAvailableIndexes.SelectedItem))
-            _indexSearcher = new IndexSearcher((string)cmbAvailableIndexes.SelectedItem);
+            _indexSearcher = new IndexSearcher(Globals.IndexOptions, (string)cmbAvailableIndexes.SelectedItem);
         else
-            _indexSearcher = new IndexSearcher();
+            _indexSearcher = new IndexSearcher(Globals.IndexOptions);
     }
 }
 

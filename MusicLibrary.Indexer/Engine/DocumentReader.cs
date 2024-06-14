@@ -35,14 +35,21 @@ internal class DocumentReader : IDocumentReader
     private readonly string _id;
     private readonly string _sharedIndexName;
 
-    public DocumentReader(string indexName, FacetsConfig facetsConfig, bool hasFacets = false, string sharedIndexName = "", string idField = "id")
+    public DocumentReader(
+        Lucene.Net.Store.Directory directory,
+        Lucene.Net.Store.Directory taxoDirectory,
+        string indexName,
+        FacetsConfig facetsConfig,
+        bool hasFacets = false,
+        string sharedIndexName = "",
+        string idField = "id")
     {
         _indexName = indexName ?? "index";
         _hasFacets = hasFacets;
         _facetsConfig = facetsConfig;
         _id = idField;
         _sharedIndexName = sharedIndexName;
-        Init();
+        Init(directory, taxoDirectory);
     }
 
     public bool DocumentExists(string id)
@@ -203,44 +210,44 @@ internal class DocumentReader : IDocumentReader
         return searchResult;
     }
 
-    private void Init()
+    private void Init(Lucene.Net.Store.Directory directory, Lucene.Net.Store.Directory taxoDirectory)
     {
-        var indexPath = new StringBuilder("\\MusicLibrary\\");
+        _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
 
         if (!string.IsNullOrEmpty(_sharedIndexName))
         {
-            indexPath.Append("shares\\");
-            indexPath.Append($"{_sharedIndexName}\\");
-        }
-        else
-        {
-            indexPath.Append("index\\");
-        }
+            var sharedIndexPath = new StringBuilder("\\MusicLibrary\\");
+            sharedIndexPath.Append("shares\\");
+            sharedIndexPath.Append($"{_sharedIndexName}\\");
+            sharedIndexPath.Append(_indexName);
 
-        indexPath.Append(_indexName);
+            var path = Environment.GetFolderPath(
+                Environment.SpecialFolder.LocalApplicationData,
+                Environment.SpecialFolderOption.Create) + sharedIndexPath.ToString();
 
-        var path = Environment.GetFolderPath(
-            Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + indexPath.ToString();
+            if (!System.IO.Directory.Exists(path))
+                return;
 
-        if (!System.IO.Directory.Exists(path))
+            _reader = DirectoryReader.Open(FSDirectory.Open(path));
+
+            var pathTaxo = Environment.GetFolderPath(
+                Environment.SpecialFolder.LocalApplicationData,
+                Environment.SpecialFolderOption.Create) + sharedIndexPath.ToString() + "-taxo";
+
+            if (_hasFacets && System.IO.Directory.Exists(pathTaxo) && System.IO.Directory.GetFiles(pathTaxo).Length > 0)
+                _taxoReader = new DirectoryTaxonomyReader(FSDirectory.Open(pathTaxo));
+
             return;
+        }
 
-        _analyzer = new WhitespaceAnalyzer(AppLuceneVersion);
-        _reader = DirectoryReader.Open(FSDirectory.Open(path));
-
-        var pathTaxo = Environment.GetFolderPath(
-            Environment.SpecialFolder.LocalApplicationData,
-            Environment.SpecialFolderOption.Create) + indexPath.ToString() + "-taxo";
-
-        if (_hasFacets && System.IO.Directory.Exists(pathTaxo) && System.IO.Directory.GetFiles(pathTaxo).Length > 0)
-            _taxoReader = new DirectoryTaxonomyReader(FSDirectory.Open(pathTaxo));
+        _reader = DirectoryReader.Open(directory);
+        _taxoReader = new DirectoryTaxonomyReader(taxoDirectory);
     }
 
     private IEnumerable<FacetFilter> GetFacets(IndexSearcher searcher, Query q)
     {
         if (_facetsConfig == null)
-            return Enumerable.Empty<FacetFilter>();
+            return [];
 
         var fc = new FacetsCollector();
         FacetsCollector.Search(searcher, q, 100, fc);

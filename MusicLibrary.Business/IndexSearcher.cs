@@ -16,15 +16,15 @@ public class IndexSearcher
     private readonly ISearchIndexEngine<MusicLibraryDocument> _searchIndexEngine;
     public IEnumerable<string> SharedIndexes;
 
-    public IndexSearcher()
+    public IndexSearcher(IndexOptions options)
     {
         SharedIndexes = GetSharedIndexes();
-        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>();
+        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>(options);
     }
 
-    public IndexSearcher(string indexName)
+    public IndexSearcher(IndexOptions options, string indexName)
     {
-        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>(indexName);
+        _searchIndexEngine = new GenericSearchIndexEngine<MusicLibraryDocument>(options, indexName);
     }
 
     public bool IndexExists()

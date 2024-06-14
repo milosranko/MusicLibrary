@@ -41,7 +41,7 @@ public partial class MetaTagsForm : Form
         await Task.Run(() => metaTagsService.SetAndSaveMetaTags(_files));
 
         var cts = new CancellationTokenSource();
-        var fi = new FileIndexer(cts.Token);
+        var fi = new FileIndexer(Globals.IndexOptions, cts.Token);
 
         await Task.Run(() => fi.StartIndexing(_files.Select(x => x.FullFilePath), null), cts.Token);
 

@@ -6,6 +6,7 @@ using MusicLibrary.Indexer.Models.Base;
 using MusicLibrary.Indexer.Models.Dto;
 using MusicLibrary.Indexer.Models.Internal;
 using MusicLibrary.Indexer.Models.Requests;
+using MusicLibrary.Indexer.Providers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -13,19 +14,22 @@ namespace MusicLibrary.Indexer.Engine;
 
 public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : MappingDocumentBase<T>, IDocument, new()
 {
-    private readonly string _sharedIndexName;
+    #region Private fields
+
+    private readonly string? _sharedIndexName;
+    private readonly Lucene.Net.Store.Directory _directory;
+    private readonly Lucene.Net.Store.Directory _taxoDirectory;
+
+    #endregion
 
     #region Constructors
 
-    public GenericSearchIndexEngine()
+    public GenericSearchIndexEngine(Models.IndexOptions options, string? indexName = default)
     {
-        _sharedIndexName = string.Empty;
-        DocumentModelHelpers<T>.ReflectDocumentFields();
-    }
-
-    public GenericSearchIndexEngine(string indexName)
-    {
+        _directory = DirectoryProvider.CreateDocumentIndex(options);
+        _taxoDirectory = DirectoryProvider.CreateFacetIndex(options);
         _sharedIndexName = indexName;
+
         DocumentModelHelpers<T>.ReflectDocumentFields();
     }
 
@@ -37,8 +41,8 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     {
         if (!contents.Any()) return;
 
-        var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
-        var docReader = docWriter.GetDirectoryReader();
+        using var docWriter = new DocumentWriter(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
+        using var docReader = docWriter.GetDirectoryReader();
 
         Parallel.ForEach(contents, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount, CancellationToken = ct }, x =>
         {
@@ -49,13 +53,11 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
         });
 
         docWriter.Commit();
-        docWriter.Dispose();
-        docReader.Dispose();
     }
 
     public void DeleteAll()
     {
-        using var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
+        using var docWriter = new DocumentWriter(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
         docWriter.DeleteAll();
     }
 
@@ -63,7 +65,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     {
         if (ids.Length == 0) return;
 
-        using var docWriter = new DocumentWriter(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
+        using var docWriter = new DocumentWriter(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, this.GetFieldName(x => x.Id));
         docWriter.DeleteById(ids);
     }
 
@@ -71,25 +73,25 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     {
         if (ids.Length == 0) return [];
 
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
         return docReader.GetByIds(ids).Select(x => new T().MapFromLuceneDocument(x));
     }
 
     public bool IndexNotExistsOrEmpty()
     {
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
         return docReader.IndexNotExistsOrEmpty();
     }
 
     public bool DocumentExists(string id)
     {
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
         return docReader.DocumentExists(id);
     }
 
     public IEnumerable<string> FilterExistingDocuments(IEnumerable<string> ids)
     {
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
 
         foreach (var id in ids)
             if (!docReader.DocumentExists(id.RemoveDriveInfo()))
@@ -98,13 +100,13 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     public SearchResultDto<T> Search(SearchRequest request)
     {
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
         return docReader.Search(request).ToDto<T>();
     }
 
     public IEnumerable<string> GetAllIndexedIds()
     {
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
 
         var res = new Collection<string>();
         var fields = MultiFields.GetFields(docReader.Reader);
@@ -119,7 +121,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
 
     public IDictionary<string, int> CountDocuments(CounterRequest? request)
     {
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
 
         if (request is null && docReader.Reader is not null)
             return new Dictionary<string, int> { { "Total", docReader.Reader.NumDocs } };
@@ -131,7 +133,7 @@ public class GenericSearchIndexEngine<T> : ISearchIndexEngine<T> where T : Mappi
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        using var docReader = new DocumentReader(DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
+        using var docReader = new DocumentReader(_directory, _taxoDirectory, DocumentFields<T>.IndexName, DocumentFields<T>.FacetsConfig, DocumentFields<T>.HasFacets, _sharedIndexName);
         return docReader.LatestAdded(request.Field, request.AdditionalField, request.SortByField, ListSortDirection.Descending, request.Top.Value);
     }
 
