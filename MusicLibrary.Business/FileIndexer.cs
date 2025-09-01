@@ -15,14 +15,14 @@ namespace MusicLibrary.Business;
 
 public class FileIndexer
 {
-    private readonly ISearchIndexEngine<MusicLibraryDocument> _engine;
+    private readonly IndexOptions _options;
     private readonly CancellationToken _ct;
     private readonly object _locker = new();
     private string _drive = string.Empty;
 
     public FileIndexer(IndexOptions options, CancellationToken ct)
     {
-        _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(options);
+        _options = options;
         _ct = ct;
     }
 
@@ -33,6 +33,8 @@ public class FileIndexer
     {
         if (!fileList.Any())
             return;
+
+        using var _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(_options);
 
         if (onlyNewFiles)
             fileList = _engine.SkipExistingDocuments(fileList);
@@ -86,17 +88,20 @@ public class FileIndexer
 
     public void ClearIndex()
     {
+        using var _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(_options);
         _engine.DeleteAll();
     }
 
     public void RemoveFromIndex(string[] ids)
     {
+        using var _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(_options);
         _engine.DeleteById(ids);
     }
 
     public Task Optimize()
     {
         var idsToRemoveFromIndex = new ConcurrentBag<string>();
+        using var _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(_options);
         var ids = _engine.GetAllIndexedIds();
 
         if (!ids.Any())
@@ -117,6 +122,8 @@ public class FileIndexer
 
     public async Task<(bool Success, string FileName)> ShareIndex()
     {
+        using var _engine = new GenericSearchIndexEngine<MusicLibraryDocument>(_options);
+
         if (_engine.IndexNotExistsOrEmpty())
             return (false, string.Empty);
 

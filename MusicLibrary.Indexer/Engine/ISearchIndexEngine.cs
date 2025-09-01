@@ -4,7 +4,7 @@ using MusicLibrary.Indexer.Models.Requests;
 
 namespace MusicLibrary.Indexer.Engine;
 
-public interface ISearchIndexEngine<T> where T : IDocument
+public interface ISearchIndexEngine<T> : IDisposable where T : IDocument
 {
     void AddOrUpdateDocuments(IEnumerable<T> contents, CancellationToken ct = default);
     IEnumerable<T> GetByIds(string[] ids);
